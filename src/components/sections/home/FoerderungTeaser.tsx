@@ -4,7 +4,11 @@ import { Container } from "@/components/ui/Container";
 import { Button } from "@/components/ui/Button";
 import { ScrollReveal } from "@/components/ui/ScrollReveal";
 
-export function FoerderungTeaser() {
+interface FoerderungTeaserProps {
+  content?: Record<string, string>;
+}
+
+export function FoerderungTeaser({ content }: FoerderungTeaserProps) {
   return (
     <section className="py-20 bg-primary-50 overflow-x-clip">
       <Container>
@@ -12,21 +16,20 @@ export function FoerderungTeaser() {
           <ScrollReveal direction="left">
             <div>
               <span className="text-sm font-bold uppercase tracking-wider text-primary">
-                Staatliche Förderung
+                {content?.label || "Staatliche Förderung"}
               </span>
               <h2 className="mt-2 text-3xl font-bold text-foreground sm:text-4xl">
-                Bis zu 70% Zuschuss für Ihre Wärmepumpe
+                {content?.title || "Bis zu 70% Zuschuss für Ihre Wärmepumpe"}
               </h2>
               <p className="mt-4 text-lg text-muted-foreground">
-                Die Bundesregierung fördert den Umstieg auf erneuerbare Energien großzügig.
-                Über die BEG-Förderung (BAFA/KfW) können Sie erhebliche Zuschüsse erhalten.
+                {content?.description || "Die Bundesregierung fördert den Umstieg auf erneuerbare Energien großzügig. Über die BEG-Förderung (BAFA/KfW) können Sie erhebliche Zuschüsse erhalten."}
               </p>
               <ul className="mt-6 space-y-3">
                 {[
-                  "30% Grundförderung für alle Wärmepumpen",
-                  "20% Klimageschwindigkeitsbonus",
-                  "30% Einkommensbonus (bis 40.000€ Haushaltseinkommen)",
-                  "5% Effizienzbonus (natürliche Kältemittel)",
+                  content?.bullet1 || "30% Grundförderung für alle Wärmepumpen",
+                  content?.bullet2 || "20% Klimageschwindigkeitsbonus",
+                  content?.bullet3 || "30% Einkommensbonus (bis 40.000€ Haushaltseinkommen)",
+                  content?.bullet4 || "5% Effizienzbonus (natürliche Kältemittel)",
                 ].map((item) => (
                   <li key={item} className="flex items-start gap-3">
                     <svg className="h-5 w-5 mt-0.5 text-primary flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -47,7 +50,7 @@ export function FoerderungTeaser() {
           <ScrollReveal direction="right">
             <div className="rounded-2xl bg-white p-8 shadow-lg border border-border">
               <h3 className="text-xl font-semibold text-foreground mb-6">
-                Rechenbeispiel Einfamilienhaus
+                {content?.exampleTitle || "Rechenbeispiel Einfamilienhaus"}
               </h3>
               <div className="space-y-4">
                 <div className="flex justify-between py-2 border-b border-border">

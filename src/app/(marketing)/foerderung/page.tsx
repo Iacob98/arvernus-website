@@ -6,7 +6,7 @@ import { Card, CardTitle, CardContent } from "@/components/ui/Card";
 import { BreadcrumbNav } from "@/components/shared/BreadcrumbNav";
 import { FAQAccordion } from "@/components/shared/FAQAccordion";
 import { CTABanner } from "@/components/shared/CTABanner";
-import { getFAQ } from "@/lib/dal";
+import { getFAQ, getPageContent } from "@/lib/dal";
 
 export const metadata: Metadata = {
   title: "Förderung für Wärmepumpen — Bis zu 70% Zuschuss",
@@ -42,7 +42,9 @@ const foerderungBoni = [
 ];
 
 export default async function FoerderungPage() {
-  const faq = await getFAQ();
+  const [faq, pageContent] = await Promise.all([getFAQ(), getPageContent("foerderung")]);
+  const t = (section: string, field: string, fallback: string) =>
+    (pageContent?.[section] as Record<string, string>)?.[field] || fallback;
 
   return (
     <>
@@ -52,10 +54,10 @@ export default async function FoerderungPage() {
         <Container>
           <div className="max-w-3xl">
             <h1 className="text-4xl font-bold text-foreground sm:text-5xl">
-              Bis zu 70% Förderung für Ihre Wärmepumpe
+              {t("hero", "title", "Bis zu 70% Förderung für Ihre Wärmepumpe")}
             </h1>
             <p className="mt-6 text-lg text-muted-foreground">
-              Die Bundesregierung unterstützt den Umstieg auf erneuerbare Energien mit großzügigen Förderprogrammen. Wir helfen Ihnen, die maximale Förderung zu erhalten.
+              {t("hero", "description", "Die Bundesregierung unterstützt den Umstieg auf erneuerbare Energien mit großzügigen Förderprogrammen. Wir helfen Ihnen, die maximale Förderung zu erhalten.")}
             </p>
             <div className="mt-8 flex flex-wrap gap-4">
               <Button href="/waermepumpen-rechner" size="lg">Förderung berechnen</Button>
@@ -69,8 +71,8 @@ export default async function FoerderungPage() {
       <section className="py-20">
         <Container>
           <SectionHeading
-            title="BEG-Förderung im Überblick"
-            subtitle="Die Bundesförderung für effiziente Gebäude (BEG) bietet verschiedene Boni."
+            title={t("overview", "title", "BEG-Förderung im Überblick")}
+            subtitle={t("overview", "subtitle", "Die Bundesförderung für effiziente Gebäude (BEG) bietet verschiedene Boni.")}
           />
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
             {foerderungBoni.map((bonus) => (
@@ -97,7 +99,7 @@ export default async function FoerderungPage() {
               Maximale Förderung: <span className="text-primary text-2xl">70%</span> der förderfähigen Kosten
             </p>
             <p className="mt-1 text-sm text-muted-foreground">
-              Die einzelnen Boni sind kombinierbar bis maximal 70%.
+              {t("overview", "maxNote", "Die einzelnen Boni sind kombinierbar bis maximal 70%.")}
             </p>
           </div>
         </Container>
@@ -141,12 +143,12 @@ export default async function FoerderungPage() {
       {/* Prozess */}
       <section className="py-20">
         <Container>
-          <SectionHeading title="So unterstützen wir Sie" subtitle="Von der Antragstellung bis zur Auszahlung." />
+          <SectionHeading title={t("process", "title", "So unterstützen wir Sie")} subtitle={t("process", "subtitle", "Von der Antragstellung bis zur Auszahlung.")} />
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-3 max-w-4xl mx-auto">
             {[
-              { step: "1", title: "Fördermittelcheck", desc: "Wir prüfen, welche Förderungen Sie erhalten können und berechnen die maximale Fördersumme." },
-              { step: "2", title: "Antragstellung", desc: "Wir übernehmen die komplette Antragstellung bei KfW und BAFA für Sie." },
-              { step: "3", title: "Auszahlung", desc: "Nach der Installation und Dokumentation wird die Förderung ausgezahlt." },
+              { step: "1", title: t("process", "step1Title", "Fördermittelcheck"), desc: t("process", "step1Desc", "Wir prüfen, welche Förderungen Sie erhalten können und berechnen die maximale Fördersumme.") },
+              { step: "2", title: t("process", "step2Title", "Antragstellung"), desc: t("process", "step2Desc", "Wir übernehmen die komplette Antragstellung bei KfW und BAFA für Sie.") },
+              { step: "3", title: t("process", "step3Title", "Auszahlung"), desc: t("process", "step3Desc", "Nach der Installation und Dokumentation wird die Förderung ausgezahlt.") },
             ].map((item) => (
               <Card key={item.step} className="text-center">
                 <span className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-primary text-white text-lg font-bold">
@@ -168,8 +170,8 @@ export default async function FoerderungPage() {
       </section>
 
       <CTABanner
-        title="Förderung berechnen lassen"
-        description="Wir ermitteln kostenlos Ihre individuelle Fördersumme und unterstützen Sie bei der Antragstellung."
+        title={t("cta", "title", "Förderung berechnen lassen")}
+        description={t("cta", "description", "Wir ermitteln kostenlos Ihre individuelle Fördersumme und unterstützen Sie bei der Antragstellung.")}
       />
     </>
   );

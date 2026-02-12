@@ -3,7 +3,7 @@ import { Container } from "@/components/ui/Container";
 import { Card } from "@/components/ui/Card";
 import { BreadcrumbNav } from "@/components/shared/BreadcrumbNav";
 import { ContactForm } from "@/components/sections/kontakt/ContactForm";
-import { getCompany } from "@/lib/dal";
+import { getCompany, getPageContent } from "@/lib/dal";
 
 export const metadata: Metadata = {
   title: "Kontakt — Beratung & Angebot",
@@ -12,7 +12,9 @@ export const metadata: Metadata = {
 };
 
 export default async function KontaktPage() {
-  const company = await getCompany();
+  const [company, pageContent] = await Promise.all([getCompany(), getPageContent("kontakt")]);
+  const t = (section: string, field: string, fallback: string) =>
+    (pageContent?.[section] as Record<string, string>)?.[field] || fallback;
 
   return (
     <>
@@ -22,10 +24,10 @@ export default async function KontaktPage() {
         <Container>
           <div className="max-w-3xl">
             <h1 className="text-4xl font-bold text-foreground sm:text-5xl">
-              Kontaktieren Sie uns
+              {t("hero", "title", "Kontaktieren Sie uns")}
             </h1>
             <p className="mt-6 text-lg text-muted-foreground">
-              Wir freuen uns auf Ihre Anfrage. Ob telefonisch, per E-Mail oder über unser Kontaktformular — wir sind für Sie da.
+              {t("hero", "description", "Wir freuen uns auf Ihre Anfrage. Ob telefonisch, per E-Mail oder über unser Kontaktformular — wir sind für Sie da.")}
             </p>
           </div>
         </Container>

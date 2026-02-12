@@ -10,7 +10,7 @@ import { FAQAccordion } from "@/components/shared/FAQAccordion";
 import { CTABanner } from "@/components/shared/CTABanner";
 import { TrustBadges } from "@/components/shared/TrustBadges";
 import { PartnersSection } from "@/components/shared/PartnersSection";
-import { getServices, getFAQ, getPartners, getCompany } from "@/lib/dal";
+import { getServices, getFAQ, getPartners, getCompany, getPageContent } from "@/lib/dal";
 
 export const metadata: Metadata = {
   title: "Wärmepumpen — Effizient heizen mit erneuerbarer Energie",
@@ -19,12 +19,15 @@ export const metadata: Metadata = {
 };
 
 export default async function WaermepumpenPage() {
-  const [servicesData, faq, partners, company] = await Promise.all([
+  const [servicesData, faq, partners, company, pageContent] = await Promise.all([
     getServices(),
     getFAQ(),
     getPartners(),
     getCompany(),
+    getPageContent("waermepumpen"),
   ]);
+  const t = (section: string, field: string, fallback: string) =>
+    (pageContent?.[section] as Record<string, string>)?.[field] || fallback;
 
   const waermepumpenTypes = servicesData.waermepumpenTypes;
 
@@ -38,11 +41,10 @@ export default async function WaermepumpenPage() {
           <div className="grid grid-cols-1 items-center gap-10 lg:grid-cols-2">
             <div>
               <h1 className="text-4xl font-bold text-foreground sm:text-5xl">
-                Wärmepumpen — Effizient heizen mit erneuerbarer Energie
+                {t("hero", "title", "Wärmepumpen — Effizient heizen mit erneuerbarer Energie")}
               </h1>
               <p className="mt-6 text-lg text-muted-foreground">
-                Eine Wärmepumpe nutzt kostenlose Umweltwärme aus Luft, Erde oder Grundwasser und wandelt sie in Heizenergie um.
-                So sparen Sie bis zu 75% Heizkosten und profitieren von bis zu 70% staatlicher Förderung.
+                {t("hero", "description", "Eine Wärmepumpe nutzt kostenlose Umweltwärme aus Luft, Erde oder Grundwasser und wandelt sie in Heizenergie um. So sparen Sie bis zu 75% Heizkosten und profitieren von bis zu 70% staatlicher Förderung.")}
               </p>
               <div className="mt-8 flex flex-wrap gap-4">
                 <Button href="/waermepumpen-rechner" size="lg">Kosten berechnen</Button>
@@ -74,8 +76,8 @@ export default async function WaermepumpenPage() {
       <section className="py-20">
         <Container>
           <SectionHeading
-            title="Wärmepumpen-Typen im Überblick"
-            subtitle="Jeder Typ hat seine Stärken. Wir finden die optimale Lösung für Ihr Zuhause."
+            title={t("types", "title", "Wärmepumpen-Typen im Überblick")}
+            subtitle={t("types", "subtitle", "Jeder Typ hat seine Stärken. Wir finden die optimale Lösung für Ihr Zuhause.")}
           />
           <div className="grid grid-cols-1 gap-8 lg:grid-cols-3">
             {waermepumpenTypes.map((type) => (
@@ -118,17 +120,17 @@ export default async function WaermepumpenPage() {
       <section className="py-20 bg-muted/30">
         <Container>
           <SectionHeading
-            title="Vorteile einer Wärmepumpe"
-            subtitle="Warum sich der Umstieg auf eine Wärmepumpe lohnt."
+            title={t("benefits", "title", "Vorteile einer Wärmepumpe")}
+            subtitle={t("benefits", "subtitle", "Warum sich der Umstieg auf eine Wärmepumpe lohnt.")}
           />
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {[
-              { title: "Bis zu 75% Heizkosten sparen", desc: "Wärmepumpen nutzen bis zu 75% kostenlose Umweltwärme. Sie zahlen nur den Strom für den Betrieb." },
-              { title: "Staatliche Förderung bis 70%", desc: "Profitieren Sie von großzügigen Zuschüssen durch BAFA und KfW für den Heizungstausch." },
-              { title: "CO₂-neutral heizen", desc: "Mit einer Wärmepumpe und Ökostrom heizen Sie komplett CO₂-neutral und schützen das Klima." },
-              { title: "Heizen & Kühlen", desc: "Viele Wärmepumpen können im Sommer auch kühlen — ganz ohne zusätzliche Klimaanlage." },
-              { title: "Wartungsarm & langlebig", desc: "Wärmepumpen haben eine Lebensdauer von 20+ Jahren und benötigen nur minimale Wartung." },
-              { title: "Wertsteigerung Immobilie", desc: "Ein modernes Heizsystem steigert den Wert Ihrer Immobilie und verbessert die Energieklasse." },
+              { title: t("benefits", "benefit1Title", "Bis zu 75% Heizkosten sparen"), desc: t("benefits", "benefit1Desc", "Wärmepumpen nutzen bis zu 75% kostenlose Umweltwärme. Sie zahlen nur den Strom für den Betrieb.") },
+              { title: t("benefits", "benefit2Title", "Staatliche Förderung bis 70%"), desc: t("benefits", "benefit2Desc", "Profitieren Sie von großzügigen Zuschüssen durch BAFA und KfW für den Heizungstausch.") },
+              { title: t("benefits", "benefit3Title", "CO₂-neutral heizen"), desc: t("benefits", "benefit3Desc", "Mit einer Wärmepumpe und Ökostrom heizen Sie komplett CO₂-neutral und schützen das Klima.") },
+              { title: t("benefits", "benefit4Title", "Heizen & Kühlen"), desc: t("benefits", "benefit4Desc", "Viele Wärmepumpen können im Sommer auch kühlen — ganz ohne zusätzliche Klimaanlage.") },
+              { title: t("benefits", "benefit5Title", "Wartungsarm & langlebig"), desc: t("benefits", "benefit5Desc", "Wärmepumpen haben eine Lebensdauer von 20+ Jahren und benötigen nur minimale Wartung.") },
+              { title: t("benefits", "benefit6Title", "Wertsteigerung Immobilie"), desc: t("benefits", "benefit6Desc", "Ein modernes Heizsystem steigert den Wert Ihrer Immobilie und verbessert die Energieklasse.") },
             ].map((benefit) => (
               <Card key={benefit.title}>
                 <CardTitle className="text-lg">{benefit.title}</CardTitle>

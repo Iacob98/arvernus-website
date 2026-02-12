@@ -5,7 +5,7 @@ import { Card, CardTitle, CardContent } from "@/components/ui/Card";
 import { Badge } from "@/components/ui/Badge";
 import { BreadcrumbNav } from "@/components/shared/BreadcrumbNav";
 import { CTABanner } from "@/components/shared/CTABanner";
-import { getProjects } from "@/lib/dal";
+import { getProjects, getPageContent } from "@/lib/dal";
 
 export const metadata: Metadata = {
   title: "Referenzen — Unsere Projekte",
@@ -26,7 +26,9 @@ const categoryVariants: Record<string, "primary" | "secondary" | "default"> = {
 };
 
 export default async function ReferenzenPage() {
-  const projects = await getProjects();
+  const [projects, pageContent] = await Promise.all([getProjects(), getPageContent("referenzen")]);
+  const t = (section: string, field: string, fallback: string) =>
+    (pageContent?.[section] as Record<string, string>)?.[field] || fallback;
 
   return (
     <>
@@ -36,10 +38,10 @@ export default async function ReferenzenPage() {
         <Container>
           <div className="max-w-3xl">
             <h1 className="text-4xl font-bold text-foreground sm:text-5xl">
-              Unsere Referenzen
+              {t("hero", "title", "Unsere Referenzen")}
             </h1>
             <p className="mt-6 text-lg text-muted-foreground">
-              Über 1.000 erfolgreich realisierte Projekte seit 2014. Hier zeigen wir Ihnen eine Auswahl unserer Arbeiten.
+              {t("hero", "description", "Über 1.000 erfolgreich realisierte Projekte seit 2014. Hier zeigen wir Ihnen eine Auswahl unserer Arbeiten.")}
             </p>
           </div>
         </Container>
@@ -99,8 +101,8 @@ export default async function ReferenzenPage() {
       </section>
 
       <CTABanner
-        title="Ihr Projekt könnte das nächste sein"
-        description="Kontaktieren Sie uns für eine kostenlose Beratung und ein individuelles Angebot."
+        title={t("cta", "title", "Ihr Projekt könnte das nächste sein")}
+        description={t("cta", "description", "Kontaktieren Sie uns für eine kostenlose Beratung und ein individuelles Angebot.")}
       />
     </>
   );

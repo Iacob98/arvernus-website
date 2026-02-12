@@ -7,26 +7,35 @@ import { TestimonialsSection } from "@/components/sections/home/TestimonialsSect
 import { TrustSignals } from "@/components/sections/home/TrustSignals";
 import { CTABanner } from "@/components/shared/CTABanner";
 import { PartnersSection } from "@/components/shared/PartnersSection";
-import { getTestimonials, getPartners, getServices } from "@/lib/dal";
+import { getTestimonials, getPartners, getServices, getPageContent } from "@/lib/dal";
 
 export default async function HomePage() {
-  const [testimonials, partners, servicesData] = await Promise.all([
+  const [testimonials, partners, servicesData, pageContent] = await Promise.all([
     getTestimonials(),
     getPartners(),
     getServices(),
+    getPageContent("home"),
   ]);
+
+  const hero = pageContent?.hero as Record<string, string> | undefined;
+  const howItWorks = pageContent?.howItWorks as Record<string, string> | undefined;
+  const foerderung = pageContent?.foerderungTeaser as Record<string, string> | undefined;
+  const cta = pageContent?.cta as Record<string, string> | undefined;
 
   return (
     <>
-      <HeroSection />
+      <HeroSection content={hero} />
       <BenefitsStrip />
       <ServicesOverview services={servicesData.services} />
-      <HowItWorks />
-      <FoerderungTeaser />
+      <HowItWorks content={howItWorks} />
+      <FoerderungTeaser content={foerderung} />
       <TestimonialsSection testimonials={testimonials} />
       <PartnersSection partners={partners} />
       <TrustSignals />
-      <CTABanner />
+      <CTABanner
+        title={cta?.title}
+        description={cta?.description}
+      />
     </>
   );
 }

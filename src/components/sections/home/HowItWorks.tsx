@@ -48,16 +48,27 @@ const steps = [
   },
 ];
 
-export function HowItWorks() {
+interface HowItWorksProps {
+  content?: Record<string, string>;
+}
+
+export function HowItWorks({ content }: HowItWorksProps) {
+  const displaySteps = content ? [
+    { ...steps[0], title: content.step1Title || steps[0].title, description: content.step1Desc || steps[0].description },
+    { ...steps[1], title: content.step2Title || steps[1].title, description: content.step2Desc || steps[1].description },
+    { ...steps[2], title: content.step3Title || steps[2].title, description: content.step3Desc || steps[2].description },
+    { ...steps[3], title: content.step4Title || steps[3].title, description: content.step4Desc || steps[3].description },
+  ] : steps;
+
   return (
     <section className="py-20">
       <Container>
         <SectionHeading
-          title="So einfach geht's"
-          subtitle="In vier Schritten zu Ihrer neuen Wärmepumpe oder Photovoltaikanlage."
+          title={content?.title || "So einfach geht's"}
+          subtitle={content?.subtitle || "In vier Schritten zu Ihrer neuen Wärmepumpe oder Photovoltaikanlage."}
         />
         <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4">
-          {steps.map((step, i) => (
+          {displaySteps.map((step, i) => (
             <ScrollReveal key={step.number} delay={i * 0.1}>
               <div className="relative text-center">
                 <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-2xl bg-primary text-white">

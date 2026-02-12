@@ -8,7 +8,7 @@ import { BreadcrumbNav } from "@/components/shared/BreadcrumbNav";
 import { FAQAccordion } from "@/components/shared/FAQAccordion";
 import { CTABanner } from "@/components/shared/CTABanner";
 import { TrustBadges } from "@/components/shared/TrustBadges";
-import { getFAQ, getCompany } from "@/lib/dal";
+import { getFAQ, getCompany, getPageContent } from "@/lib/dal";
 
 export const metadata: Metadata = {
   title: "Photovoltaik — Eigenen Strom erzeugen",
@@ -17,7 +17,9 @@ export const metadata: Metadata = {
 };
 
 export default async function PhotovoltaikPage() {
-  const [faq, company] = await Promise.all([getFAQ(), getCompany()]);
+  const [faq, company, pageContent] = await Promise.all([getFAQ(), getCompany(), getPageContent("photovoltaik")]);
+  const t = (section: string, field: string, fallback: string) =>
+    (pageContent?.[section] as Record<string, string>)?.[field] || fallback;
 
   return (
     <>
@@ -28,10 +30,10 @@ export default async function PhotovoltaikPage() {
           <div className="grid grid-cols-1 items-center gap-10 lg:grid-cols-2">
             <div>
               <h1 className="text-4xl font-bold text-foreground sm:text-5xl">
-                Photovoltaik — Erzeugen Sie Ihren eigenen Strom
+                {t("hero", "title", "Photovoltaik — Erzeugen Sie Ihren eigenen Strom")}
               </h1>
               <p className="mt-6 text-lg text-muted-foreground">
-                Mit einer modernen Photovoltaikanlage erzeugen Sie Ihren eigenen Strom, senken Ihre Energiekosten und leisten einen Beitrag zum Klimaschutz. Von der Planung bis zur Installation — alles aus einer Hand.
+                {t("hero", "description", "Mit einer modernen Photovoltaikanlage erzeugen Sie Ihren eigenen Strom, senken Ihre Energiekosten und leisten einen Beitrag zum Klimaschutz. Von der Planung bis zur Installation — alles aus einer Hand.")}
               </p>
               <div className="mt-8 flex flex-wrap gap-4">
                 <Button href="/kontakt" size="lg">Angebot anfragen</Button>
@@ -61,17 +63,17 @@ export default async function PhotovoltaikPage() {
       <section className="py-20">
         <Container>
           <SectionHeading
-            title="Vorteile einer Photovoltaikanlage"
-            subtitle="Warum sich Photovoltaik für Sie lohnt."
+            title={t("benefits", "title", "Vorteile einer Photovoltaikanlage")}
+            subtitle={t("benefits", "subtitle", "Warum sich Photovoltaik für Sie lohnt.")}
           />
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {[
-              { title: "Stromkosten senken", desc: "Erzeugen Sie bis zu 80% Ihres Stroms selbst und reduzieren Sie Ihre Stromrechnung deutlich." },
-              { title: "Einspeisevergütung", desc: "Überschüssigen Strom speisen Sie ins Netz ein und erhalten dafür eine garantierte Vergütung." },
-              { title: "Unabhängigkeit", desc: "Machen Sie sich unabhängig von steigenden Strompreisen und Energieversorgern." },
-              { title: "Wertsteigerung", desc: "Eine Solaranlage steigert den Wert Ihrer Immobilie nachhaltig." },
-              { title: "Umweltschutz", desc: "Jede kWh Solarstrom spart ca. 400g CO₂ — ein aktiver Beitrag zum Klimaschutz." },
-              { title: "Kombinierbar", desc: "Perfekt kombinierbar mit einer Wärmepumpe oder einem E-Auto für maximale Eigenversorgung." },
+              { title: t("benefits", "benefit1Title", "Stromkosten senken"), desc: t("benefits", "benefit1Desc", "Erzeugen Sie bis zu 80% Ihres Stroms selbst und reduzieren Sie Ihre Stromrechnung deutlich.") },
+              { title: t("benefits", "benefit2Title", "Einspeisevergütung"), desc: t("benefits", "benefit2Desc", "Überschüssigen Strom speisen Sie ins Netz ein und erhalten dafür eine garantierte Vergütung.") },
+              { title: t("benefits", "benefit3Title", "Unabhängigkeit"), desc: t("benefits", "benefit3Desc", "Machen Sie sich unabhängig von steigenden Strompreisen und Energieversorgern.") },
+              { title: t("benefits", "benefit4Title", "Wertsteigerung"), desc: t("benefits", "benefit4Desc", "Eine Solaranlage steigert den Wert Ihrer Immobilie nachhaltig.") },
+              { title: t("benefits", "benefit5Title", "Umweltschutz"), desc: t("benefits", "benefit5Desc", "Jede kWh Solarstrom spart ca. 400g CO₂ — ein aktiver Beitrag zum Klimaschutz.") },
+              { title: t("benefits", "benefit6Title", "Kombinierbar"), desc: t("benefits", "benefit6Desc", "Perfekt kombinierbar mit einer Wärmepumpe oder einem E-Auto für maximale Eigenversorgung.") },
             ].map((benefit) => (
               <Card key={benefit.title}>
                 <CardTitle className="text-lg">{benefit.title}</CardTitle>
@@ -85,8 +87,8 @@ export default async function PhotovoltaikPage() {
       <section className="py-20 bg-muted/30">
         <Container>
           <SectionHeading
-            title="Komponenten Ihrer Solaranlage"
-            subtitle="Hochwertige Technik für maximale Erträge."
+            title={t("components", "title", "Komponenten Ihrer Solaranlage")}
+            subtitle={t("components", "subtitle", "Hochwertige Technik für maximale Erträge.")}
           />
           <div className="mb-12 overflow-hidden rounded-2xl">
             <Image
@@ -99,10 +101,10 @@ export default async function PhotovoltaikPage() {
           </div>
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 max-w-4xl mx-auto">
             {[
-              { title: "Solarmodule", desc: "Hocheffiziente Module namhafter Hersteller mit mindestens 25 Jahren Leistungsgarantie." },
-              { title: "Wechselrichter", desc: "Wandelt den erzeugten Gleichstrom in nutzbaren Wechselstrom um — das Herzstück der Anlage." },
-              { title: "Stromspeicher", desc: "Optional: Speichert überschüssigen Strom für die Nutzung am Abend und in der Nacht." },
-              { title: "Smart-Home-Integration", desc: "Intelligente Steuerung für optimalen Eigenverbrauch und Monitoring per App." },
+              { title: t("components", "comp1Title", "Solarmodule"), desc: t("components", "comp1Desc", "Hocheffiziente Module namhafter Hersteller mit mindestens 25 Jahren Leistungsgarantie.") },
+              { title: t("components", "comp2Title", "Wechselrichter"), desc: t("components", "comp2Desc", "Wandelt den erzeugten Gleichstrom in nutzbaren Wechselstrom um — das Herzstück der Anlage.") },
+              { title: t("components", "comp3Title", "Stromspeicher"), desc: t("components", "comp3Desc", "Optional: Speichert überschüssigen Strom für die Nutzung am Abend und in der Nacht.") },
+              { title: t("components", "comp4Title", "Smart-Home-Integration"), desc: t("components", "comp4Desc", "Intelligente Steuerung für optimalen Eigenverbrauch und Monitoring per App.") },
             ].map((component) => (
               <Card key={component.title}>
                 <CardTitle className="text-lg">{component.title}</CardTitle>
@@ -121,8 +123,8 @@ export default async function PhotovoltaikPage() {
       </section>
 
       <CTABanner
-        title="Interesse an einer Solaranlage?"
-        description="Lassen Sie sich kostenlos beraten — wir planen die optimale Anlage für Ihr Dach."
+        title={t("cta", "title", "Interesse an einer Solaranlage?")}
+        description={t("cta", "description", "Lassen Sie sich kostenlos beraten — wir planen die optimale Anlage für Ihr Dach.")}
         primaryLabel="Beratung anfragen"
         primaryHref="/kontakt"
       />

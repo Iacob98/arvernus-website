@@ -6,7 +6,7 @@ import { BreadcrumbNav } from "@/components/shared/BreadcrumbNav";
 import { TrustBadges } from "@/components/shared/TrustBadges";
 import { CTABanner } from "@/components/shared/CTABanner";
 import { PartnersSection } from "@/components/shared/PartnersSection";
-import { getTeam, getTimeline, getPartners, getCompany } from "@/lib/dal";
+import { getTeam, getTimeline, getPartners, getCompany, getPageContent } from "@/lib/dal";
 
 export const metadata: Metadata = {
   title: "Über uns — Seit 2014 Ihr Experte für Wärmepumpen",
@@ -15,12 +15,15 @@ export const metadata: Metadata = {
 };
 
 export default async function UeberUnsPage() {
-  const [team, timeline, partners, company] = await Promise.all([
+  const [team, timeline, partners, company, pageContent] = await Promise.all([
     getTeam(),
     getTimeline(),
     getPartners(),
     getCompany(),
+    getPageContent("ueber-uns"),
   ]);
+  const t = (section: string, field: string, fallback: string) =>
+    (pageContent?.[section] as Record<string, string>)?.[field] || fallback;
 
   return (
     <>
@@ -30,10 +33,10 @@ export default async function UeberUnsPage() {
         <Container>
           <div className="max-w-3xl">
             <h1 className="text-4xl font-bold text-foreground sm:text-5xl">
-              Über Arvernus
+              {t("hero", "title", "Über Arvernus")}
             </h1>
             <p className="mt-6 text-lg text-muted-foreground">
-              Seit 2014 sind wir Ihr verlässlicher Partner für Wärmepumpen und Photovoltaik. Mit über 1.000 realisierten Projekten und einem erfahrenen Team stehen wir für Qualität, Zuverlässigkeit und Innovation.
+              {t("hero", "description", "Seit 2014 sind wir Ihr verlässlicher Partner für Wärmepumpen und Photovoltaik. Mit über 1.000 realisierten Projekten und einem erfahrenen Team stehen wir für Qualität, Zuverlässigkeit und Innovation.")}
             </p>
           </div>
         </Container>
@@ -48,7 +51,7 @@ export default async function UeberUnsPage() {
       {/* Timeline */}
       <section className="py-20">
         <Container>
-          <SectionHeading title="Unsere Geschichte" subtitle="Von der Gründung bis heute." />
+          <SectionHeading title={t("timeline", "title", "Unsere Geschichte")} subtitle={t("timeline", "subtitle", "Von der Gründung bis heute.")} />
           <div className="max-w-3xl mx-auto">
             <div className="relative border-l-2 border-primary/20 ml-4 space-y-10">
               {timeline.map((event) => (
@@ -67,7 +70,7 @@ export default async function UeberUnsPage() {
       {/* Team */}
       <section className="py-20 bg-muted/30">
         <Container>
-          <SectionHeading title="Unser Team" subtitle="Die Menschen hinter Arvernus." />
+          <SectionHeading title={t("team", "title", "Unser Team")} subtitle={t("team", "subtitle", "Die Menschen hinter Arvernus.")} />
           <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4">
             {team.map((member) => (
               <Card key={member.id} className="text-center">
@@ -90,13 +93,13 @@ export default async function UeberUnsPage() {
       {/* Zertifikate */}
       <section className="py-20">
         <Container>
-          <SectionHeading title="Zertifikate" subtitle="Qualität, der Sie vertrauen können." />
+          <SectionHeading title={t("certificates", "title", "Zertifikate")} subtitle={t("certificates", "subtitle", "Qualität, der Sie vertrauen können.")} />
           <div className="grid grid-cols-2 gap-6 sm:grid-cols-4 max-w-3xl mx-auto">
             {[
-              "Meisterbetrieb SHK",
-              "BAFA-zertifiziert",
-              "KfW-Partnerunternehmen",
-              "Offizieller Bosch Partner",
+              t("certificates", "cert1", "Meisterbetrieb SHK"),
+              t("certificates", "cert2", "BAFA-zertifiziert"),
+              t("certificates", "cert3", "KfW-Partnerunternehmen"),
+              t("certificates", "cert4", "Offizieller Bosch Partner"),
             ].map((cert) => (
               <div key={cert} className="flex flex-col items-center p-6 rounded-xl border border-border bg-white text-center">
                 <div className="h-12 w-12 rounded-full bg-primary-50 flex items-center justify-center mb-3">
@@ -115,8 +118,8 @@ export default async function UeberUnsPage() {
       <PartnersSection partners={partners} />
 
       <CTABanner
-        title="Lassen Sie sich von uns beraten"
-        description="Lernen Sie uns persönlich kennen — wir freuen uns auf Ihr Projekt."
+        title={t("cta", "title", "Lassen Sie sich von uns beraten")}
+        description={t("cta", "description", "Lernen Sie uns persönlich kennen — wir freuen uns auf Ihr Projekt.")}
       />
     </>
   );
