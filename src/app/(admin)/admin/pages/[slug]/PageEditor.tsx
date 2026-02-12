@@ -1,0 +1,45 @@
+"use client";
+
+import { AdminForm } from "@/components/admin/AdminForm";
+
+interface PageEditorProps {
+  slug: string;
+  content: Record<string, Record<string, unknown>>;
+  action: (prevState: { success?: boolean; error?: string } | null, formData: FormData) => Promise<{ success?: boolean; error?: string }>;
+}
+
+export function PageEditor({ slug, content, action }: PageEditorProps) {
+  return (
+    <AdminForm action={action} backHref="/admin/pages">
+      <input type="hidden" name="slug" value={slug} />
+      <div className="space-y-6">
+        {Object.entries(content).map(([section, fields]) => (
+          <div key={section} className="rounded-xl border border-gray-200 bg-white p-4">
+            <h3 className="text-md font-semibold text-gray-900 mb-3 capitalize">{section}</h3>
+            <div className="space-y-3">
+              {Object.entries(fields).map(([field, value]) => (
+                <div key={field}>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">{field}</label>
+                  {String(value).length > 100 ? (
+                    <textarea
+                      name={`${section}.${field}`}
+                      defaultValue={String(value)}
+                      rows={4}
+                      className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm"
+                    />
+                  ) : (
+                    <input
+                      name={`${section}.${field}`}
+                      defaultValue={String(value)}
+                      className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm"
+                    />
+                  )}
+                </div>
+              ))}
+            </div>
+          </div>
+        ))}
+      </div>
+    </AdminForm>
+  );
+}

@@ -1,0 +1,91 @@
+import type { Metadata } from "next";
+import { Container } from "@/components/ui/Container";
+import { COMPANY } from "@/lib/constants";
+
+export const metadata: Metadata = {
+  title: "Impressum",
+  description: "Impressum der Arvernus GmbH gemäß § 5 TMG.",
+};
+
+export default function ImpressumPage() {
+  return (
+    <Container className="max-w-3xl">
+      <h1 className="text-3xl font-bold text-foreground sm:text-4xl">Impressum</h1>
+      <div className="mt-8 prose prose-gray max-w-none">
+        <h2>Angaben gemäß § 5 TMG</h2>
+        <p>
+          {COMPANY.fullName}<br />
+          {COMPANY.address.street}<br />
+          {COMPANY.address.zip} {COMPANY.address.city}
+        </p>
+
+        <h2>Kontakt</h2>
+        <p>
+          Telefon: {COMPANY.phoneDisplay}<br />
+          E-Mail: {COMPANY.email}
+        </p>
+
+        <h2>Vertreten durch</h2>
+        <p>Geschäftsführer: Thomas Berger</p>
+
+        <h2>Registereintrag</h2>
+        <p>
+          Eintragung im Handelsregister.<br />
+          Registergericht: Amtsgericht {COMPANY.address.city}<br />
+          Registernummer: HRB 12345
+        </p>
+
+        <h2>Umsatzsteuer-ID</h2>
+        <p>
+          Umsatzsteuer-Identifikationsnummer gemäß § 27 a Umsatzsteuergesetz:<br />
+          DE 123456789
+        </p>
+
+        <h2>Berufsbezeichnung und berufsrechtliche Regelungen</h2>
+        <p>
+          Berufsbezeichnung: Meisterbetrieb für Sanitär, Heizung und Klimatechnik (SHK)<br />
+          Zuständige Kammer: Handwerkskammer für {COMPANY.address.state}<br />
+          Verliehen in: Deutschland
+        </p>
+
+        <h2>Streitschlichtung</h2>
+        <p>
+          Die Europäische Kommission stellt eine Plattform zur Online-Streitbeilegung (OS) bereit.
+          Unsere E-Mail-Adresse finden Sie oben im Impressum.
+        </p>
+        <p>
+          Wir sind nicht bereit oder verpflichtet, an Streitbeilegungsverfahren vor einer
+          Verbraucherschlichtungsstelle teilzunehmen.
+        </p>
+
+        <h2>Haftung für Inhalte</h2>
+        <p>
+          Als Diensteanbieter sind wir gemäß § 7 Abs.1 TMG für eigene Inhalte auf diesen Seiten nach den
+          allgemeinen Gesetzen verantwortlich. Nach §§ 8 bis 10 TMG sind wir als Diensteanbieter jedoch nicht
+          unter der Pflicht, übermittelte oder gespeicherte fremde Informationen zu überwachen oder nach Umständen
+          zu forschen, die auf eine rechtswidrige Tätigkeit hinweisen.
+        </p>
+        <p>
+          Verpflichtungen zur Entfernung oder Sperrung der Nutzung von Informationen nach den allgemeinen
+          Gesetzen bleiben hiervon unberührt. Eine diesbezügliche Haftung ist jedoch erst ab dem Zeitpunkt der
+          Kenntnis einer konkreten Rechtsverletzung möglich. Bei Bekanntwerden von entsprechenden
+          Rechtsverletzungen werden wir diese Inhalte umgehend entfernen.
+        </p>
+
+        <h2>Haftung für Links</h2>
+        <p>
+          Unser Angebot enthält Links zu externen Websites Dritter, auf deren Inhalte wir keinen Einfluss haben.
+          Deshalb können wir für diese fremden Inhalte auch keine Gewähr übernehmen. Für die Inhalte der
+          verlinkten Seiten ist stets der jeweilige Anbieter oder Betreiber der Seiten verantwortlich.
+        </p>
+
+        <h2>Urheberrecht</h2>
+        <p>
+          Die durch die Seitenbetreiber erstellten Inhalte und Werke auf diesen Seiten unterliegen dem deutschen
+          Urheberrecht. Die Vervielfältigung, Bearbeitung, Verbreitung und jede Art der Verwertung außerhalb der
+          Grenzen des Urheberrechtes bedürfen der schriftlichen Zustimmung des jeweiligen Autors bzw. Erstellers.
+        </p>
+      </div>
+    </Container>
+  );
+}
