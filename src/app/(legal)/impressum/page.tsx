@@ -1,28 +1,30 @@
 import type { Metadata } from "next";
 import { Container } from "@/components/ui/Container";
-import { COMPANY } from "@/lib/constants";
+import { getCompany } from "@/lib/dal";
 
 export const metadata: Metadata = {
   title: "Impressum",
   description: "Impressum der Arvernus GmbH gemäß § 5 TMG.",
 };
 
-export default function ImpressumPage() {
+export default async function ImpressumPage() {
+  const company = await getCompany();
+
   return (
     <Container className="max-w-3xl">
       <h1 className="text-3xl font-bold text-foreground sm:text-4xl">Impressum</h1>
       <div className="mt-8 prose prose-gray max-w-none">
         <h2>Angaben gemäß § 5 TMG</h2>
         <p>
-          {COMPANY.fullName}<br />
-          {COMPANY.address.street}<br />
-          {COMPANY.address.zip} {COMPANY.address.city}
+          {company.fullName}<br />
+          {company.address.street}<br />
+          {company.address.zip} {company.address.city}
         </p>
 
         <h2>Kontakt</h2>
         <p>
-          Telefon: {COMPANY.phoneDisplay}<br />
-          E-Mail: {COMPANY.email}
+          Telefon: {company.phoneDisplay}<br />
+          E-Mail: {company.email}
         </p>
 
         <h2>Vertreten durch</h2>
@@ -31,7 +33,7 @@ export default function ImpressumPage() {
         <h2>Registereintrag</h2>
         <p>
           Eintragung im Handelsregister.<br />
-          Registergericht: Amtsgericht {COMPANY.address.city}<br />
+          Registergericht: Amtsgericht {company.address.city}<br />
           Registernummer: HRB 12345
         </p>
 
@@ -44,7 +46,7 @@ export default function ImpressumPage() {
         <h2>Berufsbezeichnung und berufsrechtliche Regelungen</h2>
         <p>
           Berufsbezeichnung: Meisterbetrieb für Sanitär, Heizung und Klimatechnik (SHK)<br />
-          Zuständige Kammer: Handwerkskammer für {COMPANY.address.state}<br />
+          Zuständige Kammer: Handwerkskammer für {company.address.state}<br />
           Verliehen in: Deutschland
         </p>
 

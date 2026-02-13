@@ -100,7 +100,7 @@ export function Header({ company }: HeaderProps) {
       </Container>
     </header>
 
-    <MobileNav open={mobileOpen} onClose={() => setMobileOpen(false)} />
+    <MobileNav open={mobileOpen} onClose={() => setMobileOpen(false)} phone={company.phone} phoneDisplay={company.phoneDisplay} />
   </>
   );
 }

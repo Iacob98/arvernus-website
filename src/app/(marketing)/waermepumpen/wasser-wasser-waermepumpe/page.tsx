@@ -7,9 +7,7 @@ import { BreadcrumbNav } from "@/components/shared/BreadcrumbNav";
 import { FAQAccordion } from "@/components/shared/FAQAccordion";
 import { CTABanner } from "@/components/shared/CTABanner";
 import { TrustBadges } from "@/components/shared/TrustBadges";
-import { waermepumpenTypes } from "@/data/services";
-
-const type = waermepumpenTypes[2];
+import { getServices, getCompany, getPageContent } from "@/lib/dal";
 
 export const metadata: Metadata = {
   title: "Wasser-Wasser-Wärmepumpe — Maximale Effizienz",
@@ -17,14 +15,24 @@ export const metadata: Metadata = {
     "Wasser-Wasser-Wärmepumpe von Arvernus: Höchster Wirkungsgrad aller Wärmepumpen, nutzt Grundwasser als Wärmequelle. Bis zu 70% Förderung.",
 };
 
-const faq = [
+const defaultFaq = [
   { question: "Welche Voraussetzungen brauche ich für eine Wasser-Wasser-Wärmepumpe?", answer: "Sie benötigen zugängliches Grundwasser in ausreichender Menge und Qualität. Ein Grundwassertest prüft dies vorab. Zudem ist eine wasserrechtliche Genehmigung erforderlich." },
   { question: "Wie wird das Grundwasser genutzt?", answer: "Über einen Förderbrunnen wird Grundwasser entnommen, die Wärme im Verdampfer der Wärmepumpe entzogen, und das abgekühlte Wasser über einen Schluckbrunnen zurückgeführt." },
   { question: "Was kostet eine Wasser-Wasser-Wärmepumpe?", answer: "Die Gesamtkosten inkl. Brunnenbohrung liegen bei 20.000–40.000 Euro. Nach Abzug der Förderung (bis 70%) reduzieren sich die Kosten erheblich. Die niedrigen Betriebskosten machen sie langfristig sehr wirtschaftlich." },
   { question: "Wie effizient ist eine Wasser-Wasser-Wärmepumpe?", answer: "Mit einem COP von 5,0–6,0 ist sie die effizienteste aller Wärmepumpenarten. Das Grundwasser hat ganzjährig eine konstante Temperatur von 8–12°C, was die hohe Effizienz ermöglicht." },
 ];
 
-export default function WasserWasserPage() {
+export default async function WasserWasserPage() {
+  const [servicesData, company, pageContent] = await Promise.all([
+    getServices(),
+    getCompany(),
+    getPageContent("wasser-wasser-waermepumpe"),
+  ]);
+
+  const type = servicesData.waermepumpenTypes.find((t) => t.slug === "wasser-wasser-waermepumpe") ?? servicesData.waermepumpenTypes[2];
+  const t = (section: string, field: string, fallback: string) =>
+    (pageContent?.[section] as Record<string, string>)?.[field] || fallback;
+
   return (
     <>
       <BreadcrumbNav
@@ -53,12 +61,12 @@ export default function WasserWasserPage() {
       </section>
 
       <section className="py-8 border-b border-border">
-        <Container><TrustBadges /></Container>
+        <Container><TrustBadges stats={company.stats} foundedYear={company.foundedYear} /></Container>
       </section>
 
       <section className="py-20">
         <Container>
-          <SectionHeading title="Vorteile der Wasser-Wasser-Wärmepumpe" />
+          <SectionHeading title={t("advantages", "title", "Vorteile der Wasser-Wasser-Wärmepumpe")} />
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {type.advantages.map((adv) => (
               <Card key={adv}>
@@ -76,13 +84,13 @@ export default function WasserWasserPage() {
 
       <section className="py-20 bg-muted/30">
         <Container>
-          <SectionHeading title="Voraussetzungen" subtitle="Was Sie für eine Wasser-Wasser-Wärmepumpe benötigen." />
+          <SectionHeading title={t("requirements", "title", "Voraussetzungen")} subtitle={t("requirements", "subtitle", "Was Sie für eine Wasser-Wasser-Wärmepumpe benötigen.")} />
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 max-w-3xl mx-auto">
             {[
-              { title: "Grundwasservorkommen", desc: "Ausreichend Grundwasser in erreichbarer Tiefe (typisch 5–15 Meter)." },
-              { title: "Wasserqualität", desc: "Das Grundwasser muss bestimmte Qualitätskriterien erfüllen (Eisen-, Mangangehalt)." },
-              { title: "Genehmigung", desc: "Eine wasserrechtliche Genehmigung der zuständigen Behörde ist erforderlich." },
-              { title: "Platzbedarf", desc: "Platz für Förder- und Schluckbrunnen mit ausreichendem Abstand zueinander." },
+              { title: t("requirements", "req1Title", "Grundwasservorkommen"), desc: t("requirements", "req1Desc", "Ausreichend Grundwasser in erreichbarer Tiefe (typisch 5–15 Meter).") },
+              { title: t("requirements", "req2Title", "Wasserqualität"), desc: t("requirements", "req2Desc", "Das Grundwasser muss bestimmte Qualitätskriterien erfüllen (Eisen-, Mangangehalt).") },
+              { title: t("requirements", "req3Title", "Genehmigung"), desc: t("requirements", "req3Desc", "Eine wasserrechtliche Genehmigung der zuständigen Behörde ist erforderlich.") },
+              { title: t("requirements", "req4Title", "Platzbedarf"), desc: t("requirements", "req4Desc", "Platz für Förder- und Schluckbrunnen mit ausreichendem Abstand zueinander.") },
             ].map((item) => (
               <Card key={item.title}>
                 <CardTitle className="text-lg">{item.title}</CardTitle>
@@ -96,7 +104,7 @@ export default function WasserWasserPage() {
       <section className="py-20">
         <Container className="max-w-3xl">
           <SectionHeading title="Häufige Fragen" />
-          <FAQAccordion items={faq} />
+          <FAQAccordion items={defaultFaq} />
         </Container>
       </section>
 

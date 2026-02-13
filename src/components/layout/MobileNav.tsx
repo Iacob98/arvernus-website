@@ -5,15 +5,16 @@ import Link from "next/link";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
 import { mainNavigation } from "@/data/navigation";
-import { COMPANY } from "@/lib/constants";
 import { Button } from "@/components/ui/Button";
 
 interface MobileNavProps {
   open: boolean;
   onClose: () => void;
+  phone?: string;
+  phoneDisplay?: string;
 }
 
-export function MobileNav({ open, onClose }: MobileNavProps) {
+export function MobileNav({ open, onClose, phone, phoneDisplay }: MobileNavProps) {
   const [openSubmenu, setOpenSubmenu] = useState<string | null>(null);
 
   useEffect(() => {
@@ -116,13 +117,13 @@ export function MobileNav({ open, onClose }: MobileNavProps) {
 
         <div className="absolute bottom-0 left-0 right-0 p-4 border-t border-border bg-white space-y-3">
           <a
-            href={`tel:${COMPANY.phone}`}
+            href={`tel:${phone}`}
             className="flex items-center gap-2 text-sm font-medium text-foreground"
           >
             <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
             </svg>
-            {COMPANY.phoneDisplay}
+            {phoneDisplay}
           </a>
           <Button href="/waermepumpen-rechner" className="w-full" size="sm">
             Kostenlos berechnen

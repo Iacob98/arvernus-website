@@ -1,13 +1,15 @@
 import type { Metadata } from "next";
 import { Container } from "@/components/ui/Container";
-import { COMPANY } from "@/lib/constants";
+import { getCompany } from "@/lib/dal";
 
 export const metadata: Metadata = {
   title: "Datenschutzerklärung",
   description: "Datenschutzerklärung der Arvernus GmbH gemäß DSGVO.",
 };
 
-export default function DatenschutzPage() {
+export default async function DatenschutzPage() {
+  const company = await getCompany();
+
   return (
     <Container className="max-w-3xl">
       <h1 className="text-3xl font-bold text-foreground sm:text-4xl">Datenschutzerklärung</h1>
@@ -26,11 +28,11 @@ export default function DatenschutzPage() {
           Die Datenverarbeitung auf dieser Website erfolgt durch den Websitebetreiber:
         </p>
         <p>
-          {COMPANY.fullName}<br />
-          {COMPANY.address.street}<br />
-          {COMPANY.address.zip} {COMPANY.address.city}<br />
-          E-Mail: {COMPANY.email}<br />
-          Telefon: {COMPANY.phoneDisplay}
+          {company.fullName}<br />
+          {company.address.street}<br />
+          {company.address.zip} {company.address.city}<br />
+          E-Mail: {company.email}<br />
+          Telefon: {company.phoneDisplay}
         </p>
 
         <h2>2. Hosting</h2>
@@ -52,9 +54,9 @@ export default function DatenschutzPage() {
         <h3>Hinweis zur verantwortlichen Stelle</h3>
         <p>
           Die verantwortliche Stelle für die Datenverarbeitung auf dieser Website ist:<br />
-          {COMPANY.fullName}<br />
-          {COMPANY.address.street}<br />
-          {COMPANY.address.zip} {COMPANY.address.city}
+          {company.fullName}<br />
+          {company.address.street}<br />
+          {company.address.zip} {company.address.city}
         </p>
 
         <h2>4. Datenerfassung auf dieser Website</h2>

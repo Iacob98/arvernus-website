@@ -8,9 +8,7 @@ import { BreadcrumbNav } from "@/components/shared/BreadcrumbNav";
 import { FAQAccordion } from "@/components/shared/FAQAccordion";
 import { CTABanner } from "@/components/shared/CTABanner";
 import { TrustBadges } from "@/components/shared/TrustBadges";
-import { waermepumpenTypes } from "@/data/services";
-
-const type = waermepumpenTypes[0];
+import { getServices, getCompany, getPageContent } from "@/lib/dal";
 
 export const metadata: Metadata = {
   title: "Luft-Wasser-Wärmepumpe — Die beliebte Lösung",
@@ -18,14 +16,24 @@ export const metadata: Metadata = {
     "Luft-Wasser-Wärmepumpe von Arvernus: Einfache Installation, geringe Kosten, bis zu 70% Förderung. Die beliebteste Wärmepumpenart für Ihr Zuhause.",
 };
 
-const faq = [
+const defaultFaq = [
   { question: "Wie laut ist eine Luft-Wasser-Wärmepumpe?", answer: "Moderne Luft-Wasser-Wärmepumpen erreichen Schallpegel von 35–50 dB(A) im Normalbetrieb. Das ist vergleichbar mit einem leisen Gespräch. Durch richtige Aufstellung und Schallschutzmaßnahmen lässt sich die Geräuschentwicklung weiter reduzieren." },
   { question: "Funktioniert eine Luft-Wasser-Wärmepumpe auch im Winter?", answer: "Ja! Moderne Geräte arbeiten effizient bis -20°C Außentemperatur. Bei sehr niedrigen Temperaturen sinkt die Effizienz etwas, aber die Heizleistung bleibt gewährleistet." },
   { question: "Wo wird das Außengerät aufgestellt?", answer: "Das Außengerät benötigt einen gut belüfteten Standort im Freien. Idealerweise wird es an einer wind- und lärmgeschützten Stelle aufgestellt, mit ausreichend Abstand zu Nachbargebäuden." },
   { question: "Wie hoch sind die Betriebskosten?", answer: "Für ein durchschnittliches Einfamilienhaus liegen die jährlichen Stromkosten bei ca. 800–1.200 Euro. In Kombination mit Photovoltaik können die Kosten deutlich gesenkt werden." },
 ];
 
-export default function LuftWasserPage() {
+export default async function LuftWasserPage() {
+  const [servicesData, company, pageContent] = await Promise.all([
+    getServices(),
+    getCompany(),
+    getPageContent("luft-wasser-waermepumpe"),
+  ]);
+
+  const type = servicesData.waermepumpenTypes.find((t) => t.slug === "luft-wasser-waermepumpe") ?? servicesData.waermepumpenTypes[0];
+  const t = (section: string, field: string, fallback: string) =>
+    (pageContent?.[section] as Record<string, string>)?.[field] || fallback;
+
   return (
     <>
       <BreadcrumbNav
@@ -66,12 +74,12 @@ export default function LuftWasserPage() {
       </section>
 
       <section className="py-8 border-b border-border">
-        <Container><TrustBadges /></Container>
+        <Container><TrustBadges stats={company.stats} foundedYear={company.foundedYear} /></Container>
       </section>
 
       <section className="py-20">
         <Container>
-          <SectionHeading title="Vorteile der Luft-Wasser-Wärmepumpe" />
+          <SectionHeading title={t("advantages", "title", "Vorteile der Luft-Wasser-Wärmepumpe")} />
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {type.advantages.map((adv) => (
               <Card key={adv}>
@@ -89,7 +97,7 @@ export default function LuftWasserPage() {
 
       <section className="py-20 bg-muted/30">
         <Container>
-          <SectionHeading title="Funktionsweise" subtitle="So funktioniert eine Luft-Wasser-Wärmepumpe." />
+          <SectionHeading title={t("function", "title", "Funktionsweise")} subtitle={t("function", "subtitle", "So funktioniert eine Luft-Wasser-Wärmepumpe.")} />
           <div className="mb-12 flex justify-center">
             <Image
               src="/images/wp-system-diagram.jpg"
@@ -102,10 +110,10 @@ export default function LuftWasserPage() {
           <div className="max-w-3xl mx-auto">
             <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
               {[
-                { step: "1", title: "Wärmeaufnahme", desc: "Ein Ventilator saugt Außenluft an. Das Kältemittel im Verdampfer nimmt die Wärme der Luft auf." },
-                { step: "2", title: "Verdichtung", desc: "Der Kompressor verdichtet das gasförmige Kältemittel und erhöht dadurch die Temperatur." },
-                { step: "3", title: "Wärmeabgabe", desc: "Im Kondensator gibt das heiße Kältemittel seine Wärme an das Heizsystem ab." },
-                { step: "4", title: "Entspannung", desc: "Das Expansionsventil senkt den Druck, das Kältemittel kühlt ab — der Kreislauf beginnt erneut." },
+                { step: "1", title: t("function", "step1Title", "Wärmeaufnahme"), desc: t("function", "step1Desc", "Ein Ventilator saugt Außenluft an. Das Kältemittel im Verdampfer nimmt die Wärme der Luft auf.") },
+                { step: "2", title: t("function", "step2Title", "Verdichtung"), desc: t("function", "step2Desc", "Der Kompressor verdichtet das gasförmige Kältemittel und erhöht dadurch die Temperatur.") },
+                { step: "3", title: t("function", "step3Title", "Wärmeabgabe"), desc: t("function", "step3Desc", "Im Kondensator gibt das heiße Kältemittel seine Wärme an das Heizsystem ab.") },
+                { step: "4", title: t("function", "step4Title", "Entspannung"), desc: t("function", "step4Desc", "Das Expansionsventil senkt den Druck, das Kältemittel kühlt ab — der Kreislauf beginnt erneut.") },
               ].map((item) => (
                 <Card key={item.step}>
                   <div className="flex items-start gap-4">
@@ -127,7 +135,7 @@ export default function LuftWasserPage() {
       <section className="py-20">
         <Container className="max-w-3xl">
           <SectionHeading title="Häufige Fragen" />
-          <FAQAccordion items={faq} />
+          <FAQAccordion items={defaultFaq} />
         </Container>
       </section>
 

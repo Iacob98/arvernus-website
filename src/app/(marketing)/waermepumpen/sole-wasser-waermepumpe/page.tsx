@@ -7,9 +7,7 @@ import { BreadcrumbNav } from "@/components/shared/BreadcrumbNav";
 import { FAQAccordion } from "@/components/shared/FAQAccordion";
 import { CTABanner } from "@/components/shared/CTABanner";
 import { TrustBadges } from "@/components/shared/TrustBadges";
-import { waermepumpenTypes } from "@/data/services";
-
-const type = waermepumpenTypes[1];
+import { getServices, getCompany, getPageContent } from "@/lib/dal";
 
 export const metadata: Metadata = {
   title: "Sole-Wasser-Wärmepumpe — Höchste Effizienz mit Erdwärme",
@@ -17,14 +15,24 @@ export const metadata: Metadata = {
     "Sole-Wasser-Wärmepumpe (Erdwärmepumpe) von Arvernus: Höchste Effizienz, konstante Leistung, bis zu 70% Förderung. Nutzung der Erdwärme.",
 };
 
-const faq = [
+const defaultFaq = [
   { question: "Wie tief müssen die Erdsonden gebohrt werden?", answer: "Die Tiefe der Erdsonden hängt vom Wärmebedarf und der Bodenbeschaffenheit ab. Typisch sind 80–100 Meter pro Sonde. Für ein Einfamilienhaus werden meist 1–2 Sonden benötigt." },
   { question: "Was ist der Unterschied zwischen Sonden und Kollektoren?", answer: "Erdsonden werden vertikal in die Tiefe gebohrt (80–100m) und benötigen wenig Platz. Flächenkollektoren werden horizontal in 1,2–1,5m Tiefe verlegt und benötigen eine Fläche von ca. dem 1,5-fachen der beheizten Wohnfläche." },
   { question: "Brauche ich eine Genehmigung?", answer: "Für Erdsonden ist in der Regel eine wasserrechtliche Genehmigung erforderlich. Flächenkollektoren sind meist genehmigungsfrei. Wir kümmern uns um alle notwendigen Genehmigungen." },
   { question: "Kann ich im Sommer damit kühlen?", answer: "Ja! Über die Erdwärme-Sonden kann im Sommer passive Kühlung (Natural Cooling) realisiert werden — nahezu kostenlos und ohne zusätzliche Klimaanlage." },
 ];
 
-export default function SoleWasserPage() {
+export default async function SoleWasserPage() {
+  const [servicesData, company, pageContent] = await Promise.all([
+    getServices(),
+    getCompany(),
+    getPageContent("sole-wasser-waermepumpe"),
+  ]);
+
+  const type = servicesData.waermepumpenTypes.find((t) => t.slug === "sole-wasser-waermepumpe") ?? servicesData.waermepumpenTypes[1];
+  const t = (section: string, field: string, fallback: string) =>
+    (pageContent?.[section] as Record<string, string>)?.[field] || fallback;
+
   return (
     <>
       <BreadcrumbNav
@@ -53,12 +61,12 @@ export default function SoleWasserPage() {
       </section>
 
       <section className="py-8 border-b border-border">
-        <Container><TrustBadges /></Container>
+        <Container><TrustBadges stats={company.stats} foundedYear={company.foundedYear} /></Container>
       </section>
 
       <section className="py-20">
         <Container>
-          <SectionHeading title="Vorteile der Sole-Wasser-Wärmepumpe" />
+          <SectionHeading title={t("advantages", "title", "Vorteile der Sole-Wasser-Wärmepumpe")} />
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {type.advantages.map((adv) => (
               <Card key={adv}>
@@ -76,10 +84,10 @@ export default function SoleWasserPage() {
 
       <section className="py-20 bg-muted/30">
         <Container>
-          <SectionHeading title="Erdsonden vs. Flächenkollektoren" />
+          <SectionHeading title={t("comparison", "title", "Erdsonden vs. Flächenkollektoren")} />
           <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
             <Card>
-              <CardTitle>Erdsonden (Tiefenbohrung)</CardTitle>
+              <CardTitle>{t("comparison", "sondenTitle", "Erdsonden (Tiefenbohrung)")}</CardTitle>
               <CardContent>
                 <ul className="mt-3 space-y-2 text-sm">
                   <li className="flex items-start gap-2"><span className="text-primary">+</span> Geringer Platzbedarf</li>
@@ -91,7 +99,7 @@ export default function SoleWasserPage() {
               </CardContent>
             </Card>
             <Card>
-              <CardTitle>Flächenkollektoren</CardTitle>
+              <CardTitle>{t("comparison", "kollektorenTitle", "Flächenkollektoren")}</CardTitle>
               <CardContent>
                 <ul className="mt-3 space-y-2 text-sm">
                   <li className="flex items-start gap-2"><span className="text-primary">+</span> Günstigere Installation</li>
@@ -109,7 +117,7 @@ export default function SoleWasserPage() {
       <section className="py-20">
         <Container className="max-w-3xl">
           <SectionHeading title="Häufige Fragen" />
-          <FAQAccordion items={faq} />
+          <FAQAccordion items={defaultFaq} />
         </Container>
       </section>
 
