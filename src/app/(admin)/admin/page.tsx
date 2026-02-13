@@ -1,8 +1,8 @@
 import Link from "next/link";
-import { getTestimonials, getProjects, getPartners, getTeam, getTimeline, getFAQ, getArticles } from "@/lib/dal";
+import { getTestimonials, getProjects, getPartners, getTeam, getTimeline, getFAQ, getArticles, getHeroSlides, getContactSubmissions, getRechnerSubmissions } from "@/lib/dal";
 
 export default async function AdminDashboard() {
-  const [testimonials, projects, partners, team, timeline, faq, articles] = await Promise.all([
+  const [testimonials, projects, partners, team, timeline, faq, articles, heroSlides, contactSubs, rechnerSubs] = await Promise.all([
     getTestimonials(),
     getProjects(),
     getPartners(),
@@ -10,11 +10,20 @@ export default async function AdminDashboard() {
     getTimeline(),
     getFAQ(),
     getArticles(),
+    getHeroSlides(),
+    getContactSubmissions(),
+    getRechnerSubmissions(),
   ]);
 
   const faqCount = faq.general.length + faq.waermepumpen.length + faq.photovoltaik.length + faq.foerderung.length;
 
-  const stats = [
+  const contactUnread = contactSubs.filter((s) => !s.read).length;
+  const rechnerUnread = rechnerSubs.filter((s) => !s.read).length;
+
+  const stats: { label: string; count: number; href: string; badge?: number }[] = [
+    { label: "Kontaktanfragen", count: contactSubs.length, href: "/admin/submissions", badge: contactUnread },
+    { label: "Rechner-Anfragen", count: rechnerSubs.length, href: "/admin/submissions", badge: rechnerUnread },
+    { label: "Hero Slides", count: heroSlides.length, href: "/admin/hero-slider" },
     { label: "Bewertungen", count: testimonials.length, href: "/admin/testimonials" },
     { label: "Projekte", count: projects.length, href: "/admin/projects" },
     { label: "Partner", count: partners.length, href: "/admin/partners" },
@@ -29,15 +38,20 @@ export default async function AdminDashboard() {
       <h1 className="text-2xl font-bold text-gray-900">Dashboard</h1>
       <p className="mt-1 text-sm text-gray-600">Willkommen in der Arvernus Admin-Verwaltung.</p>
 
-      <div className="mt-8 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-6">
+      <div className="mt-8 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-5">
         {stats.map((stat) => (
           <Link
-            key={stat.href}
+            key={stat.label}
             href={stat.href}
-            className="rounded-xl border border-gray-200 bg-white p-5 hover:border-primary/30 hover:shadow-sm transition-all"
+            className="relative rounded-xl border border-gray-200 bg-white p-5 hover:border-primary/30 hover:shadow-sm transition-all"
           >
             <p className="text-3xl font-bold text-primary">{stat.count}</p>
             <p className="mt-1 text-sm text-gray-600">{stat.label}</p>
+            {stat.badge ? (
+              <span className="absolute top-3 right-3 inline-flex items-center rounded-full bg-blue-100 px-2 py-0.5 text-xs font-medium text-blue-800">
+                {stat.badge} neu
+              </span>
+            ) : null}
           </Link>
         ))}
       </div>

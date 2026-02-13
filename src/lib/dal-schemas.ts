@@ -122,6 +122,15 @@ export const articleSchema = z.object({
   order: z.number().int().min(0).optional(),
 });
 
+// Hero Slide
+export const heroSlideSchema = z.object({
+  id: z.string().min(1),
+  image: z.string().min(1),
+  title: z.string().optional(),
+  subtitle: z.string().optional(),
+  order: z.number().int().min(0).optional(),
+});
+
 // Service
 export const serviceSchema = z.object({
   title: z.string().min(1),
@@ -165,6 +174,7 @@ export type TestimonialData = z.infer<typeof testimonialSchema>;
 export type ProjectData = z.infer<typeof projectSchema>;
 export type FAQItemData = z.infer<typeof faqItemSchema>;
 export type FAQData = z.infer<typeof faqSchema>;
+export type HeroSlideData = z.infer<typeof heroSlideSchema>;
 export type PartnerData = z.infer<typeof partnerSchema>;
 export type TeamMemberData = z.infer<typeof teamMemberSchema>;
 export type TimelineEventData = z.infer<typeof timelineEventSchema>;
@@ -174,3 +184,47 @@ export type WaermepumpenTypeData = z.infer<typeof waermepumpenTypeSchema>;
 export type ServicesData = z.infer<typeof servicesDataSchema>;
 export type PageContent = z.infer<typeof pageContentSchema>;
 export type PagesData = z.infer<typeof pagesSchema>;
+
+// Contact submission
+export const contactSubmissionSchema = z.object({
+  id: z.string().min(1),
+  anrede: z.string(),
+  vorname: z.string(),
+  nachname: z.string(),
+  email: z.string(),
+  telefon: z.string().optional(),
+  nachricht: z.string(),
+  createdAt: z.string(),
+  read: z.boolean().optional(),
+});
+
+// Rechner submission
+export const rechnerSubmissionSchema = z.object({
+  id: z.string().min(1),
+  gebaeudetyp: z.string(),
+  eigentuemer: z.string(),
+  baujahr: z.string(),
+  wohnflaeche: z.string(),
+  daemmung: z.string(),
+  fenster: z.string(),
+  aktuelleHeizung: z.string(),
+  heizungsalter: z.string(),
+  warmwasser: z.string(),
+  waermepumpentyp: z.string(),
+  photovoltaik: z.string(),
+  zeitrahmen: z.string(),
+  anrede: z.string(),
+  vorname: z.string(),
+  nachname: z.string(),
+  email: z.string(),
+  telefon: z.string(),
+  strasse: z.string(),
+  plz: z.string(),
+  ort: z.string(),
+  nachricht: z.string().optional(),
+  createdAt: z.string(),
+  read: z.boolean().optional(),
+});
+
+export type ContactSubmissionData = z.infer<typeof contactSubmissionSchema>;
+export type RechnerSubmissionData = z.infer<typeof rechnerSubmissionSchema>;

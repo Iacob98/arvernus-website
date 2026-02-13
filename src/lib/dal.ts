@@ -12,6 +12,9 @@ import type {
   ServicesData,
   PagesData,
   PageContent,
+  HeroSlideData,
+  ContactSubmissionData,
+  RechnerSubmissionData,
 } from "./dal-schemas";
 
 const CONTENT_DIR = path.join(process.cwd(), "content");
@@ -164,6 +167,18 @@ export async function saveArticles(data: ArticleData[]): Promise<void> {
   await writeJSON("articles.json", data);
 }
 
+// ─── Hero Slides ────────────────────────────────────────────
+
+export async function getHeroSlides(): Promise<HeroSlideData[]> {
+  const data = await readJSON<HeroSlideData[]>("hero-slides.json");
+  if (data) return data;
+  return [];
+}
+
+export async function saveHeroSlides(data: HeroSlideData[]): Promise<void> {
+  await writeJSON("hero-slides.json", data);
+}
+
 // ─── Pages ─────────────────────────────────────────────────
 
 export async function getPages(): Promise<PagesData> {
@@ -188,4 +203,26 @@ export async function savePageContent(
   const pages = await getPages();
   pages[slug] = content;
   await writeJSON("pages.json", pages);
+}
+
+// ─── Contact Submissions ────────────────────────────────────
+
+export async function getContactSubmissions(): Promise<ContactSubmissionData[]> {
+  const data = await readJSON<ContactSubmissionData[]>("contact-submissions.json");
+  return data ?? [];
+}
+
+export async function saveContactSubmissions(data: ContactSubmissionData[]): Promise<void> {
+  await writeJSON("contact-submissions.json", data);
+}
+
+// ─── Rechner Submissions ────────────────────────────────────
+
+export async function getRechnerSubmissions(): Promise<RechnerSubmissionData[]> {
+  const data = await readJSON<RechnerSubmissionData[]>("rechner-submissions.json");
+  return data ?? [];
+}
+
+export async function saveRechnerSubmissions(data: RechnerSubmissionData[]): Promise<void> {
+  await writeJSON("rechner-submissions.json", data);
 }
