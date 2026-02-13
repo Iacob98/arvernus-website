@@ -141,6 +141,22 @@ export interface RechnerFormData {
   datenschutz: boolean;
 }
 
+export interface Article {
+  id?: string;
+  slug: string;
+  title: string;
+  excerpt: string;
+  content: string;
+  category: string;
+  author?: string;
+  publishedDate: string;
+  image?: string;
+  metaTitle?: string;
+  metaDescription?: string;
+  featured?: boolean;
+  order?: number;
+}
+
 export interface ContactFormData {
   anrede: string;
   vorname: string;

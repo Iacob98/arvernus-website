@@ -13,6 +13,7 @@ export const mainNavigation: NavItem[] = [
   { label: "Photovoltaik", href: "/photovoltaik" },
   { label: "Rechner", href: "/waermepumpen-rechner" },
   { label: "Förderung", href: "/foerderung" },
+  { label: "Ratgeber", href: "/ratgeber" },
   { label: "Referenzen", href: "/referenzen" },
   { label: "Über uns", href: "/ueber-uns" },
   { label: "Kontakt", href: "/kontakt" },
@@ -35,6 +36,7 @@ export const footerNavigation = {
   resources: [
     { label: "Wärmepumpen-Rechner", href: "/waermepumpen-rechner" },
     { label: "Förderungsrechner", href: "/foerderung" },
+    { label: "Ratgeber", href: "/ratgeber" },
   ],
   legal: [
     { label: "Impressum", href: "/impressum" },

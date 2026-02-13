@@ -105,6 +105,23 @@ export const timelineEventSchema = z.object({
   order: z.number().int().min(0).optional(),
 });
 
+// Article
+export const articleSchema = z.object({
+  id: z.string().min(1),
+  slug: z.string().min(1),
+  title: z.string().min(1),
+  excerpt: z.string().min(1),
+  content: z.string().min(1),
+  category: z.string().min(1),
+  author: z.string().optional(),
+  publishedDate: z.string().min(1),
+  image: z.string().optional(),
+  metaTitle: z.string().optional(),
+  metaDescription: z.string().optional(),
+  featured: z.boolean().optional(),
+  order: z.number().int().min(0).optional(),
+});
+
 // Service
 export const serviceSchema = z.object({
   title: z.string().min(1),
@@ -151,6 +168,7 @@ export type FAQData = z.infer<typeof faqSchema>;
 export type PartnerData = z.infer<typeof partnerSchema>;
 export type TeamMemberData = z.infer<typeof teamMemberSchema>;
 export type TimelineEventData = z.infer<typeof timelineEventSchema>;
+export type ArticleData = z.infer<typeof articleSchema>;
 export type ServiceData = z.infer<typeof serviceSchema>;
 export type WaermepumpenTypeData = z.infer<typeof waermepumpenTypeSchema>;
 export type ServicesData = z.infer<typeof servicesDataSchema>;

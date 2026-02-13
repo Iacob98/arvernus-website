@@ -64,6 +64,37 @@ export function getServiceJsonLd(name: string, description: string, url: string)
   };
 }
 
+export function getArticleJsonLd(article: {
+  title: string;
+  excerpt: string;
+  publishedDate: string;
+  author?: string;
+  image?: string;
+  slug: string;
+}) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    headline: article.title,
+    description: article.excerpt,
+    datePublished: article.publishedDate,
+    author: {
+      "@type": article.author ? "Person" : "Organization",
+      name: article.author || COMPANY.fullName,
+    },
+    publisher: {
+      "@type": "Organization",
+      name: COMPANY.fullName,
+      url: COMPANY.website,
+    },
+    mainEntityOfPage: {
+      "@type": "WebPage",
+      "@id": `${COMPANY.website}/ratgeber/${article.slug}`,
+    },
+    ...(article.image && { image: article.image }),
+  };
+}
+
 export function getFAQJsonLd(items: { question: string; answer: string }[]) {
   return {
     "@context": "https://schema.org",

@@ -15,11 +15,13 @@ export function CookieConsent() {
 
   const handleAccept = () => {
     localStorage.setItem("cookie-consent", "accepted");
+    window.dispatchEvent(new Event("cookie-consent-update"));
     setVisible(false);
   };
 
   const handleDecline = () => {
     localStorage.setItem("cookie-consent", "declined");
+    window.dispatchEvent(new Event("cookie-consent-update"));
     setVisible(false);
   };
 

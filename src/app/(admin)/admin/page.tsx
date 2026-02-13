@@ -1,14 +1,15 @@
 import Link from "next/link";
-import { getTestimonials, getProjects, getPartners, getTeam, getTimeline, getFAQ } from "@/lib/dal";
+import { getTestimonials, getProjects, getPartners, getTeam, getTimeline, getFAQ, getArticles } from "@/lib/dal";
 
 export default async function AdminDashboard() {
-  const [testimonials, projects, partners, team, timeline, faq] = await Promise.all([
+  const [testimonials, projects, partners, team, timeline, faq, articles] = await Promise.all([
     getTestimonials(),
     getProjects(),
     getPartners(),
     getTeam(),
     getTimeline(),
     getFAQ(),
+    getArticles(),
   ]);
 
   const faqCount = faq.general.length + faq.waermepumpen.length + faq.photovoltaik.length + faq.foerderung.length;
@@ -20,6 +21,7 @@ export default async function AdminDashboard() {
     { label: "Team", count: team.length, href: "/admin/team" },
     { label: "Timeline", count: timeline.length, href: "/admin/timeline" },
     { label: "FAQ", count: faqCount, href: "/admin/faq" },
+    { label: "Ratgeber", count: articles.length, href: "/admin/articles" },
   ];
 
   return (
@@ -52,6 +54,9 @@ export default async function AdminDashboard() {
             </Link>
             <Link href="/admin/projects/new" className="block rounded-lg px-3 py-2 text-sm text-gray-700 hover:bg-gray-50 transition-colors">
               Neues Projekt hinzufügen
+            </Link>
+            <Link href="/admin/articles/new" className="block rounded-lg px-3 py-2 text-sm text-gray-700 hover:bg-gray-50 transition-colors">
+              Neuen Artikel schreiben
             </Link>
             <Link href="/admin/services" className="block rounded-lg px-3 py-2 text-sm text-gray-700 hover:bg-gray-50 transition-colors">
               Leistungen bearbeiten

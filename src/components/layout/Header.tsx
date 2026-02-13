@@ -45,7 +45,7 @@ export function Header({ company }: HeaderProps) {
               >
                 <Link
                   href={item.href}
-                  className="px-3 py-2 text-sm font-medium text-foreground hover:text-primary transition-colors rounded-lg hover:bg-muted/50"
+                  className="px-2.5 py-2 text-sm font-medium text-foreground hover:text-primary transition-colors rounded-lg hover:bg-muted/50 whitespace-nowrap"
                 >
                   {item.label}
                   {item.children && (
@@ -77,7 +77,7 @@ export function Header({ company }: HeaderProps) {
           <div className="hidden lg:flex items-center gap-3">
             <a
               href={`tel:${company.phone}`}
-              className="text-sm font-medium text-foreground hover:text-primary transition-colors"
+              className="text-sm font-medium text-foreground hover:text-primary transition-colors whitespace-nowrap"
             >
               {company.phoneDisplay}
             </a>

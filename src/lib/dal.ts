@@ -8,6 +8,7 @@ import type {
   PartnerData,
   TeamMemberData,
   TimelineEventData,
+  ArticleData,
   ServicesData,
   PagesData,
   PageContent,
@@ -149,6 +150,18 @@ export async function getTimeline(): Promise<TimelineEventData[]> {
 
 export async function saveTimeline(data: TimelineEventData[]): Promise<void> {
   await writeJSON("timeline.json", data);
+}
+
+// ─── Articles ───────────────────────────────────────────────
+
+export async function getArticles(): Promise<ArticleData[]> {
+  const data = await readJSON<ArticleData[]>("articles.json");
+  if (data) return data;
+  return [];
+}
+
+export async function saveArticles(data: ArticleData[]): Promise<void> {
+  await writeJSON("articles.json", data);
 }
 
 // ─── Pages ─────────────────────────────────────────────────
