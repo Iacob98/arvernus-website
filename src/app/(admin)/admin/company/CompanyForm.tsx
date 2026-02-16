@@ -1,6 +1,7 @@
 "use client";
 
 import { AdminForm } from "@/components/admin/AdminForm";
+import { AdminImageUpload } from "@/components/admin/AdminImageUpload";
 import type { CompanyData } from "@/types";
 
 interface CompanyFormProps {
@@ -15,6 +16,9 @@ export function CompanyForm({ company, action }: CompanyFormProps) {
         {/* Allgemein */}
         <section>
           <h2 className="text-lg font-semibold text-gray-900 mb-4">Allgemein</h2>
+          <div className="mb-4">
+            <AdminImageUpload name="logo" currentImage={company.logo} label="Firmenlogo" />
+          </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">Firmenname (kurz)</label>
@@ -124,6 +128,23 @@ export function CompanyForm({ company, action }: CompanyFormProps) {
               <label className="block text-sm font-medium text-gray-700 mb-1">LinkedIn</label>
               <input name="linkedin" defaultValue={company.social.linkedin} className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm" />
             </div>
+          </div>
+        </section>
+
+        {/* Zertifikate */}
+        <section>
+          <h2 className="text-lg font-semibold text-gray-900 mb-4">Zertifikate</h2>
+          <p className="text-sm text-gray-500 mb-3">Werden auf der &quot;Über uns&quot;-Seite angezeigt. Name leer lassen um auszublenden.</p>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {[0, 1, 2, 3].map((i) => (
+              <div key={i} className="rounded-lg border border-gray-200 p-4 space-y-3">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Zertifikat {i + 1} — Name</label>
+                  <input name={`cert_name_${i}`} defaultValue={company.certificates?.[i]?.name || ""} className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm" placeholder="z.B. Meisterbetrieb SHK" />
+                </div>
+                <AdminImageUpload name={`cert_image_${i}`} currentImage={company.certificates?.[i]?.image} label={`Zertifikat ${i + 1} — Logo`} />
+              </div>
+            ))}
           </div>
         </section>
 

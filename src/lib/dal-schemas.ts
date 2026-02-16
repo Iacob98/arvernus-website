@@ -5,6 +5,8 @@ export const companySchema = z.object({
   name: z.string().min(1),
   fullName: z.string().min(1),
   tagline: z.string().min(1),
+  logo: z.string().optional(),
+  certificates: z.array(z.object({ name: z.string(), image: z.string().optional() })).optional(),
   foundedYear: z.number().int().min(1900),
   phone: z.string().min(1),
   phoneDisplay: z.string().min(1),
@@ -32,6 +34,7 @@ export const companySchema = z.object({
     projectsCompleted: z.number().int().min(0),
     satisfactionRate: z.number().int().min(0).max(100),
     maxFoerderung: z.number().int().min(0).max(100),
+    pvCustomers: z.number().int().min(0).optional(),
   }),
 });
 
@@ -44,6 +47,7 @@ export const testimonialSchema = z.object({
   text: z.string().min(1),
   service: z.string().min(1),
   date: z.string().min(1),
+  image: z.string().optional(),
   order: z.number().int().min(0).optional(),
 });
 

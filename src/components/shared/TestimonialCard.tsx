@@ -1,13 +1,18 @@
+import Image from "next/image";
 import { Card } from "@/components/ui/Card";
 import type { Testimonial } from "@/types";
 
 interface TestimonialCardProps {
   testimonial: Testimonial;
+  onClick?: () => void;
 }
 
-export function TestimonialCard({ testimonial }: TestimonialCardProps) {
+export function TestimonialCard({ testimonial, onClick }: TestimonialCardProps) {
   return (
-    <Card className="h-full flex flex-col">
+    <Card
+      className="h-full flex flex-col cursor-pointer transition-shadow hover:shadow-lg"
+      onClick={onClick}
+    >
       <div className="flex gap-1 mb-3">
         {Array.from({ length: 5 }).map((_, i) => (
           <svg
@@ -20,14 +25,29 @@ export function TestimonialCard({ testimonial }: TestimonialCardProps) {
           </svg>
         ))}
       </div>
-      <blockquote className="flex-1 text-muted-foreground leading-relaxed">
+      <blockquote className="flex-1 text-muted-foreground leading-relaxed line-clamp-5">
         &ldquo;{testimonial.text}&rdquo;
       </blockquote>
-      <div className="mt-4 pt-4 border-t border-border">
-        <p className="font-semibold text-foreground">{testimonial.name}</p>
-        <p className="text-sm text-muted-foreground">
-          {testimonial.location} &middot; {testimonial.service}
-        </p>
+      {testimonial.text.length > 180 && (
+        <span className="mt-1 text-sm font-medium text-primary">Weiterlesen</span>
+      )}
+      <div className="mt-4 pt-4 border-t border-border flex items-center gap-3">
+        {testimonial.image && (
+          <div className="relative h-12 w-12 flex-shrink-0 overflow-hidden rounded-full">
+            <Image
+              src={testimonial.image}
+              alt={testimonial.name}
+              fill
+              className="object-cover"
+            />
+          </div>
+        )}
+        <div>
+          <p className="font-semibold text-foreground">{testimonial.name}</p>
+          <p className="text-sm text-muted-foreground">
+            {testimonial.location} &middot; {testimonial.service}
+          </p>
+        </div>
       </div>
     </Card>
   );

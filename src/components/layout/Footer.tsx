@@ -17,7 +17,7 @@ export function Footer({ company }: FooterProps) {
             {/* Company Info */}
             <div className="space-y-4">
               <Link href="/" className="inline-block">
-                <Image src="/logo-horizontal.png" alt="Arvernus" width={160} height={44} className="h-10 w-auto brightness-0 invert" />
+                <Image src={company.logo || "/logo-horizontal.png"} alt="Arvernus" width={160} height={44} className="h-10 w-auto brightness-0 invert" />
               </Link>
               <p className="text-sm leading-relaxed">
                 {company.tagline}. Seit {company.foundedYear} Ihr verlässlicher Partner für

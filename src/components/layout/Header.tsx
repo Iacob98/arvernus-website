@@ -25,7 +25,7 @@ export function Header({ company }: HeaderProps) {
           {/* Logo */}
           <Link href="/" className="flex items-center">
             <Image
-              src="/logo-horizontal.png"
+              src={company.logo || "/logo-horizontal.png"}
               alt="Arvernus Meisterbetrieb"
               width={180}
               height={48}
@@ -100,7 +100,7 @@ export function Header({ company }: HeaderProps) {
       </Container>
     </header>
 
-    <MobileNav open={mobileOpen} onClose={() => setMobileOpen(false)} phone={company.phone} phoneDisplay={company.phoneDisplay} />
+    <MobileNav open={mobileOpen} onClose={() => setMobileOpen(false)} phone={company.phone} phoneDisplay={company.phoneDisplay} logo={company.logo} />
   </>
   );
 }

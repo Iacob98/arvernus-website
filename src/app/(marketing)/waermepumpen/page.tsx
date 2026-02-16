@@ -10,7 +10,9 @@ import { FAQAccordion } from "@/components/shared/FAQAccordion";
 import { CTABanner } from "@/components/shared/CTABanner";
 import { TrustBadges } from "@/components/shared/TrustBadges";
 import { PartnersSection } from "@/components/shared/PartnersSection";
-import { getServices, getFAQ, getPartners, getCompany, getPageContent } from "@/lib/dal";
+import { FoerderungServiceCallout } from "@/components/shared/FoerderungServiceCallout";
+import { TrustBadgeItem } from "@/components/shared/TrustBadges";
+import { getServices, getFAQ, getPartners, getPageContent } from "@/lib/dal";
 
 export const metadata: Metadata = {
   title: "Wärmepumpen — Effizient heizen mit erneuerbarer Energie",
@@ -19,17 +21,55 @@ export const metadata: Metadata = {
 };
 
 export default async function WaermepumpenPage() {
-  const [servicesData, faq, partners, company, pageContent] = await Promise.all([
+  const [servicesData, faq, partners, pageContent] = await Promise.all([
     getServices(),
     getFAQ(),
     getPartners(),
-    getCompany(),
     getPageContent("waermepumpen"),
   ]);
   const t = (section: string, field: string, fallback: string) =>
     (pageContent?.[section] as Record<string, string>)?.[field] || fallback;
 
   const waermepumpenTypes = servicesData.waermepumpenTypes;
+
+  const wpBadges: TrustBadgeItem[] = [
+    {
+      icon: (
+        <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+          <path strokeLinecap="round" strokeLinejoin="round" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg>
+      ),
+      label: "Bis 75%",
+      sublabel: "Heizkosten sparen",
+    },
+    {
+      icon: (
+        <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+          <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" />
+        </svg>
+      ),
+      label: "Bis 70%",
+      sublabel: "Staatliche Förderung",
+    },
+    {
+      icon: (
+        <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+          <path strokeLinecap="round" strokeLinejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+        </svg>
+      ),
+      label: "20+ Jahre",
+      sublabel: "Lebensdauer",
+    },
+    {
+      icon: (
+        <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+          <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg>
+      ),
+      label: "Zertifiziert",
+      sublabel: "Qualifizierter Fachbetrieb",
+    },
+  ];
 
   return (
     <>
@@ -68,7 +108,7 @@ export default async function WaermepumpenPage() {
       {/* Trust */}
       <section className="py-8 border-b border-border">
         <Container>
-          <TrustBadges stats={company.stats} foundedYear={company.foundedYear} />
+          <TrustBadges items={wpBadges} />
         </Container>
       </section>
 
@@ -116,8 +156,78 @@ export default async function WaermepumpenPage() {
         </Container>
       </section>
 
-      {/* Benefits */}
+      {/* Comparison Table */}
       <section className="py-20 bg-muted/30">
+        <Container>
+          <SectionHeading
+            title={t("comparison", "title", "Wärmepumpen im Vergleich")}
+            subtitle={t("comparison", "subtitle", "Finden Sie den passenden Typ für Ihre Anforderungen.")}
+          />
+          <div className="overflow-x-auto -mx-4 px-4">
+            <table className="w-full min-w-[640px] border-collapse text-sm">
+              <thead>
+                <tr className="border-b border-border">
+                  <th className="py-3 px-4 text-left font-semibold text-foreground" />
+                  {waermepumpenTypes.map((type) => (
+                    <th key={type.slug} className="py-3 px-4 text-left font-semibold text-foreground">
+                      <Link href={`/waermepumpen/${type.slug}`} className="hover:text-primary transition-colors">
+                        {type.title.replace("-Wärmepumpe", "")}
+                      </Link>
+                    </th>
+                  ))}
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-border">
+                <tr>
+                  <td className="py-3 px-4 font-medium text-foreground">COP</td>
+                  <td className="py-3 px-4 text-muted-foreground">3,0–4,5</td>
+                  <td className="py-3 px-4 text-muted-foreground">4,0–5,0</td>
+                  <td className="py-3 px-4 text-muted-foreground">5,0–6,0</td>
+                </tr>
+                <tr>
+                  <td className="py-3 px-4 font-medium text-foreground">Installationszeit</td>
+                  <td className="py-3 px-4 text-muted-foreground">1–2 Tage</td>
+                  <td className="py-3 px-4 text-muted-foreground">3–5 Tage</td>
+                  <td className="py-3 px-4 text-muted-foreground">3–5 Tage</td>
+                </tr>
+                <tr>
+                  <td className="py-3 px-4 font-medium text-foreground">Kosten (ca.)</td>
+                  <td className="py-3 px-4 text-muted-foreground">15.000–25.000 &euro;</td>
+                  <td className="py-3 px-4 text-muted-foreground">20.000–35.000 &euro;</td>
+                  <td className="py-3 px-4 text-muted-foreground">20.000–40.000 &euro;</td>
+                </tr>
+                <tr>
+                  <td className="py-3 px-4 font-medium text-foreground">Erdarbeiten</td>
+                  <td className="py-3 px-4 text-muted-foreground">Keine</td>
+                  <td className="py-3 px-4 text-muted-foreground">Ja (Bohrung/Kollektor)</td>
+                  <td className="py-3 px-4 text-muted-foreground">Ja (Brunnen)</td>
+                </tr>
+                <tr>
+                  <td className="py-3 px-4 font-medium text-foreground">Genehmigung</td>
+                  <td className="py-3 px-4 text-muted-foreground">Nein</td>
+                  <td className="py-3 px-4 text-muted-foreground">Teils erforderlich</td>
+                  <td className="py-3 px-4 text-muted-foreground">Ja</td>
+                </tr>
+                <tr>
+                  <td className="py-3 px-4 font-medium text-foreground">Kühlung möglich</td>
+                  <td className="py-3 px-4 text-muted-foreground">Bedingt</td>
+                  <td className="py-3 px-4 text-muted-foreground">Ja (passiv)</td>
+                  <td className="py-3 px-4 text-muted-foreground">Ja</td>
+                </tr>
+                <tr>
+                  <td className="py-3 px-4 font-medium text-foreground">Ideal für</td>
+                  <td className="py-3 px-4 text-muted-foreground">Bestand &amp; Neubau</td>
+                  <td className="py-3 px-4 text-muted-foreground">Neubau + Grundstück</td>
+                  <td className="py-3 px-4 text-muted-foreground">Grundwasser-Gebiete</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </Container>
+      </section>
+
+      {/* Benefits */}
+      <section className="py-20">
         <Container>
           <SectionHeading
             title={t("benefits", "title", "Vorteile einer Wärmepumpe")}
@@ -142,6 +252,9 @@ export default async function WaermepumpenPage() {
           </div>
         </Container>
       </section>
+
+      {/* Förderung-Service */}
+      <FoerderungServiceCallout />
 
       {/* Partners */}
       <PartnersSection compact partners={partners} />

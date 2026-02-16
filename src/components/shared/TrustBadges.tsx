@@ -1,3 +1,9 @@
+export interface TrustBadgeItem {
+  icon: React.ReactNode;
+  label: string;
+  sublabel: string;
+}
+
 interface TrustBadgesProps {
   stats?: {
     projectsCompleted: number;
@@ -5,14 +11,15 @@ interface TrustBadgesProps {
     maxFoerderung: number;
   };
   foundedYear?: number;
+  items?: TrustBadgeItem[];
 }
 
-export function TrustBadges({ stats, foundedYear = 2014 }: TrustBadgesProps) {
+export function TrustBadges({ stats, foundedYear = 2014, items }: TrustBadgesProps) {
   const yearsFounded = new Date().getFullYear() - foundedYear;
   const projectsCompleted = stats?.projectsCompleted ?? 1000;
   const maxFoerderung = stats?.maxFoerderung ?? 70;
 
-  const badges = [
+  const badges: TrustBadgeItem[] = items ?? [
     {
       icon: (
         <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>

@@ -2,7 +2,27 @@
 
 import { revalidatePath } from "next/cache";
 import { getCompany, saveCompany } from "@/lib/dal";
+import { uploadImage } from "@/actions/admin/images";
 import type { CompanyData } from "@/types";
+
+async function buildCertificates(
+  formData: FormData,
+  current: CompanyData
+): Promise<{ name: string; image?: string }[]> {
+  const results: { name: string; image?: string }[] = [];
+  for (let i = 0; i < 4; i++) {
+    const name = (formData.get(`cert_name_${i}`) as string) || "";
+    if (!name) continue;
+    let image = (formData.get(`cert_image_${i}_current`) as string) || current.certificates?.[i]?.image;
+    const imageFile = formData.get(`cert_image_${i}`) as File;
+    if (imageFile && imageFile.size > 0) {
+      const result = await uploadImage(imageFile);
+      if (result.path) image = result.path;
+    }
+    results.push({ name, image });
+  }
+  return results;
+}
 
 export async function updateCompanyAction(
   _prevState: { success?: boolean; error?: string } | null,
@@ -10,8 +30,19 @@ export async function updateCompanyAction(
 ): Promise<{ success?: boolean; error?: string }> {
   try {
     const current = await getCompany();
+
+    // Handle logo upload
+    let logoPath = (formData.get("logo_current") as string) || current.logo;
+    const logoFile = formData.get("logo") as File;
+    if (logoFile && logoFile.size > 0) {
+      const result = await uploadImage(logoFile);
+      if (result.path) logoPath = result.path;
+      else if (result.error) return { error: result.error };
+    }
+
     const updated: CompanyData = {
       ...current,
+      logo: logoPath,
       name: formData.get("name") as string || current.name,
       fullName: formData.get("fullName") as string || current.fullName,
       tagline: formData.get("tagline") as string || current.tagline,
@@ -43,6 +74,7 @@ export async function updateCompanyAction(
         satisfactionRate: Number(formData.get("satisfactionRate")) || current.stats.satisfactionRate,
         maxFoerderung: Number(formData.get("maxFoerderung")) || current.stats.maxFoerderung,
       },
+      certificates: await buildCertificates(formData, current),
     };
 
     await saveCompany(updated);

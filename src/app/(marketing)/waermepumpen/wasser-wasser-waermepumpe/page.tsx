@@ -6,8 +6,10 @@ import { Card, CardTitle, CardContent } from "@/components/ui/Card";
 import { BreadcrumbNav } from "@/components/shared/BreadcrumbNav";
 import { FAQAccordion } from "@/components/shared/FAQAccordion";
 import { CTABanner } from "@/components/shared/CTABanner";
-import { TrustBadges } from "@/components/shared/TrustBadges";
-import { getServices, getCompany, getPageContent } from "@/lib/dal";
+import { TrustBadges, type TrustBadgeItem } from "@/components/shared/TrustBadges";
+import { WPTypeCrossLinks } from "@/components/shared/WPTypeCrossLinks";
+import { FoerderungServiceCallout } from "@/components/shared/FoerderungServiceCallout";
+import { getServices, getPageContent } from "@/lib/dal";
 
 export const metadata: Metadata = {
   title: "Wasser-Wasser-Wärmepumpe — Maximale Effizienz",
@@ -23,15 +25,53 @@ const defaultFaq = [
 ];
 
 export default async function WasserWasserPage() {
-  const [servicesData, company, pageContent] = await Promise.all([
+  const [servicesData, pageContent] = await Promise.all([
     getServices(),
-    getCompany(),
     getPageContent("wasser-wasser-waermepumpe"),
   ]);
 
   const type = servicesData.waermepumpenTypes.find((t) => t.slug === "wasser-wasser-waermepumpe") ?? servicesData.waermepumpenTypes[2];
   const t = (section: string, field: string, fallback: string) =>
     (pageContent?.[section] as Record<string, string>)?.[field] || fallback;
+
+  const wpBadges: TrustBadgeItem[] = [
+    {
+      icon: (
+        <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+          <path strokeLinecap="round" strokeLinejoin="round" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg>
+      ),
+      label: "Bis 75%",
+      sublabel: "Heizkosten sparen",
+    },
+    {
+      icon: (
+        <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+          <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" />
+        </svg>
+      ),
+      label: "Bis 70%",
+      sublabel: "Staatliche Förderung",
+    },
+    {
+      icon: (
+        <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+          <path strokeLinecap="round" strokeLinejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+        </svg>
+      ),
+      label: "20+ Jahre",
+      sublabel: "Lebensdauer",
+    },
+    {
+      icon: (
+        <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+          <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg>
+      ),
+      label: "Zertifiziert",
+      sublabel: "Qualifizierter Fachbetrieb",
+    },
+  ];
 
   return (
     <>
@@ -61,7 +101,7 @@ export default async function WasserWasserPage() {
       </section>
 
       <section className="py-8 border-b border-border">
-        <Container><TrustBadges stats={company.stats} foundedYear={company.foundedYear} /></Container>
+        <Container><TrustBadges items={wpBadges} /></Container>
       </section>
 
       <section className="py-20">
@@ -107,6 +147,10 @@ export default async function WasserWasserPage() {
           <FAQAccordion items={defaultFaq} />
         </Container>
       </section>
+
+      <FoerderungServiceCallout />
+
+      <WPTypeCrossLinks currentSlug="wasser-wasser-waermepumpe" />
 
       <CTABanner />
     </>

@@ -32,4 +32,5 @@ export const STATS = {
   projectsCompleted: 1000,
   satisfactionRate: 98,
   maxFoerderung: 70,
+  pvCustomers: 15000,
 } as const;

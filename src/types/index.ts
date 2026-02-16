@@ -29,6 +29,7 @@ export interface Testimonial {
   text: string;
   service: string;
   date: string;
+  image?: string;
   order?: number;
 }
 
@@ -81,6 +82,8 @@ export interface CompanyData {
   name: string;
   fullName: string;
   tagline: string;
+  logo?: string;
+  certificates?: { name: string; image?: string }[];
   foundedYear: number;
   phone: string;
   phoneDisplay: string;
@@ -108,6 +111,7 @@ export interface CompanyData {
     projectsCompleted: number;
     satisfactionRate: number;
     maxFoerderung: number;
+    pvCustomers?: number;
   };
 }
 

@@ -1,6 +1,7 @@
 import { HeroSection } from "@/components/sections/home/HeroSection";
 import { BenefitsStrip } from "@/components/sections/home/BenefitsStrip";
 import { ServicesOverview } from "@/components/sections/home/ServicesOverview";
+import { AboutTeaser } from "@/components/sections/home/AboutTeaser";
 import { HowItWorks } from "@/components/sections/home/HowItWorks";
 import { FoerderungTeaser } from "@/components/sections/home/FoerderungTeaser";
 import { TestimonialsSection } from "@/components/sections/home/TestimonialsSection";
@@ -20,6 +21,7 @@ export default async function HomePage() {
   ]);
 
   const hero = pageContent?.hero as Record<string, string> | undefined;
+  const about = pageContent?.about as Record<string, string> | undefined;
   const howItWorks = pageContent?.howItWorks as Record<string, string> | undefined;
   const foerderung = pageContent?.foerderungTeaser as Record<string, string> | undefined;
   const cta = pageContent?.cta as Record<string, string> | undefined;
@@ -28,10 +30,11 @@ export default async function HomePage() {
     <>
       <HeroSection content={hero} slides={heroSlides} />
       <BenefitsStrip stats={company.stats} foundedYear={company.foundedYear} />
+      <AboutTeaser content={about} />
       <ServicesOverview services={servicesData.services} />
       <HowItWorks content={howItWorks} />
       <FoerderungTeaser content={foerderung} />
-      <TestimonialsSection testimonials={testimonials} />
+      <TestimonialsSection testimonials={testimonials} pvCustomers={company.stats.pvCustomers} />
       <PartnersSection partners={partners} />
       <TrustSignals stats={company.stats} foundedYear={company.foundedYear} />
       <CTABanner

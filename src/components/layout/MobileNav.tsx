@@ -12,9 +12,10 @@ interface MobileNavProps {
   onClose: () => void;
   phone?: string;
   phoneDisplay?: string;
+  logo?: string;
 }
 
-export function MobileNav({ open, onClose, phone, phoneDisplay }: MobileNavProps) {
+export function MobileNav({ open, onClose, phone, phoneDisplay, logo }: MobileNavProps) {
   const [openSubmenu, setOpenSubmenu] = useState<string | null>(null);
 
   useEffect(() => {
@@ -52,7 +53,7 @@ export function MobileNav({ open, onClose, phone, phoneDisplay }: MobileNavProps
         )}
       >
         <div className="flex items-center justify-between p-4 border-b border-border">
-          <Image src="/logo-horizontal.png" alt="Arvernus" width={140} height={38} className="h-8 w-auto" />
+          <Image src={logo || "/logo-horizontal.png"} alt="Arvernus" width={140} height={38} className="h-8 w-auto" />
           <button onClick={onClose} className="p-2 text-foreground cursor-pointer" aria-label="Menü schließen">
             <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
