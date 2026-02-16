@@ -11,6 +11,78 @@ interface PartnersSectionProps {
   partners?: Partner[];
 }
 
+function MarqueeStrip({
+  partners,
+  compact = false,
+}: {
+  partners: Partner[];
+  compact?: boolean;
+}) {
+  if (partners.length === 0) return null;
+
+  const logoItem = (partner: Partner, keyPrefix: string) => (
+    <div
+      key={`${keyPrefix}-${partner.id ?? partner.name}`}
+      className={`group flex flex-col items-center gap-${compact ? "1" : "3"} ${compact ? "" : "py-4 rounded-xl"} flex-shrink-0 transition-all duration-300`}
+    >
+      {compact ? (
+        <>
+          <Image
+            src={partner.logo}
+            alt={partner.name}
+            width={partner.featured ? 120 : 100}
+            height={partner.featured ? 40 : 32}
+            className="h-8 w-auto object-contain"
+            style={{ maxWidth: partner.featured ? 120 : 100 }}
+          />
+          <span className="text-[10px] text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+            {partner.name}
+          </span>
+        </>
+      ) : (
+        <>
+          <div className="h-12 flex items-center grayscale opacity-60 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-300">
+            <Image
+              src={partner.logo}
+              alt={partner.name}
+              width={140}
+              height={48}
+              className="h-10 w-auto object-contain"
+              style={{ maxWidth: 140 }}
+            />
+          </div>
+          <span className="text-xs font-medium text-muted-foreground group-hover:text-foreground transition-colors duration-300">
+            {partner.name}
+          </span>
+        </>
+      )}
+    </div>
+  );
+
+  return (
+    <div
+      className="group/marquee relative overflow-hidden"
+      style={{
+        maskImage:
+          "linear-gradient(to right, transparent, black 8%, black 92%, transparent)",
+        WebkitMaskImage:
+          "linear-gradient(to right, transparent, black 8%, black 92%, transparent)",
+      }}
+    >
+      <div
+        className={`flex ${compact ? "gap-10" : "gap-8"} group-hover/marquee:[animation-play-state:paused]`}
+        style={{
+          animation: "marquee 30s linear infinite",
+          width: "max-content",
+        }}
+      >
+        {partners.map((p) => logoItem(p, "a"))}
+        {partners.map((p) => logoItem(p, "b"))}
+      </div>
+    </div>
+  );
+}
+
 export function PartnersSection({ compact = false, partners: partnersProp }: PartnersSectionProps) {
   const partners = partnersProp ?? [];
   const bosch = partners.find((p) => p.featured);
@@ -25,28 +97,7 @@ export function PartnersSection({ compact = false, partners: partnersProp }: Par
           <p className="text-center text-sm font-medium text-muted-foreground mb-6">
             Offizieller Bosch Partner &middot; In Zusammenarbeit mit führenden Unternehmen der Branche
           </p>
-          <div className="flex flex-wrap items-center justify-center gap-6 sm:gap-10">
-            {partners.map((partner) => (
-              <div
-                key={partner.id ?? partner.name}
-                className={`group flex flex-col items-center gap-1 transition-all duration-300 ${
-                  partner.featured ? "opacity-100" : "grayscale opacity-70 hover:grayscale-0 hover:opacity-100"
-                }`}
-              >
-                <Image
-                  src={partner.logo}
-                  alt={partner.name}
-                  width={partner.featured ? 120 : 100}
-                  height={partner.featured ? 40 : 32}
-                  className="h-8 w-auto object-contain"
-                  style={{ maxWidth: partner.featured ? 120 : 100 }}
-                />
-                <span className="text-[10px] text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                  {partner.name}
-                </span>
-              </div>
-            ))}
-          </div>
+          <MarqueeStrip partners={partners} compact />
         </Container>
       </section>
     );
@@ -103,33 +154,12 @@ export function PartnersSection({ compact = false, partners: partnersProp }: Par
           </ScrollReveal>
         )}
 
-        {/* Other partners */}
+        {/* Other partners — marquee */}
         <ScrollReveal>
           <p className="text-center text-sm font-medium text-muted-foreground mb-8">
             Weitere Partner & Kooperationen
           </p>
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-7 gap-6 sm:gap-8">
-            {otherPartners.map((partner) => (
-              <div
-                key={partner.id ?? partner.name}
-                className="group flex flex-col items-center justify-end gap-3 py-4 rounded-xl hover:bg-muted/40 transition-all duration-300"
-              >
-                <div className="h-12 flex items-center grayscale opacity-60 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-300">
-                  <Image
-                    src={partner.logo}
-                    alt={partner.name}
-                    width={140}
-                    height={48}
-                    className="h-10 w-auto object-contain"
-                    style={{ maxWidth: 140 }}
-                  />
-                </div>
-                <span className="text-xs font-medium text-muted-foreground group-hover:text-foreground transition-colors duration-300">
-                  {partner.name}
-                </span>
-              </div>
-            ))}
-          </div>
+          <MarqueeStrip partners={otherPartners} />
         </ScrollReveal>
       </Container>
     </section>
