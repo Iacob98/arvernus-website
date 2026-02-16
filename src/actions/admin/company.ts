@@ -74,6 +74,12 @@ export async function updateCompanyAction(
         satisfactionRate: Number(formData.get("satisfactionRate")) || current.stats.satisfactionRate,
         maxFoerderung: Number(formData.get("maxFoerderung")) || current.stats.maxFoerderung,
       },
+      legal: {
+        ceo: formData.get("ceo") as string || current.legal?.ceo || "",
+        registergericht: formData.get("registergericht") as string || current.legal?.registergericht || "",
+        registernummer: formData.get("registernummer") as string || current.legal?.registernummer || "",
+        ustId: formData.get("ustId") as string || current.legal?.ustId || "",
+      },
       certificates: await buildCertificates(formData, current),
     };
 

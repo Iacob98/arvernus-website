@@ -27,21 +27,33 @@ export default async function ImpressumPage() {
           E-Mail: {company.email}
         </p>
 
-        <h2>Vertreten durch</h2>
-        <p>Geschäftsführer: Thomas Berger</p>
+        {company.legal?.ceo && (
+          <>
+            <h2>Vertreten durch</h2>
+            <p>Geschäftsführer: {company.legal.ceo}</p>
+          </>
+        )}
 
-        <h2>Registereintrag</h2>
-        <p>
-          Eintragung im Handelsregister.<br />
-          Registergericht: Amtsgericht {company.address.city}<br />
-          Registernummer: HRB 12345
-        </p>
+        {(company.legal?.registergericht || company.legal?.registernummer) && (
+          <>
+            <h2>Registereintrag</h2>
+            <p>
+              Eintragung im Handelsregister.<br />
+              {company.legal.registergericht && <>Registergericht: {company.legal.registergericht}<br /></>}
+              {company.legal.registernummer && <>Registernummer: {company.legal.registernummer}</>}
+            </p>
+          </>
+        )}
 
-        <h2>Umsatzsteuer-ID</h2>
-        <p>
-          Umsatzsteuer-Identifikationsnummer gemäß § 27 a Umsatzsteuergesetz:<br />
-          DE 123456789
-        </p>
+        {company.legal?.ustId && (
+          <>
+            <h2>Umsatzsteuer-ID</h2>
+            <p>
+              Umsatzsteuer-Identifikationsnummer gemäß § 27 a Umsatzsteuergesetz:<br />
+              {company.legal.ustId}
+            </p>
+          </>
+        )}
 
         <h2>Berufsbezeichnung und berufsrechtliche Regelungen</h2>
         <p>

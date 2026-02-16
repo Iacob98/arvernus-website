@@ -107,6 +107,12 @@ export interface CompanyData {
     instagram: string;
     linkedin: string;
   };
+  legal?: {
+    ceo: string;
+    registergericht: string;
+    registernummer: string;
+    ustId: string;
+  };
   stats: {
     projectsCompleted: number;
     satisfactionRate: number;

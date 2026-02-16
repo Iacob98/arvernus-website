@@ -148,6 +148,29 @@ export function CompanyForm({ company, action }: CompanyFormProps) {
           </div>
         </section>
 
+        {/* Rechtliche Angaben (Impressum) */}
+        <section>
+          <h2 className="text-lg font-semibold text-gray-900 mb-4">Rechtliche Angaben (Impressum)</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Geschäftsführer</label>
+              <input name="ceo" defaultValue={company.legal?.ceo || ""} className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm" placeholder="z.B. Thomas Berger" />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Registergericht</label>
+              <input name="registergericht" defaultValue={company.legal?.registergericht || ""} className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm" placeholder="z.B. Amtsgericht München" />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Registernummer</label>
+              <input name="registernummer" defaultValue={company.legal?.registernummer || ""} className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm" placeholder="z.B. HRB 12345" />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Umsatzsteuer-ID</label>
+              <input name="ustId" defaultValue={company.legal?.ustId || ""} className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm" placeholder="z.B. DE 123456789" />
+            </div>
+          </div>
+        </section>
+
         {/* Statistiken */}
         <section>
           <h2 className="text-lg font-semibold text-gray-900 mb-4">Statistiken</h2>

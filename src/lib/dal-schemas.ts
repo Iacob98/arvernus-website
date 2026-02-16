@@ -30,6 +30,12 @@ export const companySchema = z.object({
     instagram: z.string().url(),
     linkedin: z.string().url(),
   }),
+  legal: z.object({
+    ceo: z.string(),
+    registergericht: z.string(),
+    registernummer: z.string(),
+    ustId: z.string(),
+  }).optional(),
   stats: z.object({
     projectsCompleted: z.number().int().min(0),
     satisfactionRate: z.number().int().min(0).max(100),
