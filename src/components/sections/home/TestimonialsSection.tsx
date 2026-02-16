@@ -61,7 +61,7 @@ export function TestimonialsSection({ testimonials, pvCustomers }: TestimonialsS
       } else {
         el.scrollBy({ left: cardWidth, behavior: "smooth" });
       }
-    }, 5000);
+    }, 7000);
   }, []);
 
   useEffect(() => {

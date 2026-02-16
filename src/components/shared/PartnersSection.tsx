@@ -72,8 +72,9 @@ function MarqueeStrip({
       <div
         className={`flex ${compact ? "gap-10" : "gap-8"} group-hover/marquee:[animation-play-state:paused]`}
         style={{
-          animation: "marquee 30s linear infinite",
+          animation: `marquee ${Math.max(partners.length * 4, 20)}s linear infinite`,
           width: "max-content",
+          willChange: "transform",
         }}
       >
         {partners.map((p) => logoItem(p, "a"))}
