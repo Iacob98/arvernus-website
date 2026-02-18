@@ -33,7 +33,15 @@ export function PartnersList({ partners, deleteAction }: PartnersListProps) {
                 )}
               </td>
               <td className="px-4 py-3 font-medium text-gray-900">{p.name}</td>
-              <td className="px-4 py-3 text-gray-600">{p.featured ? "Ja" : "Nein"}</td>
+              <td className="px-4 py-3">
+                {p.featured ? (
+                  <span className="inline-flex items-center rounded-full bg-primary/10 px-2.5 py-0.5 text-xs font-medium text-primary">
+                    {p.badge ?? "Featured"}
+                  </span>
+                ) : (
+                  <span className="text-gray-400">—</span>
+                )}
+              </td>
               <td className="px-4 py-3 text-right">
                 <div className="flex items-center justify-end gap-2">
                   <Link

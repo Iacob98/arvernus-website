@@ -9,10 +9,12 @@ export default async function EditPartnerPage({ params }: { params: Promise<{ id
   const partner = partners.find((p) => p.id === id);
   if (!partner) notFound();
 
+  const featuredCount = partners.filter((p) => p.featured).length;
+
   return (
     <div>
       <h1 className="text-2xl font-bold text-gray-900 mb-6">Partner bearbeiten</h1>
-      <PartnerForm action={updatePartnerAction} partner={partner} />
+      <PartnerForm action={updatePartnerAction} partner={partner} featuredCount={featuredCount} />
     </div>
   );
 }

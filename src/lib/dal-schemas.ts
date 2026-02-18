@@ -93,6 +93,9 @@ export const partnerSchema = z.object({
   logo: z.string().min(1),
   featured: z.boolean().optional(),
   description: z.string().optional(),
+  badge: z.string().optional(),
+  featuredText: z.string().optional(),
+  benefits: z.array(z.string()).optional(),
   order: z.number().int().min(0).optional(),
 });
 

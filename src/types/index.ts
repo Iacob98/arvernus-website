@@ -58,6 +58,9 @@ export interface Partner {
   logo: string;
   featured?: boolean;
   description?: string;
+  badge?: string;
+  featuredText?: string;
+  benefits?: string[];
   order?: number;
 }
 

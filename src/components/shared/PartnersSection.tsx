@@ -86,17 +86,18 @@ function MarqueeStrip({
 
 export function PartnersSection({ compact = false, partners: partnersProp }: PartnersSectionProps) {
   const partners = partnersProp ?? [];
-  const bosch = partners.find((p) => p.featured);
+  const featuredPartners = partners.filter((p) => p.featured);
   const otherPartners = partners.filter((p) => !p.featured);
 
   if (partners.length === 0) return null;
 
   if (compact) {
+    const featuredNames = featuredPartners.map((p) => p.name).join(" & ");
     return (
       <section className="py-12 border-y border-border bg-white">
         <Container>
           <p className="text-center text-sm font-medium text-muted-foreground mb-6">
-            Offizieller Bosch Partner &middot; In Zusammenarbeit mit führenden Unternehmen der Branche
+            {featuredNames ? `Zertifizierter ${featuredNames} Partner` : ""} &middot; In Zusammenarbeit mit führenden Unternehmen der Branche
           </p>
           <MarqueeStrip partners={partners} compact />
         </Container>
@@ -112,45 +113,49 @@ export function PartnersSection({ compact = false, partners: partnersProp }: Par
           subtitle="Wir arbeiten mit den führenden Unternehmen der Branche zusammen — für beste Qualität und Service."
         />
 
-        {/* Bosch — featured partner */}
-        {bosch && (
+        {/* Featured partners */}
+        {featuredPartners.length > 0 && (
           <ScrollReveal>
-            <div className="mx-auto mb-16 max-w-2xl rounded-2xl border-2 border-primary/20 bg-gradient-to-br from-primary-50 to-white p-8 text-center shadow-sm">
-              <span className="inline-block rounded-full bg-primary px-4 py-1 text-xs font-bold uppercase tracking-wider text-white mb-4">
-                Direkter Partner
-              </span>
-              <div className="flex justify-center mb-4">
-                <Image
-                  src={bosch.logo}
-                  alt={bosch.name}
-                  width={200}
-                  height={64}
-                  className="h-16 w-auto object-contain"
-                />
-              </div>
-              <p className="text-lg font-semibold text-foreground">
-                Offizieller Bosch Partner
-              </p>
-              <p className="mt-2 text-muted-foreground">
-                Als direkter Bosch-Partner erhalten Sie bei uns Wärmepumpen und Heizsysteme von Bosch zu besten
-                Konditionen — inklusive erweiterter Garantie, Premiumservice und direktem Zugang zu den neuesten
-                Technologien.
-              </p>
-              <div className="mt-4 flex flex-wrap justify-center gap-4 text-sm">
-                {[
-                  "Direktvertrieb ohne Zwischenhändler",
-                  "Erweiterte Herstellergarantie",
-                  "Zertifizierte Bosch-Techniker",
-                  "Premiumservice & Wartung",
-                ].map((item) => (
-                  <span key={item} className="inline-flex items-center gap-1.5 text-muted-foreground">
-                    <svg className="h-4 w-4 text-primary flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
-                    </svg>
-                    {item}
-                  </span>
+            <div className={`mx-auto mb-16 grid gap-6 ${featuredPartners.length > 1 ? "max-w-5xl grid-cols-1 md:grid-cols-2" : "max-w-2xl grid-cols-1"}`}>
+              {featuredPartners.map((partner) => (
+                  <div
+                    key={partner.id}
+                    className="rounded-2xl border-2 border-primary/20 bg-gradient-to-br from-primary-50 to-white p-8 text-center shadow-sm"
+                  >
+                    <span className="inline-block rounded-full bg-primary px-4 py-1 text-xs font-bold uppercase tracking-wider text-white mb-4">
+                      {partner.badge ?? "Partner"}
+                    </span>
+                    <div className="flex justify-center mb-4">
+                      <Image
+                        src={partner.logo}
+                        alt={partner.name}
+                        width={200}
+                        height={64}
+                        className="h-16 w-auto object-contain"
+                      />
+                    </div>
+                    <p className="text-lg font-semibold text-foreground">
+                      {partner.description ?? `Offizieller ${partner.name} Partner`}
+                    </p>
+                    {partner.featuredText && (
+                      <p className="mt-2 text-muted-foreground">
+                        {partner.featuredText}
+                      </p>
+                    )}
+                    {partner.benefits && partner.benefits.length > 0 && (
+                      <div className="mt-4 flex flex-wrap justify-center gap-4 text-sm">
+                        {partner.benefits.map((item) => (
+                          <span key={item} className="inline-flex items-center gap-1.5 text-muted-foreground">
+                            <svg className="h-4 w-4 text-primary flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                              <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                            </svg>
+                            {item}
+                          </span>
+                        ))}
+                      </div>
+                    )}
+                  </div>
                 ))}
-              </div>
             </div>
           </ScrollReveal>
         )}

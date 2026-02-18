@@ -5,7 +5,31 @@
     "logo": "/partners/bosch.png",
     "featured": true,
     "description": "Offizieller Bosch Partner — Direktvertrieb & Premiumservice",
+    "badge": "Direkter Partner",
+    "featuredText": "Als direkter Bosch-Partner erhalten Sie bei uns Wärmepumpen und Heizsysteme von Bosch zu besten Konditionen — inklusive erweiterter Garantie, Premiumservice und direktem Zugang zu den neuesten Technologien.",
+    "benefits": [
+      "Direktvertrieb ohne Zwischenhändler",
+      "Erweiterte Herstellergarantie",
+      "Zertifizierte Bosch-Techniker",
+      "Premiumservice & Wartung"
+    ],
     "order": 0
+  },
+  {
+    "id": "15",
+    "name": "Buderus",
+    "logo": "/partners/buderus.png",
+    "featured": true,
+    "description": "Zertifizierter Buderus Partner — Qualität und Zuverlässigkeit für Ihre Heizung",
+    "badge": "Zertifizierter Partner",
+    "featuredText": "Als zertifizierter Buderus-Partner bieten wir Ihnen hochwertige Heizsysteme und Wärmepumpen von Buderus — mit fachgerechter Installation, zertifiziertem Service und attraktiven Konditionen.",
+    "benefits": [
+      "Zertifizierter Buderus Fachbetrieb",
+      "Hochwertige Heiztechnik",
+      "Fachgerechte Installation & Wartung",
+      "Attraktive Konditionen"
+    ],
+    "order": 1
   },
   {
     "id": "2",
