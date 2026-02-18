@@ -39,7 +39,7 @@ export function AdminImageUpload({ name, currentImage, label = "Bild" }: AdminIm
             onChange={handleChange}
             className="block w-full text-sm text-gray-500 file:mr-4 file:rounded-lg file:border-0 file:bg-primary-50 file:px-4 file:py-2 file:text-sm file:font-medium file:text-primary hover:file:bg-primary-100 file:cursor-pointer cursor-pointer"
           />
-          <p className="mt-1 text-xs text-gray-500">JPEG, PNG oder WebP. Max 5MB.</p>
+          <p className="mt-1 text-xs text-gray-500">JPEG, PNG oder WebP. Max 10MB.</p>
           {currentImage && (
             <input type="hidden" name={`${name}_current`} value={currentImage} />
           )}
