@@ -7,6 +7,8 @@ import {
   saveContactSubmissions,
   getRechnerSubmissions,
   saveRechnerSubmissions,
+  getPartnerSubmissions,
+  savePartnerSubmissions,
 } from "@/lib/dal";
 
 export async function deleteContactSubmissionAction(id: string): Promise<void> {
@@ -41,6 +43,24 @@ export async function markRechnerReadAction(id: string): Promise<void> {
   if (index !== -1) {
     submissions[index].read = !submissions[index].read;
     await saveRechnerSubmissions(submissions);
+  }
+  revalidatePath("/admin/submissions");
+}
+
+export async function deletePartnerSubmissionAction(id: string): Promise<void> {
+  const submissions = await getPartnerSubmissions();
+  const filtered = submissions.filter((s) => s.id !== id);
+  await savePartnerSubmissions(filtered);
+  revalidatePath("/admin/submissions");
+  redirect("/admin/submissions");
+}
+
+export async function markPartnerReadAction(id: string): Promise<void> {
+  const submissions = await getPartnerSubmissions();
+  const index = submissions.findIndex((s) => s.id === id);
+  if (index !== -1) {
+    submissions[index].read = !submissions[index].read;
+    await savePartnerSubmissions(submissions);
   }
   revalidatePath("/admin/submissions");
 }

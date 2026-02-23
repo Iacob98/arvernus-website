@@ -31,6 +31,7 @@ export const footerNavigation = {
     { label: "Über uns", href: "/ueber-uns" },
     { label: "Referenzen", href: "/referenzen" },
     { label: "Förderung", href: "/foerderung" },
+    { label: "Partner werden", href: "/partner-werden" },
     { label: "Kontakt", href: "/kontakt" },
   ],
   resources: [

@@ -1,11 +1,13 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { getContactSubmissions, getRechnerSubmissions } from "@/lib/dal";
+import { getContactSubmissions, getRechnerSubmissions, getPartnerSubmissions } from "@/lib/dal";
 import {
   deleteContactSubmissionAction,
   deleteRechnerSubmissionAction,
+  deletePartnerSubmissionAction,
   markContactReadAction,
   markRechnerReadAction,
+  markPartnerReadAction,
 } from "@/actions/admin/submissions";
 import {
   gebaeudetypen,
@@ -33,15 +35,17 @@ export default async function SubmissionDetailPage({
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
-  const [contactSubs, rechnerSubs] = await Promise.all([
+  const [contactSubs, rechnerSubs, partnerSubs] = await Promise.all([
     getContactSubmissions(),
     getRechnerSubmissions(),
+    getPartnerSubmissions(),
   ]);
 
   const contactSub = contactSubs.find((s) => s.id === id);
   const rechnerSub = rechnerSubs.find((s) => s.id === id);
+  const partnerSub = partnerSubs.find((s) => s.id === id);
 
-  if (!contactSub && !rechnerSub) notFound();
+  if (!contactSub && !rechnerSub && !partnerSub) notFound();
 
   if (contactSub) {
     return (
@@ -70,6 +74,45 @@ export default async function SubmissionDetailPage({
             <Field label="Eingegangen am" value={new Date(contactSub.createdAt).toLocaleString("de-DE")} />
             <div className="sm:col-span-2">
               <Field label="Nachricht" value={contactSub.nachricht} />
+            </div>
+          </dl>
+        </div>
+      </div>
+    );
+  }
+
+  if (partnerSub) {
+    return (
+      <div>
+        <div className="mb-6 flex items-center justify-between">
+          <div>
+            <Link href="/admin/submissions" className="text-sm text-gray-500 hover:text-gray-700 transition-colors">
+              &larr; Zurück zu Anfragen
+            </Link>
+            <h1 className="mt-2 text-2xl font-bold text-gray-900">Partneranfrage</h1>
+            <p className="text-sm text-gray-500 mt-1">
+              Eingegangen am {new Date(partnerSub.createdAt).toLocaleString("de-DE")}
+            </p>
+          </div>
+          <DetailActions
+            id={id}
+            read={!!partnerSub.read}
+            deleteAction={deletePartnerSubmissionAction}
+            markReadAction={markPartnerReadAction}
+          />
+        </div>
+        <div className="rounded-xl border border-gray-200 bg-white p-6">
+          <dl className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+            <Field label="Firmenname" value={partnerSub.firmenname} />
+            <Field label="Ansprechpartner" value={partnerSub.ansprechpartner} />
+            <Field label="E-Mail" value={partnerSub.email} />
+            <Field label="Telefon" value={partnerSub.telefon || "–"} />
+            <Field label="Website" value={partnerSub.website || "–"} />
+            <Field label="Branche" value={partnerSub.branche} />
+            <Field label="Region" value={partnerSub.region} />
+            <Field label="Eingegangen am" value={new Date(partnerSub.createdAt).toLocaleString("de-DE")} />
+            <div className="sm:col-span-2">
+              <Field label="Nachricht" value={partnerSub.nachricht} />
             </div>
           </dl>
         </div>

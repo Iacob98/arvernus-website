@@ -179,3 +179,15 @@ export interface ContactFormData {
   nachricht: string;
   datenschutz: boolean;
 }
+
+export interface PartnerFormData {
+  firmenname: string;
+  ansprechpartner: string;
+  email: string;
+  telefon: string;
+  website: string;
+  branche: string;
+  region: string;
+  nachricht: string;
+  datenschutz: boolean;
+}

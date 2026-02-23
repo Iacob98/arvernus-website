@@ -4,6 +4,7 @@ import Image from "next/image";
 import { Container } from "@/components/ui/Container";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { ScrollReveal } from "@/components/ui/ScrollReveal";
+import { Button } from "@/components/ui/Button";
 import type { Partner } from "@/types";
 
 interface PartnersSectionProps {
@@ -166,6 +167,21 @@ export function PartnersSection({ compact = false, partners: partnersProp }: Par
             Weitere Partner & Kooperationen
           </p>
           <MarqueeStrip partners={otherPartners} />
+        </ScrollReveal>
+
+        {/* Partner werden CTA */}
+        <ScrollReveal>
+          <div className="mt-16 rounded-2xl bg-primary-50 px-8 py-10 text-center">
+            <h3 className="text-xl font-semibold text-foreground">
+              Partner werden?
+            </h3>
+            <p className="mt-2 text-muted-foreground max-w-lg mx-auto">
+              Sie möchten Teil unseres Partnernetzwerks werden? Erfahren Sie mehr über die Vorteile einer Zusammenarbeit.
+            </p>
+            <Button href="/partner-werden" className="mt-6">
+              Jetzt Partner werden
+            </Button>
+          </div>
         </ScrollReveal>
       </Container>
     </section>

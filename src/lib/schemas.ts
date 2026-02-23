@@ -64,3 +64,19 @@ export type RechnerStep4 = z.infer<typeof rechnerStep4Schema>;
 export type RechnerStep5 = z.infer<typeof rechnerStep5Schema>;
 export type RechnerFull = z.infer<typeof rechnerFullSchema>;
 export type ContactForm = z.infer<typeof contactFormSchema>;
+
+export const partnerFormSchema = z.object({
+  firmenname: z.string().min(2, "Bitte geben Sie den Firmennamen ein"),
+  ansprechpartner: z.string().min(2, "Bitte geben Sie einen Ansprechpartner ein"),
+  email: z.email("Bitte geben Sie eine gültige E-Mail-Adresse ein"),
+  telefon: z.string().optional(),
+  website: z.string().optional(),
+  branche: z.string().min(1, "Bitte wählen Sie eine Branche"),
+  region: z.string().min(2, "Bitte geben Sie Ihre Region ein"),
+  nachricht: z.string().min(10, "Bitte geben Sie eine Nachricht ein (min. 10 Zeichen)"),
+  datenschutz: z.literal(true, {
+    error: "Bitte stimmen Sie der Datenschutzerklärung zu",
+  }),
+});
+
+export type PartnerForm = z.infer<typeof partnerFormSchema>;

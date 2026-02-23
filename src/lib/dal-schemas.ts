@@ -239,5 +239,21 @@ export const rechnerSubmissionSchema = z.object({
   read: z.boolean().optional(),
 });
 
+// Partner submission
+export const partnerSubmissionSchema = z.object({
+  id: z.string().min(1),
+  firmenname: z.string(),
+  ansprechpartner: z.string(),
+  email: z.string(),
+  telefon: z.string().optional(),
+  website: z.string().optional(),
+  branche: z.string(),
+  region: z.string(),
+  nachricht: z.string(),
+  createdAt: z.string(),
+  read: z.boolean().optional(),
+});
+
 export type ContactSubmissionData = z.infer<typeof contactSubmissionSchema>;
 export type RechnerSubmissionData = z.infer<typeof rechnerSubmissionSchema>;
+export type PartnerSubmissionData = z.infer<typeof partnerSubmissionSchema>;

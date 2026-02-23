@@ -15,6 +15,7 @@ import type {
   HeroSlideData,
   ContactSubmissionData,
   RechnerSubmissionData,
+  PartnerSubmissionData,
 } from "./dal-schemas";
 
 const CONTENT_DIR = path.join(process.cwd(), "content");
@@ -225,4 +226,15 @@ export async function getRechnerSubmissions(): Promise<RechnerSubmissionData[]> 
 
 export async function saveRechnerSubmissions(data: RechnerSubmissionData[]): Promise<void> {
   await writeJSON("rechner-submissions.json", data);
+}
+
+// ─── Partner Submissions ─────────────────────────────────────
+
+export async function getPartnerSubmissions(): Promise<PartnerSubmissionData[]> {
+  const data = await readJSON<PartnerSubmissionData[]>("partner-submissions.json");
+  return data ?? [];
+}
+
+export async function savePartnerSubmissions(data: PartnerSubmissionData[]): Promise<void> {
+  await writeJSON("partner-submissions.json", data);
 }
