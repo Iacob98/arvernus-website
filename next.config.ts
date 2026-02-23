@@ -2,6 +2,7 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   allowedDevOrigins: ["arvernus-energie.com"],
+  serverExternalPackages: ["sharp"],
   images: {
     unoptimized: true,
   },
