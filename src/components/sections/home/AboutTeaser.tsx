@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import { Container } from "@/components/ui/Container";
 import { Button } from "@/components/ui/Button";
 import { ScrollReveal } from "@/components/ui/ScrollReveal";
@@ -37,12 +36,12 @@ export function AboutTeaser({ content }: AboutTeaserProps) {
           </ScrollReveal>
           <ScrollReveal direction="right">
             <div className="relative overflow-hidden rounded-2xl shadow-lg">
-              <Image
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
                 src={content?.image || "/images/wp-outdoor.jpg"}
                 alt={content?.imageAlt || "Arvernus Team bei der Arbeit"}
-                width={600}
-                height={450}
                 className="h-auto w-full object-cover"
+                loading="lazy"
               />
             </div>
           </ScrollReveal>

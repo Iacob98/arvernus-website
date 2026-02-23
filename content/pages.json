@@ -7,6 +7,16 @@
       "primaryButton": "Kostenlos berechnen",
       "secondaryButton": "Beratung anfragen"
     },
+    "about": {
+      "label": "Über uns",
+      "title": "Meisterbetrieb mit Leidenschaft — seit 2014",
+      "description": "Als inhabergeführter Meisterbetrieb stehen wir seit über einem Jahrzehnt für höchste Qualität bei der Installation von Wärmepumpen und Photovoltaikanlagen. Unser erfahrenes Team aus zertifizierten Fachkräften begleitet Sie von der ersten Beratung bis zur fertigen Anlage — persönlich, zuverlässig und mit echtem Engagement.",
+      "description2": "Was uns antreibt? Die Überzeugung, dass nachhaltige Energie für jeden zugänglich sein sollte. Deshalb setzen wir auf faire Preise, modernste Technik und einen Service, der keine Wünsche offen lässt.",
+      "buttonLabel": "Mehr über uns",
+      "buttonHref": "/ueber-uns",
+      "image": "/images/wp-outdoor.jpg",
+      "imageAlt": "Arvernus Team bei der Arbeit"
+    },
     "howItWorks": {
       "title": "So einfach geht's",
       "subtitle": "In vier Schritten zu Ihrer neuen Wärmepumpe oder Photovoltaikanlage.",
