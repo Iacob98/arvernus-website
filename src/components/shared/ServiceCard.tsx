@@ -24,10 +24,10 @@ export function ServiceCard({ service }: ServiceCardProps) {
   return (
     <Link href={service.href} className="block group">
       <Card hover className="h-full transition-all group-hover:border-primary/30">
-        <div className="flex h-14 w-14 items-center justify-center rounded-xl bg-primary-50 text-primary mb-4">
+        <div className="flex h-14 w-14 items-center justify-center rounded-xl bg-primary-50 text-primary mb-4 mx-auto">
           {iconMap[service.icon]}
         </div>
-        <h3 className="text-xl font-semibold text-foreground group-hover:text-primary transition-colors">
+        <h3 className="text-xl font-semibold text-foreground group-hover:text-primary transition-colors text-center">
           {service.title}
         </h3>
         <p className="mt-2 text-muted-foreground">{service.description}</p>
