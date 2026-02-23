@@ -2,7 +2,7 @@
 
 import { rechnerFullSchema } from "@/lib/schemas";
 import { getRechnerSubmissions, saveRechnerSubmissions } from "@/lib/dal";
-import { sendNotificationEmail } from "@/lib/email";
+import { sendNotificationEmail, sendAutoReply } from "@/lib/email";
 import {
   gebaeudetypen,
   eigentuemerOptionen,
@@ -90,11 +90,14 @@ export async function submitRechner(data: RechnerFormData) {
     )
     .join("");
 
-  await sendNotificationEmail(
-    `Neue Rechner-Anfrage von ${d.vorname} ${d.nachname}`,
-    `<h2>Neue Wärmepumpen-Rechner Anfrage</h2>
-    <table style="border-collapse:collapse;width:100%;max-width:600px">${tableRows}</table>`
-  );
+  await Promise.all([
+    sendNotificationEmail(
+      `Neue Rechner-Anfrage von ${d.vorname} ${d.nachname}`,
+      `<h2>Neue Wärmepumpen-Rechner Anfrage</h2>
+      <table style="border-collapse:collapse;width:100%;max-width:600px">${tableRows}</table>`
+    ),
+    sendAutoReply(d.email, `${d.anrede} ${d.vorname} ${d.nachname}`),
+  ]);
 
   return { success: true };
 }
