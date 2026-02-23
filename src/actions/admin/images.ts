@@ -3,10 +3,12 @@
 import fs from "fs/promises";
 import path from "path";
 import crypto from "crypto";
+import sharp from "sharp";
 
 const UPLOAD_DIR = path.join(process.cwd(), "public/uploads");
 const MAX_SIZE = 10 * 1024 * 1024; // 10MB
 const ALLOWED_TYPES = ["image/jpeg", "image/png", "image/webp"];
+const MAX_WIDTH = 1920;
 
 export async function uploadImage(
   file: File
@@ -20,18 +22,22 @@ export async function uploadImage(
   }
 
   if (file.size > MAX_SIZE) {
-    return { error: "Datei zu groß (max. 5MB)" };
+    return { error: "Datei zu groß (max. 10MB)" };
   }
 
   try {
     await fs.mkdir(UPLOAD_DIR, { recursive: true });
 
-    const ext = file.type.split("/")[1] === "jpeg" ? "jpg" : file.type.split("/")[1];
     const randomId = crypto.randomBytes(8).toString("hex");
-    const filename = `${Date.now()}-${randomId}.${ext}`;
+    const filename = `${Date.now()}-${randomId}.webp`;
 
-    const buffer = Buffer.from(await file.arrayBuffer());
-    await fs.writeFile(path.join(UPLOAD_DIR, filename), buffer);
+    const rawBuffer = Buffer.from(await file.arrayBuffer());
+    const optimized = await sharp(rawBuffer)
+      .resize({ width: MAX_WIDTH, withoutEnlargement: true })
+      .webp({ quality: 80 })
+      .toBuffer();
+
+    await fs.writeFile(path.join(UPLOAD_DIR, filename), optimized);
 
     return { path: `/uploads/${filename}` };
   } catch {
