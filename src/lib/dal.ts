@@ -185,8 +185,20 @@ export async function saveHeroSlides(data: HeroSlideData[]): Promise<void> {
 
 export async function getPages(): Promise<PagesData> {
   const data = await readJSON<PagesData>("pages.json");
-  if (data) return data;
-  return {};
+  const { defaultPages } = await import("@/data/default-pages");
+  if (!data) return { ...defaultPages };
+  // Deep merge: defaults provide base, stored data overrides per-section per-field
+  const merged: PagesData = { ...defaultPages };
+  for (const [slug, sections] of Object.entries(data)) {
+    if (!merged[slug]) {
+      merged[slug] = sections;
+    } else {
+      for (const [section, fields] of Object.entries(sections)) {
+        merged[slug][section] = { ...merged[slug][section], ...fields };
+      }
+    }
+  }
+  return merged;
 }
 
 export async function getPageContent(slug: string): Promise<PageContent | null> {

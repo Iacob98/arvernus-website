@@ -170,14 +170,7 @@ export const servicesDataSchema = z.object({
 });
 
 // Page content - flexible key-value for each page section
-export const pageSectionSchema = z.object({
-  title: z.string().optional(),
-  subtitle: z.string().optional(),
-  description: z.string().optional(),
-  buttonLabel: z.string().optional(),
-  buttonHref: z.string().optional(),
-  items: z.array(z.record(z.string(), z.unknown())).optional(),
-});
+export const pageSectionSchema = z.record(z.string(), z.unknown());
 
 export const pageContentSchema = z.record(z.string(), pageSectionSchema);
 export const pagesSchema = z.record(z.string(), pageContentSchema);
