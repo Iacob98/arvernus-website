@@ -15,7 +15,7 @@ export async function deleteContactSubmissionAction(id: string): Promise<void> {
   const submissions = await getContactSubmissions();
   const filtered = submissions.filter((s) => s.id !== id);
   await saveContactSubmissions(filtered);
-  revalidatePath("/admin/submissions");
+  revalidatePath("/", "layout");
   redirect("/admin/submissions");
 }
 
@@ -23,7 +23,7 @@ export async function deleteRechnerSubmissionAction(id: string): Promise<void> {
   const submissions = await getRechnerSubmissions();
   const filtered = submissions.filter((s) => s.id !== id);
   await saveRechnerSubmissions(filtered);
-  revalidatePath("/admin/submissions");
+  revalidatePath("/", "layout");
   redirect("/admin/submissions");
 }
 
@@ -34,7 +34,7 @@ export async function markContactReadAction(id: string): Promise<void> {
     submissions[index].read = !submissions[index].read;
     await saveContactSubmissions(submissions);
   }
-  revalidatePath("/admin/submissions");
+  revalidatePath("/", "layout");
 }
 
 export async function markRechnerReadAction(id: string): Promise<void> {
@@ -44,14 +44,14 @@ export async function markRechnerReadAction(id: string): Promise<void> {
     submissions[index].read = !submissions[index].read;
     await saveRechnerSubmissions(submissions);
   }
-  revalidatePath("/admin/submissions");
+  revalidatePath("/", "layout");
 }
 
 export async function deletePartnerSubmissionAction(id: string): Promise<void> {
   const submissions = await getPartnerSubmissions();
   const filtered = submissions.filter((s) => s.id !== id);
   await savePartnerSubmissions(filtered);
-  revalidatePath("/admin/submissions");
+  revalidatePath("/", "layout");
   redirect("/admin/submissions");
 }
 
@@ -62,5 +62,5 @@ export async function markPartnerReadAction(id: string): Promise<void> {
     submissions[index].read = !submissions[index].read;
     await savePartnerSubmissions(submissions);
   }
-  revalidatePath("/admin/submissions");
+  revalidatePath("/", "layout");
 }
