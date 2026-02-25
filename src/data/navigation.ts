@@ -11,11 +11,11 @@ export const mainNavigation: NavItem[] = [
     ],
   },
   { label: "Photovoltaik", href: "/photovoltaik" },
-  { label: "Rechner", href: "/waermepumpen-rechner" },
   { label: "Förderung", href: "/foerderung" },
   { label: "Ratgeber", href: "/ratgeber" },
   { label: "Referenzen", href: "/referenzen" },
   { label: "Über uns", href: "/ueber-uns" },
+  { label: "Partner werden", href: "/partner-werden" },
   { label: "Kontakt", href: "/kontakt" },
 ];
 

@@ -34,4 +34,8 @@ export const STATS = {
   satisfactionRate: 98,
   maxFoerderung: 70,
   pvCustomers: 15000,
+  employees: 400,
+  dailyInstallations: 20,
+  montageTeams: 80,
+  locations: 6,
 } as const;

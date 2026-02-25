@@ -193,6 +193,7 @@ export function CompanyForm({ company, action }: CompanyFormProps) {
             </div>
           </div>
         </section>
+
       </div>
     </AdminForm>
   );

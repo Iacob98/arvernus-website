@@ -339,4 +339,24 @@ export const defaultPages: PagesData = {
       description: "Wir ermitteln kostenlos Ihre individuelle Fördersumme und unterstützen Sie bei der Antragstellung.",
     },
   },
+  "partner-werden": {
+    hero: {
+      title: "Partner werden",
+      description: "Sie sind Fachbetrieb im Bereich Heizung, Solar oder Elektro? Werden Sie Teil unseres Partnernetzwerks und profitieren Sie von einer starken Zusammenarbeit.",
+    },
+    stats: {
+      title: "Arvernus in Zahlen",
+      description: "Als einer der führenden Anbieter für Wärmepumpen und Photovoltaik in Deutschland setzen wir auf Qualität, Wachstum und starke Partnerschaften.",
+      employees: "400",
+      dailyInstallations: "20",
+      montageTeams: "80",
+      locations: "6",
+    },
+    benefits: {
+      title: "Ihre Vorteile als Partner",
+    },
+    form: {
+      title: "Jetzt Partneranfrage senden",
+    },
+  },
 };

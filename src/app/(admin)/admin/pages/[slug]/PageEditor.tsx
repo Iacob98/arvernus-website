@@ -31,6 +31,8 @@ const SECTION_LABELS: Record<string, string> = {
   charts: "Diagramme",
   advantages: "Vorteile",
   requirements: "Voraussetzungen",
+  stats: "Zahlen & Fakten",
+  form: "Formular",
 };
 
 interface PageEditorProps {

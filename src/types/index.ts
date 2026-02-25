@@ -122,6 +122,10 @@ export interface CompanyData {
     satisfactionRate: number;
     maxFoerderung: number;
     pvCustomers?: number;
+    employees?: number;
+    dailyInstallations?: number;
+    montageTeams?: number;
+    locations?: number;
   };
 }
 

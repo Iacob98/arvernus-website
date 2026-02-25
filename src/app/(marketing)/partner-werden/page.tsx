@@ -3,6 +3,7 @@ import { Container } from "@/components/ui/Container";
 import { BreadcrumbNav } from "@/components/shared/BreadcrumbNav";
 import { ScrollReveal } from "@/components/ui/ScrollReveal";
 import { PartnerForm } from "@/components/sections/partner/PartnerForm";
+import { getPageContent } from "@/lib/dal";
 
 export const metadata: Metadata = {
   title: "Partner werden — Gemeinsam die Energiewende gestalten",
@@ -49,7 +50,18 @@ const benefits = [
   },
 ];
 
-export default function PartnerWerdenPage() {
+const statsConfig = [
+  { key: "employees", suffix: "+", label: "Mitarbeiter" },
+  { key: "dailyInstallations", suffix: "", label: "Anlagen/Tag" },
+  { key: "montageTeams", suffix: "+", label: "Montageteams" },
+  { key: "locations", suffix: "", label: "Standorte" },
+];
+
+export default async function PartnerWerdenPage() {
+  const pageContent = await getPageContent("partner-werden");
+  const t = (section: string, field: string, fallback: string) =>
+    (pageContent?.[section] as Record<string, string>)?.[field] || fallback;
+
   return (
     <>
       <BreadcrumbNav items={[{ label: "Partner werden" }]} />
@@ -58,19 +70,52 @@ export default function PartnerWerdenPage() {
         <Container>
           <div className="max-w-3xl">
             <h1 className="text-4xl font-bold text-foreground sm:text-5xl">
-              Partner werden
+              {t("hero", "title", "Partner werden")}
             </h1>
             <p className="mt-6 text-lg text-muted-foreground">
-              Sie sind Fachbetrieb im Bereich Heizung, Solar oder Elektro? Werden Sie Teil unseres
-              Partnernetzwerks und profitieren Sie von einer starken Zusammenarbeit.
+              {t("hero", "description", "Sie sind Fachbetrieb im Bereich Heizung, Solar oder Elektro? Werden Sie Teil unseres Partnernetzwerks und profitieren Sie von einer starken Zusammenarbeit.")}
             </p>
           </div>
+        </Container>
+      </section>
+
+      <section className="py-16 bg-white">
+        <Container>
+          <ScrollReveal>
+            <div className="text-center mb-12">
+              <h2 className="text-3xl font-bold text-foreground sm:text-4xl">
+                {t("stats", "title", "Arvernus in Zahlen")}
+              </h2>
+              <p className="mt-4 text-lg text-muted-foreground max-w-2xl mx-auto">
+                {t("stats", "description", "Als einer der führenden Anbieter für Wärmepumpen und Photovoltaik in Deutschland setzen wir auf Qualität, Wachstum und starke Partnerschaften.")}
+              </p>
+            </div>
+
+            <div className="grid grid-cols-2 gap-6 lg:grid-cols-4 mb-8">
+              {statsConfig.map((stat) => (
+                <div
+                  key={stat.key}
+                  className="rounded-2xl border border-primary/20 bg-primary-50/50 p-8 text-center"
+                >
+                  <div className="text-4xl font-extrabold text-primary sm:text-5xl">
+                    {t("stats", stat.key, "0")}{stat.suffix}
+                  </div>
+                  <div className="mt-2 text-sm font-medium text-muted-foreground sm:text-base">
+                    {stat.label}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </ScrollReveal>
         </Container>
       </section>
 
       <section className="py-16">
         <Container>
           <ScrollReveal>
+            <h2 className="text-2xl font-bold text-foreground mb-8 text-center">
+              {t("benefits", "title", "Ihre Vorteile als Partner")}
+            </h2>
             <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4 mb-16">
               {benefits.map((b) => (
                 <div
@@ -90,7 +135,7 @@ export default function PartnerWerdenPage() {
           <ScrollReveal>
             <div className="max-w-2xl mx-auto">
               <h2 className="text-2xl font-bold text-foreground mb-6 text-center">
-                Jetzt Partneranfrage senden
+                {t("form", "title", "Jetzt Partneranfrage senden")}
               </h2>
               <PartnerForm />
             </div>

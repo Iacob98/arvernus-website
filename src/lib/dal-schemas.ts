@@ -42,6 +42,10 @@ export const companySchema = z.object({
     satisfactionRate: z.number().int().min(0).max(100),
     maxFoerderung: z.number().int().min(0).max(100),
     pvCustomers: z.number().int().min(0).optional(),
+    employees: z.number().int().min(0).optional(),
+    dailyInstallations: z.number().int().min(0).optional(),
+    montageTeams: z.number().int().min(0).optional(),
+    locations: z.number().int().min(0).optional(),
   }),
 });
 

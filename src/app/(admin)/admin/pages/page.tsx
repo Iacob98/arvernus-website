@@ -12,6 +12,7 @@ const slugLabels: Record<string, string> = {
   "ueber-uns": "Über uns",
   kontakt: "Kontakt",
   foerderung: "Förderung",
+  "partner-werden": "Partner werden",
 };
 
 export default async function PagesListPage() {
