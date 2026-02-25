@@ -5,7 +5,7 @@ export const defaultPages: PagesData = {
     hero: {
       badge: "Zertifizierter Fachbetrieb · Seit 2014",
       title: "Ihre Experten für Wärmepumpen & Photovoltaik",
-      subtitle: "Von der Beratung bis zur Installation — alles aus einer Hand. Profitieren Sie von bis zu 70% staatlicher Förderung und senken Sie Ihre Energiekosten nachhaltig.",
+      subtitle: "Von der Beratung bis zur Installation — alles aus einer Hand. Profitieren Sie von bis zu 70%* staatlicher Förderung und senken Sie Ihre Energiekosten nachhaltig.",
       primaryButton: "Kostenlos berechnen",
       secondaryButton: "Beratung anfragen",
     },
@@ -32,12 +32,12 @@ export const defaultPages: PagesData = {
     },
     foerderungTeaser: {
       label: "Staatliche Förderung",
-      title: "Bis zu 70% Zuschuss für Ihre Wärmepumpe",
+      title: "Bis zu 70%* Zuschuss für Ihre Wärmepumpe",
       description: "Die Bundesregierung fördert den Umstieg auf erneuerbare Energien großzügig. Über die BEG-Förderung (BAFA/KfW) können Sie erhebliche Zuschüsse erhalten.",
-      bullet1: "30% Grundförderung für alle Wärmepumpen",
-      bullet2: "20% Klimageschwindigkeitsbonus",
-      bullet3: "30% Einkommensbonus (bis 40.000€ Haushaltseinkommen)",
-      bullet4: "5% Effizienzbonus (natürliche Kältemittel)",
+      bullet1: "30%* Grundförderung für alle Wärmepumpen",
+      bullet2: "20%* Klimageschwindigkeitsbonus",
+      bullet3: "30%* Einkommensbonus (bis 40.000€ Haushaltseinkommen)",
+      bullet4: "5%* Effizienzbonus (natürliche Kältemittel)",
       exampleTitle: "Rechenbeispiel Einfamilienhaus",
     },
     cta: {
@@ -48,7 +48,7 @@ export const defaultPages: PagesData = {
   waermepumpen: {
     hero: {
       title: "Wärmepumpen — Effizient heizen mit erneuerbarer Energie",
-      description: "Eine Wärmepumpe nutzt kostenlose Umweltwärme aus Luft, Erde oder Grundwasser und wandelt sie in Heizenergie um. So sparen Sie bis zu 75% Heizkosten und profitieren von bis zu 70% staatlicher Förderung.",
+      description: "Eine Wärmepumpe nutzt kostenlose Umweltwärme aus Luft, Erde oder Grundwasser und wandelt sie in Heizenergie um. So sparen Sie bis zu 75%* Heizkosten und profitieren von bis zu 70%* staatlicher Förderung.",
       image: "/images/wp-outdoor.jpg",
     },
     types: {
@@ -58,16 +58,16 @@ export const defaultPages: PagesData = {
     benefits: {
       title: "Vorteile einer Wärmepumpe",
       subtitle: "Warum sich der Umstieg auf eine Wärmepumpe lohnt.",
-      benefit1Title: "Bis zu 75% Heizkosten sparen",
-      benefit1Desc: "Wärmepumpen nutzen bis zu 75% kostenlose Umweltwärme. Sie zahlen nur den Strom für den Betrieb.",
-      benefit2Title: "Staatliche Förderung bis 70%",
+      benefit1Title: "Bis zu 75%* Heizkosten sparen",
+      benefit1Desc: "Wärmepumpen nutzen bis zu 75%* kostenlose Umweltwärme. Sie zahlen nur den Strom für den Betrieb.",
+      benefit2Title: "Staatliche Förderung bis 70%*",
       benefit2Desc: "Profitieren Sie von großzügigen Zuschüssen durch BAFA und KfW für den Heizungstausch.",
       benefit3Title: "CO₂-neutral heizen",
       benefit3Desc: "Mit einer Wärmepumpe und Ökostrom heizen Sie komplett CO₂-neutral und schützen das Klima.",
       benefit4Title: "Heizen & Kühlen",
       benefit4Desc: "Viele Wärmepumpen können im Sommer auch kühlen — ganz ohne zusätzliche Klimaanlage.",
       benefit5Title: "Wartungsarm & langlebig",
-      benefit5Desc: "Wärmepumpen haben eine Lebensdauer von 20+ Jahren und benötigen nur minimale Wartung.",
+      benefit5Desc: "Wärmepumpen haben eine Lebensdauer von 20+ Jahren* und benötigen nur minimale Wartung.",
       benefit6Title: "Wertsteigerung Immobilie",
       benefit6Desc: "Ein modernes Heizsystem steigert den Wert Ihrer Immobilie und verbessert die Energieklasse.",
     },
@@ -79,9 +79,9 @@ export const defaultPages: PagesData = {
   "luft-wasser-waermepumpe": {
     hero: { image: "/images/wp-outdoor.jpg" },
     keyFacts: {
-      fact1Label: "COP (Effizienz)", fact1Value: "3,0 – 4,5",
-      fact2Label: "Investitionskosten", fact2Value: "15.000 – 25.000 €",
-      fact3Label: "Betriebskosten/Jahr", fact3Value: "800 – 1.200 €",
+      fact1Label: "COP (Effizienz)*", fact1Value: "3,0 – 4,5",
+      fact2Label: "Investitionskosten*", fact2Value: "15.000 – 25.000 €",
+      fact3Label: "Betriebskosten/Jahr*", fact3Value: "800 – 1.200 €",
       fact4Label: "Genehmigung", fact4Value: "Nicht erforderlich",
       fact5Label: "Ideal für", fact5Value: "Bestand & Neubau",
       fact6Label: "Installationszeit", fact6Value: "1 – 2 Tage",
@@ -103,14 +103,14 @@ export const defaultPages: PagesData = {
       device: "8.000 – 16.000 €", installation: "4.000 – 6.000 €",
       extrasLabel: "Zubehör & Anpassungen", extras: "1.000 – 3.000 €", total: "15.000 – 25.000 €",
       bpiRate: "30 %", klimaBonus: "+ 20 %", einkommensBonus: "+ 30 %", maxRate: "bis 70 %",
-      exampleSavings: "Bei 20.000 € Invest → ab 6.000 € Eigenanteil",
-      stromCostYear: "800 – 1.200 €",
-      formula: "20.000 kWh ÷ COP 3,5 × 0,30 €/kWh ≈ 1.700 kWh × 0,30 € ≈ 510 € (Neubau)",
-      amortization: "8 – 12 Jahre (ohne Förderung), 4 – 7 Jahre (mit Förderung)",
+      exampleSavings: "Bei 20.000 € Invest → ab 6.000 € Eigenanteil*",
+      stromCostYear: "800 – 1.200 €*",
+      formula: "20.000 kWh ÷ COP 3,5 × 0,30 €/kWh ≈ 1.700 kWh × 0,30 € ≈ 510 € (Neubau)*",
+      amortization: "8 – 12 Jahre (ohne Förderung), 4 – 7 Jahre (mit Förderung)*",
     },
     pvSynergy: {
       eigenverbrauchBoost: "bis zu 30 %",
-      savingsExample: "Mit PV-Strom sinken die WP-Betriebskosten um bis zu 50 % — auf ca. 400–600 €/Jahr.",
+      savingsExample: "Mit PV-Strom sinken die WP-Betriebskosten um bis zu 50 %* — auf ca. 400–600 €/Jahr.",
     },
     installation: {
       duration: "1 – 2 Tage",
@@ -137,9 +137,9 @@ export const defaultPages: PagesData = {
   "sole-wasser-waermepumpe": {
     hero: { image: "/images/wp-outdoor.jpg" },
     keyFacts: {
-      fact1Label: "COP (Effizienz)", fact1Value: "4,0 – 5,0",
-      fact2Label: "Investitionskosten", fact2Value: "20.000 – 35.000 €",
-      fact3Label: "Betriebskosten/Jahr", fact3Value: "600 – 900 €",
+      fact1Label: "COP (Effizienz)*", fact1Value: "4,0 – 5,0",
+      fact2Label: "Investitionskosten*", fact2Value: "20.000 – 35.000 €",
+      fact3Label: "Betriebskosten/Jahr*", fact3Value: "600 – 900 €",
       fact4Label: "Genehmigung", fact4Value: "Teils erforderlich",
       fact5Label: "Ideal für", fact5Value: "Neubau mit Grundstück",
       fact6Label: "Installationszeit", fact6Value: "3 – 5 Tage",
@@ -150,7 +150,7 @@ export const defaultPages: PagesData = {
       pro3: "Passive Kühlung im Sommer (Natural Cooling) fast kostenlos",
       pro4: "Sehr leiser Betrieb — kein Außengerät nötig",
       pro5: "Niedrigste Betriebskosten aller WP-Systeme",
-      pro6: "Langlebig: Erdsonden halten 50+ Jahre",
+      pro6: "Langlebig: Erdsonden halten 50+ Jahre*",
       con1: "Höhere Anschaffungskosten durch Erdarbeiten",
       con2: "Genehmigung für Tiefenbohrung erforderlich",
       con3: "Nicht auf jedem Grundstück realisierbar",
@@ -161,14 +161,14 @@ export const defaultPages: PagesData = {
       device: "10.000 – 15.000 €", installation: "3.000 – 5.000 €",
       extrasLabel: "Erdarbeiten (Sonden/Kollektoren)", extras: "6.000 – 15.000 €", total: "20.000 – 35.000 €",
       bpiRate: "30 %", klimaBonus: "+ 20 %", einkommensBonus: "+ 30 %", maxRate: "bis 70 %",
-      exampleSavings: "Bei 30.000 € Invest → ab 9.000 € Eigenanteil",
-      stromCostYear: "600 – 900 €",
-      formula: "20.000 kWh ÷ COP 4,5 × 0,30 €/kWh ≈ 4.444 kWh × 0,30 € ≈ 1.333 € (ohne PV)",
-      amortization: "10 – 15 Jahre (ohne Förderung), 5 – 8 Jahre (mit Förderung)",
+      exampleSavings: "Bei 30.000 € Invest → ab 9.000 € Eigenanteil*",
+      stromCostYear: "600 – 900 €*",
+      formula: "20.000 kWh ÷ COP 4,5 × 0,30 €/kWh ≈ 4.444 kWh × 0,30 € ≈ 1.333 € (ohne PV)*",
+      amortization: "10 – 15 Jahre (ohne Förderung), 5 – 8 Jahre (mit Förderung)*",
     },
     pvSynergy: {
       eigenverbrauchBoost: "bis zu 40 %",
-      savingsExample: "Erdwärme + PV: Betriebskosten sinken auf ca. 300–500 €/Jahr — fast autark heizen.",
+      savingsExample: "Erdwärme + PV: Betriebskosten sinken auf ca. 300–500 €/Jahr* — fast autark heizen.",
     },
     installation: {
       duration: "3 – 5 Tage (zzgl. Genehmigungsverfahren)",
@@ -198,9 +198,9 @@ export const defaultPages: PagesData = {
   "wasser-wasser-waermepumpe": {
     hero: { image: "/images/wp-indoor-unit.jpg" },
     keyFacts: {
-      fact1Label: "COP (Effizienz)", fact1Value: "5,0 – 6,0",
-      fact2Label: "Investitionskosten", fact2Value: "20.000 – 40.000 €",
-      fact3Label: "Betriebskosten/Jahr", fact3Value: "500 – 800 €",
+      fact1Label: "COP (Effizienz)*", fact1Value: "5,0 – 6,0",
+      fact2Label: "Investitionskosten*", fact2Value: "20.000 – 40.000 €",
+      fact3Label: "Betriebskosten/Jahr*", fact3Value: "500 – 800 €",
       fact4Label: "Genehmigung", fact4Value: "Ja (wasserrechtlich)",
       fact5Label: "Ideal für", fact5Value: "Grundwasser-Gebiete",
       fact6Label: "Installationszeit", fact6Value: "3 – 5 Tage",
@@ -222,14 +222,14 @@ export const defaultPages: PagesData = {
       device: "10.000 – 18.000 €", installation: "3.000 – 5.000 €",
       extrasLabel: "Brunnenbohrung (Förder- & Schluckbrunnen)", extras: "7.000 – 17.000 €", total: "20.000 – 40.000 €",
       bpiRate: "30 %", klimaBonus: "+ 20 %", einkommensBonus: "+ 30 %", maxRate: "bis 70 %",
-      exampleSavings: "Bei 35.000 € Invest → ab 10.500 € Eigenanteil",
-      stromCostYear: "500 – 800 €",
-      formula: "20.000 kWh ÷ COP 5,5 × 0,30 €/kWh ≈ 3.636 kWh × 0,30 € ≈ 1.091 € (ohne PV)",
-      amortization: "10 – 14 Jahre (ohne Förderung), 5 – 8 Jahre (mit Förderung)",
+      exampleSavings: "Bei 35.000 € Invest → ab 10.500 € Eigenanteil*",
+      stromCostYear: "500 – 800 €*",
+      formula: "20.000 kWh ÷ COP 5,5 × 0,30 €/kWh ≈ 3.636 kWh × 0,30 € ≈ 1.091 € (ohne PV)*",
+      amortization: "10 – 14 Jahre (ohne Förderung), 5 – 8 Jahre (mit Förderung)*",
     },
     pvSynergy: {
       eigenverbrauchBoost: "bis zu 40 %",
-      savingsExample: "Grundwasser-WP + PV: Betriebskosten sinken auf ca. 250–400 €/Jahr — nahezu kostenlos heizen.",
+      savingsExample: "Grundwasser-WP + PV: Betriebskosten sinken auf ca. 250–400 €/Jahr* — nahezu kostenlos heizen.",
     },
     installation: {
       duration: "3 – 5 Tage (zzgl. Genehmigungsverfahren)",
@@ -265,18 +265,18 @@ export const defaultPages: PagesData = {
     benefits: {
       title: "Vorteile einer Photovoltaikanlage",
       subtitle: "Warum sich Photovoltaik für Sie lohnt.",
-      benefit1Title: "Stromkosten senken", benefit1Desc: "Erzeugen Sie bis zu 80% Ihres Stroms selbst und reduzieren Sie Ihre Stromrechnung deutlich.",
+      benefit1Title: "Stromkosten senken", benefit1Desc: "Erzeugen Sie bis zu 80%* Ihres Stroms selbst und reduzieren Sie Ihre Stromrechnung deutlich.",
       benefit2Title: "Einspeisevergütung", benefit2Desc: "Überschüssigen Strom speisen Sie ins Netz ein und erhalten dafür eine garantierte Vergütung.",
       benefit3Title: "Unabhängigkeit", benefit3Desc: "Machen Sie sich unabhängig von steigenden Strompreisen und Energieversorgern.",
       benefit4Title: "Wertsteigerung", benefit4Desc: "Eine Solaranlage steigert den Wert Ihrer Immobilie nachhaltig.",
-      benefit5Title: "Umweltschutz", benefit5Desc: "Jede kWh Solarstrom spart ca. 400g CO₂ — ein aktiver Beitrag zum Klimaschutz.",
+      benefit5Title: "Umweltschutz", benefit5Desc: "Jede kWh Solarstrom spart ca. 400g CO₂* — ein aktiver Beitrag zum Klimaschutz.",
       benefit6Title: "Kombinierbar", benefit6Desc: "Perfekt kombinierbar mit einer Wärmepumpe oder einem E-Auto für maximale Eigenversorgung.",
     },
     components: {
       title: "Komponenten Ihrer Solaranlage",
       subtitle: "Hochwertige Technik für maximale Erträge.",
       image: "/images/pv-roof-close.jpg",
-      comp1Title: "Solarmodule", comp1Desc: "Hocheffiziente Module namhafter Hersteller mit mindestens 25 Jahren Leistungsgarantie.",
+      comp1Title: "Solarmodule", comp1Desc: "Hocheffiziente Module namhafter Hersteller mit mindestens 25 Jahren Leistungsgarantie.*",
       comp2Title: "Wechselrichter", comp2Desc: "Wandelt den erzeugten Gleichstrom in nutzbaren Wechselstrom um — das Herzstück der Anlage.",
       comp3Title: "Stromspeicher", comp3Desc: "Optional: Speichert überschüssigen Strom für die Nutzung am Abend und in der Nacht.",
       comp4Title: "Smart-Home-Integration", comp4Desc: "Intelligente Steuerung für optimalen Eigenverbrauch und Monitoring per App.",
@@ -289,7 +289,7 @@ export const defaultPages: PagesData = {
   referenzen: {
     hero: {
       title: "Unsere Referenzen",
-      description: "Über 1.000 erfolgreich realisierte Projekte seit 2014. Hier zeigen wir Ihnen eine Auswahl unserer Arbeiten.",
+      description: "Über 1.000 erfolgreich realisierte Projekte* seit 2014. Hier zeigen wir Ihnen eine Auswahl unserer Arbeiten.",
     },
     cta: {
       title: "Ihr Projekt könnte das nächste sein",
@@ -299,7 +299,7 @@ export const defaultPages: PagesData = {
   "ueber-uns": {
     hero: {
       title: "Über Arvernus",
-      description: "Seit 2014 sind wir Ihr verlässlicher Partner für Wärmepumpen und Photovoltaik. Mit über 1.000 realisierten Projekten und einem erfahrenen Team stehen wir für Qualität, Zuverlässigkeit und Innovation.",
+      description: "Seit 2014 sind wir Ihr verlässlicher Partner für Wärmepumpen und Photovoltaik. Mit über 1.000 realisierten Projekten* und einem erfahrenen Team stehen wir für Qualität, Zuverlässigkeit und Innovation.",
     },
     timeline: { title: "Unsere Geschichte", subtitle: "Von der Gründung bis heute." },
     team: { title: "Unser Team", subtitle: "Die Menschen hinter Arvernus." },
@@ -320,7 +320,7 @@ export const defaultPages: PagesData = {
   },
   foerderung: {
     hero: {
-      title: "Bis zu 70% Förderung für Ihre Wärmepumpe",
+      title: "Bis zu 70%* Förderung für Ihre Wärmepumpe",
       description: "Die Bundesregierung unterstützt den Umstieg auf erneuerbare Energien mit großzügigen Förderprogrammen. Wir helfen Ihnen, die maximale Förderung zu erhalten.",
     },
     overview: {

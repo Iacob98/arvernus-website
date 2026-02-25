@@ -8,8 +8,8 @@ export const services: Service[] = [
     href: "/waermepumpen",
     icon: "flame",
     features: [
-      "Bis zu 75% Heizkosten sparen",
-      "Staatliche Förderung bis 70%",
+      "Bis zu 75% Heizkosten sparen*",
+      "Staatliche Förderung bis 70%*",
       "Umweltfreundlich & leise",
       "Wartungsarm & langlebig",
     ],

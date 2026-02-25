@@ -50,7 +50,7 @@ export function FoerderungTeaser({ content }: FoerderungTeaserProps) {
           <ScrollReveal direction="right">
             <div className="rounded-2xl bg-white p-8 shadow-lg border border-border">
               <h3 className="text-xl font-semibold text-foreground mb-6">
-                {content?.exampleTitle || "Rechenbeispiel Einfamilienhaus"}
+                {content?.exampleTitle || "Rechenbeispiel Einfamilienhaus"}*
               </h3>
               <div className="space-y-4">
                 <div className="flex justify-between py-2 border-b border-border">
@@ -70,10 +70,13 @@ export function FoerderungTeaser({ content }: FoerderungTeaserProps) {
                   <span className="font-semibold text-primary">- 9.000 €</span>
                 </div>
                 <div className="flex justify-between py-3 bg-primary-50 rounded-lg px-3 -mx-3">
-                  <span className="font-bold text-foreground">Ihre Kosten (ab)</span>
+                  <span className="font-bold text-foreground">Ihre Kosten (ab)*</span>
                   <span className="font-bold text-2xl text-primary">6.000 €</span>
                 </div>
               </div>
+              <p className="mt-3 text-xs text-muted-foreground">
+                * Unverbindliches Rechenbeispiel. Tatsächliche Förderung abhängig von individuellen Voraussetzungen.
+              </p>
             </div>
           </ScrollReveal>
         </div>

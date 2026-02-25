@@ -62,7 +62,7 @@ export function HeatingCostChart() {
         </BarChart>
       </ResponsiveContainer>
       <p className="text-center text-xs text-muted-foreground mt-2">
-        Typisches Einfamilienhaus 150 m², 20.000 kWh/Jahr Heizwärmebedarf
+        * Beispielwerte für ein typisches Einfamilienhaus, 150 m², 20.000 kWh/Jahr Heizwärmebedarf. Tatsächliche Kosten können abweichen.
       </p>
     </div>
   );

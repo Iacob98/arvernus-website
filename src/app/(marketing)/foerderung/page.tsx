@@ -96,7 +96,7 @@ export default async function FoerderungPage() {
           </div>
           <div className="mt-8 rounded-xl bg-accent/10 border border-accent/20 p-6 text-center">
             <p className="text-lg font-semibold text-foreground">
-              Maximale Förderung: <span className="text-primary text-2xl">70%</span> der förderfähigen Kosten
+              Maximale Förderung: <span className="text-primary text-2xl">70%*</span> der förderfähigen Kosten
             </p>
             <p className="mt-1 text-sm text-muted-foreground">
               {t("overview", "maxNote", "Die einzelnen Boni sind kombinierbar bis maximal 70%.")}
@@ -108,7 +108,7 @@ export default async function FoerderungPage() {
       {/* Rechenbeispiel */}
       <section className="py-20 bg-muted/30">
         <Container className="max-w-3xl">
-          <SectionHeading title="Rechenbeispiel" subtitle="So könnte Ihre Förderung aussehen." />
+          <SectionHeading title="Rechenbeispiel*" subtitle="So könnte Ihre Förderung aussehen." />
           <Card>
             <div className="space-y-4">
               <div className="flex justify-between py-3 border-b border-border">
@@ -132,11 +132,14 @@ export default async function FoerderungPage() {
                 <span className="text-sm text-muted-foreground">max. 70% = 21.000 €</span>
               </div>
               <div className="flex justify-between py-4 bg-primary-50 rounded-lg px-4 -mx-4">
-                <span className="font-bold text-foreground text-lg">Ihre Kosten</span>
+                <span className="font-bold text-foreground text-lg">Ihre Kosten*</span>
                 <span className="font-bold text-3xl text-primary">9.000 €</span>
               </div>
             </div>
           </Card>
+          <p className="mt-4 text-xs text-muted-foreground text-center">
+            * Unverbindliches Rechenbeispiel. Die tatsächliche Förderhöhe hängt von Ihren individuellen Voraussetzungen und den geltenden Förderrichtlinien ab.
+          </p>
         </Container>
       </section>
 

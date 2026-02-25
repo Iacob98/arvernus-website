@@ -2,6 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { Container } from "@/components/ui/Container";
 import { footerNavigation } from "@/data/navigation";
+import { LegalDisclaimer } from "@/components/shared/LegalDisclaimer";
 import type { CompanyData } from "@/types";
 
 interface FooterProps {
@@ -101,6 +102,8 @@ export function Footer({ company }: FooterProps) {
             </div>
           </div>
         </div>
+
+        <LegalDisclaimer />
 
         {/* Bottom bar */}
         <div className="border-t border-gray-800 py-6 flex flex-col sm:flex-row items-center justify-between gap-4">

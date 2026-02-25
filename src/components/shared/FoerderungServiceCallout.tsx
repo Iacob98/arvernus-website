@@ -16,7 +16,7 @@ export function FoerderungServiceCallout() {
             Wir übernehmen die Förderanträge für Sie
           </h2>
           <p className="mt-4 max-w-2xl text-muted-foreground">
-            Bis zu 70&nbsp;% Zuschuss — wir kümmern uns um die komplette
+            Bis zu 70&nbsp;%* Zuschuss — wir kümmern uns um die komplette
             Antragstellung bei BAFA und KfW, damit Sie die maximale Förderung
             erhalten.
           </p>

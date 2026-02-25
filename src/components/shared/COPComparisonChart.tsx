@@ -96,8 +96,7 @@ export function COPComparisonChart() {
         </BarChart>
       </ResponsiveContainer>
       <p className="text-center text-xs text-muted-foreground mt-2">
-        Durchschnittliche COP-Werte und Heizkosten bei 20.000 kWh/Jahr
-        Heizwärmebedarf
+        * Durchschnittliche COP-Werte und Heizkosten bei 20.000 kWh/Jahr Heizwärmebedarf. Richtwerte, tatsächliche Werte können abweichen.
       </p>
     </div>
   );
