@@ -68,7 +68,7 @@ export function AboutTeaser({ content }: AboutTeaserProps) {
                   <img
                     src={src}
                     alt={content?.imageAlt || "Arvernus Team bei der Arbeit"}
-                    className="h-auto w-full object-cover"
+                    className="h-full max-h-[500px] w-full object-cover"
                     loading={i === 0 ? "eager" : "lazy"}
                   />
                 </div>
