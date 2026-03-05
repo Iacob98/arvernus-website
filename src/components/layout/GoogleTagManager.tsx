@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Script from "next/script";
+import { initConsentDefaults, updateConsent } from "@/lib/analytics";
 
 const GTM_ID = process.env.NEXT_PUBLIC_GTM_ID;
 
@@ -10,6 +11,17 @@ export function GoogleTagManager() {
 
   useEffect(() => {
     if (!GTM_ID) return;
+
+    // Consent Mode v2: set default denied before GTM loads
+    initConsentDefaults();
+
+    // Sync previous consent from localStorage
+    const stored = localStorage.getItem("cookie-consent");
+    if (stored === "accepted") {
+      updateConsent(true);
+    } else if (stored === "declined") {
+      updateConsent(false);
+    }
 
     const check = () => {
       setEnabled(localStorage.getItem("cookie-consent") === "accepted");

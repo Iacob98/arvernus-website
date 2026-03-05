@@ -1,7 +1,14 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useMultiStepForm } from "@/hooks/useMultiStepForm";
+import {
+  trackFormStart,
+  trackFormSubmit,
+  trackFormComplete,
+  trackRechnerStepView,
+  trackRechnerStepComplete,
+} from "@/lib/analytics";
 import {
   rechnerStep1Schema,
   rechnerStep2Schema,
@@ -63,14 +70,34 @@ const initialData: RechnerFormData = {
 
 export function RechnerForm() {
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const prevStep = useRef(0);
   const form = useMultiStepForm<RechnerFormData>({
     totalSteps: 5,
     schemas,
     initialData,
   });
 
+  // Track form start + initial step view on mount
+  useEffect(() => {
+    trackFormStart({ form_name: "rechner", form_step: 1, form_step_name: stepTitles[0] });
+    trackRechnerStepView(1, stepTitles[0]);
+  }, []);
+
+  // Track step transitions
+  useEffect(() => {
+    if (form.currentStep !== prevStep.current) {
+      // If moving forward, track previous step complete
+      if (form.currentStep > prevStep.current) {
+        trackRechnerStepComplete(prevStep.current + 1, stepTitles[prevStep.current]);
+      }
+      trackRechnerStepView(form.currentStep + 1, stepTitles[form.currentStep]);
+      prevStep.current = form.currentStep;
+    }
+  }, [form.currentStep]);
+
   const handleSubmit = async () => {
     if (!form.complete()) return;
+    trackFormSubmit({ form_name: "rechner", form_step: 5, form_step_name: stepTitles[4] });
     setIsSubmitting(true);
     try {
       await submitRechner(form.data);
@@ -80,6 +107,15 @@ export function RechnerForm() {
       setIsSubmitting(false);
     }
   };
+
+  // Track completion
+  const completedTracked = useRef(false);
+  useEffect(() => {
+    if (form.isCompleted && !completedTracked.current) {
+      completedTracked.current = true;
+      trackFormComplete("rechner");
+    }
+  }, [form.isCompleted]);
 
   if (form.isCompleted) {
     return <RechnerResult />;

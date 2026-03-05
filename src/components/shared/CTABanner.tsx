@@ -1,5 +1,8 @@
+"use client";
+
 import { Container } from "@/components/ui/Container";
 import { Button } from "@/components/ui/Button";
+import { trackCTAClick } from "@/lib/analytics";
 
 interface CTABannerProps {
   title?: string;
@@ -29,10 +32,21 @@ export function CTABanner({
             {description}
           </p>
           <div className="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row">
-            <Button href={primaryHref} variant="white" size="lg">
+            <Button
+              href={primaryHref}
+              variant="white"
+              size="lg"
+              onClick={() => trackCTAClick({ cta_text: primaryLabel, cta_location: "cta_banner", cta_destination: primaryHref })}
+            >
               {primaryLabel}
             </Button>
-            <Button href={secondaryHref} variant="outline" size="lg" className="border-white text-white hover:bg-white hover:text-primary">
+            <Button
+              href={secondaryHref}
+              variant="outline"
+              size="lg"
+              className="border-white text-white hover:bg-white hover:text-primary"
+              onClick={() => trackCTAClick({ cta_text: secondaryLabel, cta_location: "cta_banner", cta_destination: secondaryHref })}
+            >
               {secondaryLabel}
             </Button>
           </div>

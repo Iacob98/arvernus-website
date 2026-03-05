@@ -18,6 +18,7 @@ type ButtonAsLink = {
   className?: string;
   children: React.ReactNode;
   href: string;
+  onClick?: () => void;
 };
 
 type ButtonProps = ButtonAsButton | ButtonAsLink;
@@ -56,8 +57,9 @@ export function Button({
   );
 
   if ("href" in props && props.href) {
+    const { onClick } = props as ButtonAsLink;
     return (
-      <Link href={props.href} className={classes}>
+      <Link href={props.href} className={classes} onClick={onClick}>
         {children}
       </Link>
     );

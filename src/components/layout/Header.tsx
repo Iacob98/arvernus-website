@@ -7,6 +7,7 @@ import { mainNavigation } from "@/data/navigation";
 import { Container } from "@/components/ui/Container";
 import { Button } from "@/components/ui/Button";
 import { MobileNav } from "./MobileNav";
+import { trackPhoneClick, trackCTAClick } from "@/lib/analytics";
 import type { CompanyData } from "@/types";
 
 interface HeaderProps {
@@ -77,11 +78,16 @@ export function Header({ company }: HeaderProps) {
           <div className="hidden lg:flex items-center gap-3">
             <a
               href={`tel:${company.phone}`}
+              onClick={() => trackPhoneClick("header")}
               className="text-sm font-medium text-foreground hover:text-primary transition-colors whitespace-nowrap"
             >
               {company.phoneDisplay}
             </a>
-            <Button href="/waermepumpen-rechner" size="sm">
+            <Button
+              href="/waermepumpen-rechner"
+              size="sm"
+              onClick={() => trackCTAClick({ cta_text: "Kostenlos berechnen", cta_location: "header", cta_destination: "/waermepumpen-rechner" })}
+            >
               Kostenlos berechnen
             </Button>
           </div>

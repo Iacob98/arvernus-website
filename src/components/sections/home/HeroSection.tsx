@@ -5,6 +5,7 @@ import { motion } from "motion/react";
 import { Container } from "@/components/ui/Container";
 import { Button } from "@/components/ui/Button";
 import { Badge } from "@/components/ui/Badge";
+import { trackCTAClick } from "@/lib/analytics";
 import type { HeroSlideData } from "@/lib/dal-schemas";
 
 interface HeroSectionProps {
@@ -84,10 +85,20 @@ export function HeroSection({ content, slides = [] }: HeroSectionProps) {
               {content?.subtitle || "Von der Beratung bis zur Installation — alles aus einer Hand. Profitieren Sie von bis zu 70% staatlicher Förderung und senken Sie Ihre Energiekosten nachhaltig."}
             </p>
             <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
-              <Button href="/waermepumpen-rechner" size="lg">
+              <Button
+                href="/waermepumpen-rechner"
+                size="lg"
+                onClick={() => trackCTAClick({ cta_text: content?.primaryButton || "Kostenlos berechnen", cta_location: "hero", cta_destination: "/waermepumpen-rechner" })}
+              >
                 {content?.primaryButton || "Kostenlos berechnen"}
               </Button>
-              <Button href="/kontakt" variant="outline" size="lg" className="border-white text-white hover:bg-white hover:text-gray-900">
+              <Button
+                href="/kontakt"
+                variant="outline"
+                size="lg"
+                className="border-white text-white hover:bg-white hover:text-gray-900"
+                onClick={() => trackCTAClick({ cta_text: content?.secondaryButton || "Beratung anfragen", cta_location: "hero", cta_destination: "/kontakt" })}
+              >
                 {content?.secondaryButton || "Beratung anfragen"}
               </Button>
             </div>
