@@ -6,7 +6,14 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start -p 3030",
-    "lint": "eslint"
+    "lint": "eslint",
+    "loadtest:pages": "k6 run -e BASE_URL=http://localhost:3000 -e LOADTEST_SECRET=loadtest-secret-dev load-tests/k6/scenarios/page-load.js",
+    "loadtest:contact": "k6 run -e BASE_URL=http://localhost:3000 -e LOADTEST_SECRET=loadtest-secret-dev load-tests/k6/scenarios/contact-submit.js",
+    "loadtest:rechner": "k6 run -e BASE_URL=http://localhost:3000 -e LOADTEST_SECRET=loadtest-secret-dev load-tests/k6/scenarios/rechner-submit.js",
+    "loadtest:mixed": "k6 run -e BASE_URL=http://localhost:3000 -e LOADTEST_SECRET=loadtest-secret-dev load-tests/k6/scenarios/mixed-load.js",
+    "loadtest:sustained": "k6 run -e BASE_URL=http://localhost:3000 -e LOADTEST_SECRET=loadtest-secret-dev load-tests/k6/scenarios/sustained-ramp.js",
+    "loadtest:verify": "npx tsx load-tests/verify-integrity.ts",
+    "loadtest:full": "npm run loadtest:contact && npm run loadtest:verify -- --expected-contact 50 && npm run loadtest:mixed && npm run loadtest:verify"
   },
   "dependencies": {
     "@types/bcryptjs": "^2.4.6",

@@ -1,7 +1,7 @@
 "use server";
 
 import { rechnerFullSchema } from "@/lib/schemas";
-import { getRechnerSubmissions, saveRechnerSubmissions } from "@/lib/dal";
+import { appendRechnerSubmission } from "@/lib/dal";
 import { sendNotificationEmail, sendAutoReply } from "@/lib/email";
 import {
   gebaeudetypen,
@@ -59,9 +59,7 @@ export async function submitRechner(data: RechnerFormData) {
     read: false,
   };
 
-  const submissions = await getRechnerSubmissions();
-  submissions.push(submission);
-  await saveRechnerSubmissions(submissions);
+  await appendRechnerSubmission(submission);
 
   const rows = [
     ["Gebäudetyp", getLabel(gebaeudetypen, d.gebaeudetyp)],

@@ -21,6 +21,24 @@ import type {
 
 const CONTENT_DIR = path.join(process.cwd(), "content");
 
+// ─── Per-file async mutex ─────────────────────────────────
+// Prevents concurrent read-modify-write races within the same process.
+const fileLocks = new Map<string, Promise<void>>();
+
+export async function withFileLock<T>(filename: string, fn: () => Promise<T>): Promise<T> {
+  const prev = fileLocks.get(filename) ?? Promise.resolve();
+  let resolve: () => void;
+  const next = new Promise<void>((r) => { resolve = r; });
+  fileLocks.set(filename, next);
+
+  await prev;
+  try {
+    return await fn();
+  } finally {
+    resolve!();
+  }
+}
+
 // Atomic write: write to tmp then rename
 async function writeJSON(filename: string, data: unknown): Promise<void> {
   const filePath = path.join(CONTENT_DIR, filename);
@@ -276,4 +294,30 @@ export async function getEmailSettings(): Promise<EmailSettingsData> {
 
 export async function saveEmailSettings(data: EmailSettingsData): Promise<void> {
   await writeJSON("email-settings.json", data);
+}
+
+// ─── Atomic Append Helpers (lock-protected read→push→write) ──
+
+export async function appendContactSubmission(item: ContactSubmissionData): Promise<void> {
+  await withFileLock("contact-submissions.json", async () => {
+    const list = await getContactSubmissions();
+    list.push(item);
+    await saveContactSubmissions(list);
+  });
+}
+
+export async function appendRechnerSubmission(item: RechnerSubmissionData): Promise<void> {
+  await withFileLock("rechner-submissions.json", async () => {
+    const list = await getRechnerSubmissions();
+    list.push(item);
+    await saveRechnerSubmissions(list);
+  });
+}
+
+export async function appendPartnerSubmission(item: PartnerSubmissionData): Promise<void> {
+  await withFileLock("partner-submissions.json", async () => {
+    const list = await getPartnerSubmissions();
+    list.push(item);
+    await savePartnerSubmissions(list);
+  });
 }
