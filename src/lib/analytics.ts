@@ -35,32 +35,34 @@ function push(entry: DataLayerEntry) {
   window.dataLayer.push(entry);
 }
 
+// gtag() helper — Google expects consent commands via this calling convention
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function gtag(...args: any[]) {
+  if (typeof window === "undefined") return;
+  window.dataLayer = window.dataLayer || [];
+  window.dataLayer.push(arguments);
+}
+
 // --- Consent Mode v2 ---
 
 export function initConsentDefaults() {
-  push({
-    "consent": "default",
-    ...({
-      ad_storage: "denied",
-      ad_user_data: "denied",
-      ad_personalization: "denied",
-      analytics_storage: "denied",
-      wait_for_update: 500,
-    } satisfies ConsentParams),
-  });
+  gtag("consent", "default", {
+    ad_storage: "denied",
+    ad_user_data: "denied",
+    ad_personalization: "denied",
+    analytics_storage: "denied",
+    wait_for_update: 500,
+  } satisfies ConsentParams);
 }
 
 export function updateConsent(accepted: boolean) {
   const state: ConsentState = accepted ? "granted" : "denied";
-  push({
-    "consent": "update",
-    ...({
-      ad_storage: state,
-      ad_user_data: state,
-      ad_personalization: state,
-      analytics_storage: state,
-    } satisfies Omit<ConsentParams, "wait_for_update">),
-  });
+  gtag("consent", "update", {
+    ad_storage: state,
+    ad_user_data: state,
+    ad_personalization: state,
+    analytics_storage: state,
+  } satisfies Omit<ConsentParams, "wait_for_update">);
   push({ event: "consent_update", consent_accepted: accepted });
 }
 

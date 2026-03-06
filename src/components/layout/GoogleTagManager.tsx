@@ -1,21 +1,19 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import Script from "next/script";
 import { initConsentDefaults, updateConsent } from "@/lib/analytics";
 
-const GTM_ID = process.env.NEXT_PUBLIC_GTM_ID;
+const GA_ID = process.env.NEXT_PUBLIC_GTM_ID;
 
 export function GoogleTagManager() {
-  const [enabled, setEnabled] = useState(false);
-
   useEffect(() => {
-    if (!GTM_ID) return;
+    if (!GA_ID) return;
 
-    // Consent Mode v2: set default denied before GTM loads
+    // Consent Mode v2: set defaults BEFORE gtag.js loads
     initConsentDefaults();
 
-    // Sync previous consent from localStorage
+    // Restore previous consent choice from localStorage
     const stored = localStorage.getItem("cookie-consent");
     if (stored === "accepted") {
       updateConsent(true);
@@ -23,13 +21,16 @@ export function GoogleTagManager() {
       updateConsent(false);
     }
 
-    const check = () => {
-      setEnabled(localStorage.getItem("cookie-consent") === "accepted");
+    // Listen for consent changes during this session
+    const onConsentUpdate = () => {
+      const current = localStorage.getItem("cookie-consent");
+      if (current === "accepted") {
+        updateConsent(true);
+      } else if (current === "declined") {
+        updateConsent(false);
+      }
     };
 
-    check();
-
-    const onConsentUpdate = () => check();
     window.addEventListener("cookie-consent-update", onConsentUpdate);
     window.addEventListener("storage", onConsentUpdate);
 
@@ -39,29 +40,21 @@ export function GoogleTagManager() {
     };
   }, []);
 
-  if (!GTM_ID || !enabled) return null;
+  if (!GA_ID) return null;
 
   return (
     <>
       <Script
-        id="gtm-script"
+        src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID}`}
+        strategy="afterInteractive"
+      />
+      <Script
+        id="ga4-init"
         strategy="afterInteractive"
         dangerouslySetInnerHTML={{
-          __html: `(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-})(window,document,'script','dataLayer','${GTM_ID}');`,
+          __html: `window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','${GA_ID}');`,
         }}
       />
-      <noscript>
-        <iframe
-          src={`https://www.googletagmanager.com/ns.html?id=${GTM_ID}`}
-          height="0"
-          width="0"
-          style={{ display: "none", visibility: "hidden" }}
-        />
-      </noscript>
     </>
   );
 }
