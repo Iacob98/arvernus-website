@@ -2,16 +2,13 @@
 
 import { useEffect } from "react";
 import Script from "next/script";
-import { initConsentDefaults, updateConsent } from "@/lib/analytics";
+import { updateConsent } from "@/lib/analytics";
 
 const GA_ID = process.env.NEXT_PUBLIC_GTM_ID;
 
 export function GoogleTagManager() {
   useEffect(() => {
     if (!GA_ID) return;
-
-    // Consent Mode v2: set defaults BEFORE gtag.js loads
-    initConsentDefaults();
 
     // Restore previous consent choice from localStorage
     const stored = localStorage.getItem("cookie-consent");
@@ -44,10 +41,20 @@ export function GoogleTagManager() {
 
   return (
     <>
+      {/* 1. Set up dataLayer + gtag + consent defaults BEFORE gtag.js loads */}
+      <Script
+        id="ga4-consent-defaults"
+        strategy="beforeInteractive"
+        dangerouslySetInnerHTML={{
+          __html: `window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('consent','default',{ad_storage:'denied',ad_user_data:'denied',ad_personalization:'denied',analytics_storage:'denied',wait_for_update:500});`,
+        }}
+      />
+      {/* 2. Load gtag.js */}
       <Script
         src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID}`}
         strategy="afterInteractive"
       />
+      {/* 3. Initialize GA4 */}
       <Script
         id="ga4-init"
         strategy="afterInteractive"
