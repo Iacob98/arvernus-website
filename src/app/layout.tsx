@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { GoogleTagManager } from "@/components/layout/GoogleTagManager";
+import { MetaPixel } from "@/components/layout/MetaPixel";
 import "./globals.css";
 
 const inter = Inter({
@@ -47,6 +48,7 @@ export default function RootLayout({
     <html lang="de">
       <body className={`${inter.variable} font-sans antialiased`}>
         <GoogleTagManager />
+        <MetaPixel />
         {children}
       </body>
     </html>

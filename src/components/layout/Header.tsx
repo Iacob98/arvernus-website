@@ -8,6 +8,7 @@ import { Container } from "@/components/ui/Container";
 import { Button } from "@/components/ui/Button";
 import { MobileNav } from "./MobileNav";
 import { trackPhoneClick, trackCTAClick } from "@/lib/analytics";
+import { trackMetaContact } from "@/lib/meta-pixel";
 import type { CompanyData } from "@/types";
 
 interface HeaderProps {
@@ -78,7 +79,7 @@ export function Header({ company }: HeaderProps) {
           <div className="hidden lg:flex items-center gap-3">
             <a
               href={`tel:${company.phone}`}
-              onClick={() => trackPhoneClick("header")}
+              onClick={() => { trackPhoneClick("header"); trackMetaContact(); }}
               className="text-sm font-medium text-foreground hover:text-primary transition-colors whitespace-nowrap"
             >
               {company.phoneDisplay}

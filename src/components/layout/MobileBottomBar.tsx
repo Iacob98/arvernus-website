@@ -1,6 +1,7 @@
 "use client";
 
 import { trackPhoneClick, trackCTAClick } from "@/lib/analytics";
+import { trackMetaContact } from "@/lib/meta-pixel";
 import type { CompanyData } from "@/types";
 
 interface MobileBottomBarProps {
@@ -13,7 +14,7 @@ export function MobileBottomBar({ company }: MobileBottomBarProps) {
       <div className="flex gap-2">
         <a
           href={`tel:${company.phone}`}
-          onClick={() => trackPhoneClick("mobile_bottom_bar")}
+          onClick={() => { trackPhoneClick("mobile_bottom_bar"); trackMetaContact(); }}
           className="flex flex-1 items-center justify-center gap-2 rounded-lg bg-foreground py-3 text-sm font-semibold text-white transition-colors hover:bg-gray-800"
         >
           <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>

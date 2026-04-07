@@ -9,6 +9,7 @@ import {
   trackRechnerStepView,
   trackRechnerStepComplete,
 } from "@/lib/analytics";
+import { trackMetaLead } from "@/lib/meta-pixel";
 import {
   rechnerStep1Schema,
   rechnerStep2Schema,
@@ -114,6 +115,7 @@ export function RechnerForm() {
     if (form.isCompleted && !completedTracked.current) {
       completedTracked.current = true;
       trackFormComplete("rechner");
+      trackMetaLead("rechner_form");
     }
   }, [form.isCompleted]);
 

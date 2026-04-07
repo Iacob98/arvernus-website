@@ -2,6 +2,7 @@
 
 import { useState, useRef, useCallback } from "react";
 import { trackFormStart, trackFormSubmit, trackFormComplete } from "@/lib/analytics";
+import { trackMetaLead } from "@/lib/meta-pixel";
 import Link from "next/link";
 import { Input } from "@/components/ui/Input";
 import { Textarea } from "@/components/ui/Textarea";
@@ -64,6 +65,7 @@ export function ContactForm() {
     try {
       await submitContact(data);
       trackFormComplete("contact");
+      trackMetaLead("contact_form");
       setIsSuccess(true);
     } catch {
       // Error handling

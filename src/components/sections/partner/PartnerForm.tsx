@@ -2,6 +2,7 @@
 
 import { useState, useRef, useCallback } from "react";
 import { trackFormStart, trackFormSubmit, trackFormComplete } from "@/lib/analytics";
+import { trackMetaLead } from "@/lib/meta-pixel";
 import Link from "next/link";
 import { Input } from "@/components/ui/Input";
 import { Select } from "@/components/ui/Select";
@@ -75,6 +76,7 @@ export function PartnerForm() {
     try {
       await submitPartnerForm(data);
       trackFormComplete("partner");
+      trackMetaLead("partner_form");
       setIsSuccess(true);
     } catch {
       // Error handling
