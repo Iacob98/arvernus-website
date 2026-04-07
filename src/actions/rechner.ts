@@ -3,6 +3,7 @@
 import { rechnerFullSchema } from "@/lib/schemas";
 import { appendRechnerSubmission } from "@/lib/dal";
 import { sendNotificationEmail, sendAutoReply } from "@/lib/email";
+import { sendCAPIEvent } from "@/lib/meta-capi";
 import {
   gebaeudetypen,
   eigentuemerOptionen,
@@ -89,6 +90,19 @@ export async function submitRechner(data: RechnerFormData) {
     .join("");
 
   await Promise.all([
+    sendCAPIEvent({
+      eventName: "Lead",
+      sourceUrl: "https://arvernus-energie.com/waermepumpen-rechner",
+      userData: {
+        email: d.email,
+        phone: d.telefon,
+        firstName: d.vorname,
+        lastName: d.nachname,
+        city: d.ort,
+        zip: d.plz,
+      },
+      customData: { content_name: "rechner_form" },
+    }),
     sendNotificationEmail(
       `Neue Rechner-Anfrage von ${d.vorname} ${d.nachname}`,
       `<h2>Neue Wärmepumpen-Rechner Anfrage</h2>

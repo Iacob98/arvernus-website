@@ -3,6 +3,7 @@
 import { partnerFormSchema } from "@/lib/schemas";
 import { appendPartnerSubmission } from "@/lib/dal";
 import { sendNotificationEmail } from "@/lib/email";
+import { sendCAPIEvent } from "@/lib/meta-capi";
 import type { PartnerFormData } from "@/types";
 
 export async function submitPartnerForm(data: PartnerFormData) {
@@ -29,6 +30,13 @@ export async function submitPartnerForm(data: PartnerFormData) {
   };
 
   await appendPartnerSubmission(submission);
+
+  await sendCAPIEvent({
+    eventName: "Lead",
+    sourceUrl: "https://arvernus-energie.com/partner-werden",
+    userData: { email, phone: telefon, firstName: ansprechpartner },
+    customData: { content_name: "partner_form" },
+  });
 
   await sendNotificationEmail(
     `Neue Partneranfrage von ${firmenname}`,

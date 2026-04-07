@@ -3,6 +3,7 @@
 import { contactFormSchema } from "@/lib/schemas";
 import { appendContactSubmission } from "@/lib/dal";
 import { sendNotificationEmail, sendAutoReply } from "@/lib/email";
+import { sendCAPIEvent } from "@/lib/meta-capi";
 import type { ContactFormData } from "@/types";
 
 export async function submitContact(data: ContactFormData) {
@@ -29,6 +30,12 @@ export async function submitContact(data: ContactFormData) {
   await appendContactSubmission(submission);
 
   await Promise.all([
+    sendCAPIEvent({
+      eventName: "Lead",
+      sourceUrl: "https://arvernus-energie.com/kontakt",
+      userData: { email, phone: telefon, firstName: vorname, lastName: nachname },
+      customData: { content_name: "contact_form" },
+    }),
     sendNotificationEmail(
       `Neue Kontaktanfrage von ${vorname} ${nachname}`,
       `<h2>Neue Kontaktanfrage</h2>
