@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import { GoogleTagManager } from "@/components/layout/GoogleTagManager";
+import { GoogleTagManager, GoogleTagManagerNoScript } from "@/components/layout/GoogleTagManager";
 import { MetaPixel } from "@/components/layout/MetaPixel";
 import "./globals.css";
 
@@ -47,6 +47,10 @@ export default function RootLayout({
   return (
     <html lang="de">
       <body className={`${inter.variable} font-sans antialiased`}>
+        <a href="#main-content" className="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-[100] focus:rounded-lg focus:bg-[var(--primary)] focus:px-4 focus:py-2 focus:text-white">
+          Zum Inhalt springen
+        </a>
+        <GoogleTagManagerNoScript />
         <GoogleTagManager />
         <MetaPixel />
         {children}

@@ -15,7 +15,7 @@ export default async function MarketingLayout({
   return (
     <>
       <Header company={company} />
-      <main className="min-h-screen pb-16 lg:pb-0">{children}</main>
+      <main id="main-content" className="min-h-screen pb-16 lg:pb-0">{children}</main>
       <Footer company={company} />
       <MobileBottomBar company={company} />
       <WhatsAppButton company={company} />

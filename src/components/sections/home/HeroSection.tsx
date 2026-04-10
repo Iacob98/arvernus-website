@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
-import { motion } from "motion/react";
 import { Container } from "@/components/ui/Container";
 import { Button } from "@/components/ui/Button";
 import { Badge } from "@/components/ui/Badge";
@@ -69,11 +68,7 @@ export function HeroSection({ content, slides = [] }: HeroSectionProps) {
       )}
 
       <Container className="relative">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, ease: "easeOut" }}
-        >
+        <div className="animate-[fadeSlideUp_0.6s_ease-out_both]">
           <div className="mx-auto max-w-3xl text-center">
             <Badge variant="primary" className="mb-6 bg-primary/20 text-primary-light">
               {content?.badge || "Zertifizierter Fachbetrieb · Seit 2014"}
@@ -103,7 +98,7 @@ export function HeroSection({ content, slides = [] }: HeroSectionProps) {
               </Button>
             </div>
           </div>
-        </motion.div>
+        </div>
       </Container>
 
       {/* Dot indicators */}

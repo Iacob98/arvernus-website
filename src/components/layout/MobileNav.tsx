@@ -43,10 +43,14 @@ export function MobileNav({ open, onClose, phone, phoneDisplay, logo }: MobileNa
           open ? "opacity-100" : "opacity-0",
         )}
         onClick={onClose}
+        aria-hidden="true"
       />
 
       {/* Drawer */}
       <div
+        role="dialog"
+        aria-modal="true"
+        aria-label="Navigation"
         className={cn(
           "absolute right-0 top-0 h-full w-[300px] bg-white shadow-xl transition-transform duration-300 ease-in-out",
           open ? "translate-x-0" : "translate-x-full",

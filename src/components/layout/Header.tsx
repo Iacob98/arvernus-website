@@ -47,22 +47,37 @@ export function Header({ company }: HeaderProps) {
               >
                 <Link
                   href={item.href}
+                  aria-expanded={item.children ? openDropdown === item.href : undefined}
+                  aria-haspopup={item.children ? "true" : undefined}
+                  onKeyDown={(e) => {
+                    if (!item.children) return;
+                    if (e.key === "Enter" || e.key === " ") {
+                      e.preventDefault();
+                      setOpenDropdown(openDropdown === item.href ? null : item.href);
+                    } else if (e.key === "Escape") {
+                      setOpenDropdown(null);
+                    }
+                  }}
                   className="px-2.5 py-2 text-sm font-medium text-foreground hover:text-primary transition-colors rounded-lg hover:bg-muted/50 whitespace-nowrap"
                 >
                   {item.label}
                   {item.children && (
-                    <svg className="ml-1 inline h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                    <svg className="ml-1 inline h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} aria-hidden="true">
                       <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
                     </svg>
                   )}
                 </Link>
                 {item.children && openDropdown === item.href && (
-                  <div className="absolute left-0 top-full pt-1">
+                  <div className="absolute left-0 top-full pt-1" role="menu">
                     <div className="rounded-xl border border-border bg-white p-2 shadow-lg min-w-[250px]">
                       {item.children.map((child) => (
                         <Link
                           key={child.href}
                           href={child.href}
+                          role="menuitem"
+                          onKeyDown={(e) => {
+                            if (e.key === "Escape") setOpenDropdown(null);
+                          }}
                           className="block rounded-lg px-4 py-2.5 text-sm text-foreground hover:bg-muted/50 hover:text-primary transition-colors"
                         >
                           {child.label}

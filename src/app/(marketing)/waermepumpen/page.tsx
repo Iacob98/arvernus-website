@@ -15,6 +15,8 @@ import { HeatingCostChart } from "@/components/shared/HeatingCostChart";
 import { COPComparisonChart } from "@/components/shared/COPComparisonChart";
 import { ComparisonTable } from "@/components/shared/ComparisonTable";
 import { getServices, getFAQ, getPartners, getPageContent } from "@/lib/dal";
+import { SEOJsonLd } from "@/components/shared/SEOJsonLd";
+import { getFAQJsonLd } from "@/lib/structured-data";
 
 export const metadata: Metadata = {
   title: "Wärmepumpen — Effizient heizen mit erneuerbarer Energie",
@@ -246,6 +248,7 @@ export default async function WaermepumpenPage() {
         </Container>
       </section>
 
+      <SEOJsonLd data={getFAQJsonLd(faq.waermepumpen)} />
       <CTABanner />
     </>
   );

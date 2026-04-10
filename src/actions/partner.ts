@@ -1,12 +1,21 @@
 "use server";
 
+import { headers } from "next/headers";
 import { partnerFormSchema } from "@/lib/schemas";
 import { appendPartnerSubmission } from "@/lib/dal";
 import { sendNotificationEmail } from "@/lib/email";
 import { sendCAPIEvent } from "@/lib/meta-capi";
+import { rateLimit } from "@/lib/rate-limit";
 import type { PartnerFormData } from "@/types";
 
 export async function submitPartnerForm(data: PartnerFormData) {
+  const h = await headers();
+  const ip = h.get("x-forwarded-for")?.split(",")[0] ?? "unknown";
+  const { success: allowed } = rateLimit(`partner:${ip}`, { maxRequests: 5, windowMs: 60_000 });
+  if (!allowed) {
+    return { success: false, error: "Zu viele Anfragen. Bitte versuchen Sie es später erneut." };
+  }
+
   const result = partnerFormSchema.safeParse(data);
 
   if (!result.success) {

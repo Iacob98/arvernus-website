@@ -1,12 +1,21 @@
 "use server";
 
+import { headers } from "next/headers";
 import { contactFormSchema } from "@/lib/schemas";
 import { appendContactSubmission } from "@/lib/dal";
 import { sendNotificationEmail, sendAutoReply } from "@/lib/email";
 import { sendCAPIEvent } from "@/lib/meta-capi";
+import { rateLimit } from "@/lib/rate-limit";
 import type { ContactFormData } from "@/types";
 
 export async function submitContact(data: ContactFormData) {
+  const h = await headers();
+  const ip = h.get("x-forwarded-for")?.split(",")[0] ?? "unknown";
+  const { success: allowed } = rateLimit(`contact:${ip}`, { maxRequests: 5, windowMs: 60_000 });
+  if (!allowed) {
+    return { success: false, error: "Zu viele Anfragen. Bitte versuchen Sie es später erneut." };
+  }
+
   const result = contactFormSchema.safeParse(data);
 
   if (!result.success) {

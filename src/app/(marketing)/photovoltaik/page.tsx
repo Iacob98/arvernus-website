@@ -8,6 +8,8 @@ import { FAQAccordion } from "@/components/shared/FAQAccordion";
 import { CTABanner } from "@/components/shared/CTABanner";
 import { TrustBadges, type TrustBadgeItem } from "@/components/shared/TrustBadges";
 import { getFAQ, getCompany, getPageContent } from "@/lib/dal";
+import { SEOJsonLd } from "@/components/shared/SEOJsonLd";
+import { getFAQJsonLd } from "@/lib/structured-data";
 
 export const metadata: Metadata = {
   title: "Photovoltaik — Eigenen Strom erzeugen",
@@ -159,6 +161,7 @@ export default async function PhotovoltaikPage() {
         </Container>
       </section>
 
+      <SEOJsonLd data={getFAQJsonLd(faq.photovoltaik)} />
       <CTABanner
         title={t("cta", "title", "Interesse an einer Solaranlage?")}
         description={t("cta", "description", "Lassen Sie sich kostenlos beraten — wir planen die optimale Anlage für Ihr Dach.")}

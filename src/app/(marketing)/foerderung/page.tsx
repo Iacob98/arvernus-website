@@ -7,6 +7,8 @@ import { BreadcrumbNav } from "@/components/shared/BreadcrumbNav";
 import { FAQAccordion } from "@/components/shared/FAQAccordion";
 import { CTABanner } from "@/components/shared/CTABanner";
 import { getFAQ, getPageContent } from "@/lib/dal";
+import { SEOJsonLd } from "@/components/shared/SEOJsonLd";
+import { getFAQJsonLd } from "@/lib/structured-data";
 
 export const metadata: Metadata = {
   title: "Förderung für Wärmepumpen — Bis zu 70% Zuschuss",
@@ -172,6 +174,7 @@ export default async function FoerderungPage() {
         </Container>
       </section>
 
+      <SEOJsonLd data={getFAQJsonLd(faq.foerderung)} />
       <CTABanner
         title={t("cta", "title", "Förderung berechnen lassen")}
         description={t("cta", "description", "Wir ermitteln kostenlos Ihre individuelle Fördersumme und unterstützen Sie bei der Antragstellung.")}

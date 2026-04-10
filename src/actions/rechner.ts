@@ -1,9 +1,11 @@
 "use server";
 
+import { headers } from "next/headers";
 import { rechnerFullSchema } from "@/lib/schemas";
 import { appendRechnerSubmission } from "@/lib/dal";
 import { sendNotificationEmail, sendAutoReply } from "@/lib/email";
 import { sendCAPIEvent } from "@/lib/meta-capi";
+import { rateLimit } from "@/lib/rate-limit";
 import {
   gebaeudetypen,
   eigentuemerOptionen,
@@ -25,6 +27,13 @@ function getLabel(options: { value: string; label: string }[], value: string): s
 }
 
 export async function submitRechner(data: RechnerFormData) {
+  const h = await headers();
+  const ip = h.get("x-forwarded-for")?.split(",")[0] ?? "unknown";
+  const { success: allowed } = rateLimit(`rechner:${ip}`, { maxRequests: 5, windowMs: 60_000 });
+  if (!allowed) {
+    return { success: false, error: "Zu viele Anfragen. Bitte versuchen Sie es später erneut." };
+  }
+
   const result = rechnerFullSchema.safeParse(data);
 
   if (!result.success) {
