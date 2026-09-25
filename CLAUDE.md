@@ -15,6 +15,12 @@ npx tsx scripts/generate-password-hash.ts  # Generate bcrypt hash for ADMIN_PASS
 
 No test framework is configured. Playwright is installed as a devDependency but no test files exist.
 
+## Deployment
+
+Runs on the host under PM2 as process `arvernus` (not in Docker). Public traffic enters via the shared nginx-proxy-manager at `/opt/stacks/ngx`. After changes: `npm run build && pm2 restart arvernus`. The site listens on the port from `package.json`'s `start` script (3030 by default for this app).
+
+Uploads (`public/uploads/`) and the JSON `content/` dir live on the host filesystem — back them up alongside any deploy.
+
 ## Architecture
 
 **Next.js 16 App Router** site for Arvernus GmbH (German heat pump & solar company). German-language UI throughout.

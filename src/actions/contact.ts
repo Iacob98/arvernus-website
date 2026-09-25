@@ -3,7 +3,7 @@
 import { headers } from "next/headers";
 import { contactFormSchema } from "@/lib/schemas";
 import { appendContactSubmission } from "@/lib/dal";
-import { sendNotificationEmail, sendAutoReply } from "@/lib/email";
+import { sendNotificationEmail, sendAutoReply, esc } from "@/lib/email";
 import { sendCAPIEvent } from "@/lib/meta-capi";
 import { rateLimit } from "@/lib/rate-limit";
 import type { ContactFormData } from "@/types";
@@ -49,11 +49,11 @@ export async function submitContact(data: ContactFormData) {
       `Neue Kontaktanfrage von ${vorname} ${nachname}`,
       `<h2>Neue Kontaktanfrage</h2>
       <table style="border-collapse:collapse;width:100%;max-width:600px">
-        <tr><td style="padding:8px;border:1px solid #ddd;font-weight:bold">Anrede</td><td style="padding:8px;border:1px solid #ddd">${anrede}</td></tr>
-        <tr><td style="padding:8px;border:1px solid #ddd;font-weight:bold">Name</td><td style="padding:8px;border:1px solid #ddd">${vorname} ${nachname}</td></tr>
-        <tr><td style="padding:8px;border:1px solid #ddd;font-weight:bold">E-Mail</td><td style="padding:8px;border:1px solid #ddd">${email}</td></tr>
-        <tr><td style="padding:8px;border:1px solid #ddd;font-weight:bold">Telefon</td><td style="padding:8px;border:1px solid #ddd">${telefon || "–"}</td></tr>
-        <tr><td style="padding:8px;border:1px solid #ddd;font-weight:bold">Nachricht</td><td style="padding:8px;border:1px solid #ddd">${nachricht}</td></tr>
+        <tr><td style="padding:8px;border:1px solid #ddd;font-weight:bold">Anrede</td><td style="padding:8px;border:1px solid #ddd">${esc(anrede)}</td></tr>
+        <tr><td style="padding:8px;border:1px solid #ddd;font-weight:bold">Name</td><td style="padding:8px;border:1px solid #ddd">${esc(vorname)} ${esc(nachname)}</td></tr>
+        <tr><td style="padding:8px;border:1px solid #ddd;font-weight:bold">E-Mail</td><td style="padding:8px;border:1px solid #ddd">${esc(email)}</td></tr>
+        <tr><td style="padding:8px;border:1px solid #ddd;font-weight:bold">Telefon</td><td style="padding:8px;border:1px solid #ddd">${esc(telefon) || "–"}</td></tr>
+        <tr><td style="padding:8px;border:1px solid #ddd;font-weight:bold">Nachricht</td><td style="padding:8px;border:1px solid #ddd">${esc(nachricht)}</td></tr>
       </table>`
     ),
     sendAutoReply(email, `${anrede} ${vorname} ${nachname}`),

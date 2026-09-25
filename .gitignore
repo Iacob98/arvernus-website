@@ -45,3 +45,6 @@ next-env.d.ts
 
 # Uploaded images
 /uploads/
+
+# Admin uploads (host filesystem, back up separately)
+/public/uploads/

@@ -1,10 +1,9 @@
 import type { MetadataRoute } from "next";
-import { COMPANY } from "@/lib/constants";
-import { getArticles } from "@/lib/dal";
+import { getArticles, getCompany } from "@/lib/dal";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const baseUrl = COMPANY.website;
-  const articles = await getArticles();
+  const [company, articles] = await Promise.all([getCompany(), getArticles()]);
+  const baseUrl = company.website.replace(/\/+$/, "");
 
   const staticPages: MetadataRoute.Sitemap = [
     { url: baseUrl, lastModified: new Date(), changeFrequency: "weekly", priority: 1 },

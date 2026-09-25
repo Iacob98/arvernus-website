@@ -3,7 +3,7 @@
 import { headers } from "next/headers";
 import { rechnerFullSchema } from "@/lib/schemas";
 import { appendRechnerSubmission } from "@/lib/dal";
-import { sendNotificationEmail, sendAutoReply } from "@/lib/email";
+import { sendNotificationEmail, sendAutoReply, esc } from "@/lib/email";
 import { sendCAPIEvent } from "@/lib/meta-capi";
 import { rateLimit } from "@/lib/rate-limit";
 import {
@@ -94,7 +94,7 @@ export async function submitRechner(data: RechnerFormData) {
   const tableRows = rows
     .map(
       ([label, value]) =>
-        `<tr><td style="padding:8px;border:1px solid #ddd;font-weight:bold">${label}</td><td style="padding:8px;border:1px solid #ddd">${value}</td></tr>`
+        `<tr><td style="padding:8px;border:1px solid #ddd;font-weight:bold">${esc(label)}</td><td style="padding:8px;border:1px solid #ddd">${esc(value)}</td></tr>`
     )
     .join("");
 

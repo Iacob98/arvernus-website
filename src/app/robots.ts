@@ -1,13 +1,16 @@
 import type { MetadataRoute } from "next";
-import { COMPANY } from "@/lib/constants";
+import { getCompany } from "@/lib/dal";
 
-export default function robots(): MetadataRoute.Robots {
+export default async function robots(): Promise<MetadataRoute.Robots> {
+  const company = await getCompany();
+  const baseUrl = company.website.replace(/\/+$/, "");
+
   return {
     rules: {
       userAgent: "*",
       allow: "/",
       disallow: ["/api/"],
     },
-    sitemap: `${COMPANY.website}/sitemap.xml`,
+    sitemap: `${baseUrl}/sitemap.xml`,
   };
 }

@@ -8,10 +8,22 @@ interface WhatsAppButtonProps {
   company: CompanyData;
 }
 
+// wa.me only accepts digits in full international format — normalize whatever
+// the admin typed (spaces, +, leading 0) into e.g. "4915567137780".
+function toWaNumber(raw: string): string {
+  const digits = (raw ?? "").replace(/\D/g, "");
+  if (digits.startsWith("00")) return digits.slice(2);
+  if (digits.startsWith("0")) return `49${digits.slice(1)}`;
+  return digits;
+}
+
 export function WhatsAppButton({ company }: WhatsAppButtonProps) {
+  const waNumber = toWaNumber(company.whatsapp);
+  if (!waNumber) return null;
+
   return (
     <a
-      href={`https://wa.me/${company.whatsapp}?text=${encodeURIComponent("Hallo, ich interessiere mich für eine Beratung.")}`}
+      href={`https://wa.me/${waNumber}?text=${encodeURIComponent("Hallo, ich interessiere mich für eine Beratung.")}`}
       target="_blank"
       rel="noopener noreferrer"
       onClick={() => { trackWhatsAppClick(); trackMetaContact(); }}

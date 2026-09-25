@@ -3,7 +3,7 @@
 import { headers } from "next/headers";
 import { partnerFormSchema } from "@/lib/schemas";
 import { appendPartnerSubmission } from "@/lib/dal";
-import { sendNotificationEmail } from "@/lib/email";
+import { sendNotificationEmail, sendAutoReply, esc } from "@/lib/email";
 import { sendCAPIEvent } from "@/lib/meta-capi";
 import { rateLimit } from "@/lib/rate-limit";
 import type { PartnerFormData } from "@/types";
@@ -40,27 +40,29 @@ export async function submitPartnerForm(data: PartnerFormData) {
 
   await appendPartnerSubmission(submission);
 
-  await sendCAPIEvent({
-    eventName: "Lead",
-    sourceUrl: "https://arvernus-energie.com/partner-werden",
-    userData: { email, phone: telefon, firstName: ansprechpartner },
-    customData: { content_name: "partner_form" },
-  });
-
-  await sendNotificationEmail(
-    `Neue Partneranfrage von ${firmenname}`,
-    `<h2>Neue Partneranfrage</h2>
+  await Promise.all([
+    sendCAPIEvent({
+      eventName: "Lead",
+      sourceUrl: "https://arvernus-energie.com/partner-werden",
+      userData: { email, phone: telefon, firstName: ansprechpartner },
+      customData: { content_name: "partner_form" },
+    }),
+    sendNotificationEmail(
+      `Neue Partneranfrage von ${firmenname}`,
+      `<h2>Neue Partneranfrage</h2>
     <table style="border-collapse:collapse;width:100%;max-width:600px">
-      <tr><td style="padding:8px;border:1px solid #ddd;font-weight:bold">Firma</td><td style="padding:8px;border:1px solid #ddd">${firmenname}</td></tr>
-      <tr><td style="padding:8px;border:1px solid #ddd;font-weight:bold">Ansprechpartner</td><td style="padding:8px;border:1px solid #ddd">${ansprechpartner}</td></tr>
-      <tr><td style="padding:8px;border:1px solid #ddd;font-weight:bold">E-Mail</td><td style="padding:8px;border:1px solid #ddd">${email}</td></tr>
-      <tr><td style="padding:8px;border:1px solid #ddd;font-weight:bold">Telefon</td><td style="padding:8px;border:1px solid #ddd">${telefon || "–"}</td></tr>
-      <tr><td style="padding:8px;border:1px solid #ddd;font-weight:bold">Website</td><td style="padding:8px;border:1px solid #ddd">${website || "–"}</td></tr>
-      <tr><td style="padding:8px;border:1px solid #ddd;font-weight:bold">Branche</td><td style="padding:8px;border:1px solid #ddd">${branche}</td></tr>
-      <tr><td style="padding:8px;border:1px solid #ddd;font-weight:bold">Region</td><td style="padding:8px;border:1px solid #ddd">${region}</td></tr>
-      <tr><td style="padding:8px;border:1px solid #ddd;font-weight:bold">Nachricht</td><td style="padding:8px;border:1px solid #ddd">${nachricht}</td></tr>
+      <tr><td style="padding:8px;border:1px solid #ddd;font-weight:bold">Firma</td><td style="padding:8px;border:1px solid #ddd">${esc(firmenname)}</td></tr>
+      <tr><td style="padding:8px;border:1px solid #ddd;font-weight:bold">Ansprechpartner</td><td style="padding:8px;border:1px solid #ddd">${esc(ansprechpartner)}</td></tr>
+      <tr><td style="padding:8px;border:1px solid #ddd;font-weight:bold">E-Mail</td><td style="padding:8px;border:1px solid #ddd">${esc(email)}</td></tr>
+      <tr><td style="padding:8px;border:1px solid #ddd;font-weight:bold">Telefon</td><td style="padding:8px;border:1px solid #ddd">${esc(telefon) || "–"}</td></tr>
+      <tr><td style="padding:8px;border:1px solid #ddd;font-weight:bold">Website</td><td style="padding:8px;border:1px solid #ddd">${esc(website) || "–"}</td></tr>
+      <tr><td style="padding:8px;border:1px solid #ddd;font-weight:bold">Branche</td><td style="padding:8px;border:1px solid #ddd">${esc(branche)}</td></tr>
+      <tr><td style="padding:8px;border:1px solid #ddd;font-weight:bold">Region</td><td style="padding:8px;border:1px solid #ddd">${esc(region)}</td></tr>
+      <tr><td style="padding:8px;border:1px solid #ddd;font-weight:bold">Nachricht</td><td style="padding:8px;border:1px solid #ddd">${esc(nachricht)}</td></tr>
     </table>`
-  );
+    ),
+    sendAutoReply(email, ansprechpartner),
+  ]);
 
   return { success: true };
 }

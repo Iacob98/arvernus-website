@@ -1,6 +1,27 @@
 import nodemailer from "nodemailer";
 import type Mail from "nodemailer/lib/mailer";
-import { getEmailSettings } from "@/lib/dal";
+import { getCompany, getEmailSettings } from "@/lib/dal";
+
+// Escape user-supplied text before it goes into an HTML mail body
+export function esc(value: string | undefined | null): string {
+  return String(value ?? "")
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
+}
+
+// Mail clients cannot resolve root-relative paths — make them absolute
+async function toAbsoluteUrl(pathOrUrl: string): Promise<string> {
+  if (/^(https?:)?\/\//i.test(pathOrUrl) || pathOrUrl.startsWith("data:")) {
+    return pathOrUrl;
+  }
+  const base = (
+    process.env.NEXT_PUBLIC_SITE_URL || (await getCompany()).website
+  ).replace(/\/+$/, "");
+  return `${base}${pathOrUrl.startsWith("/") ? "" : "/"}${pathOrUrl}`;
+}
 
 // Singleton pooled transport — reused across all sends
 let _transporter: Mail | null | undefined;
@@ -58,7 +79,7 @@ export async function sendAutoReply(
   const s = await getEmailSettings();
 
   const logoHtml = s.logo
-    ? `<img src="${s.logo}" alt="${s.headerTitle}" style="max-height:48px;margin:0 auto 12px;display:block" />`
+    ? `<img src="${await toAbsoluteUrl(s.logo)}" alt="${esc(s.headerTitle)}" style="max-height:48px;margin:0 auto 12px;display:block" />`
     : "";
 
   const contactRows = [
@@ -92,7 +113,7 @@ export async function sendAutoReply(
           <tr>
             <td style="padding:40px">
               <h2 style="color:${s.headerColor};margin:0 0 16px;font-size:20px">${s.greeting}</h2>
-              <p style="color:#333;font-size:15px;line-height:1.6;margin:0 0 16px">Guten Tag ${customerName},</p>
+              <p style="color:#333;font-size:15px;line-height:1.6;margin:0 0 16px">Guten Tag ${esc(customerName)},</p>
               <p style="color:#333;font-size:15px;line-height:1.6;margin:0 0 16px">${s.bodyText}</p>
               ${contactBlock}
               <p style="color:#333;font-size:15px;line-height:1.6;margin:0">Mit freundlichen Grüßen,<br><strong>${s.closing}</strong></p>

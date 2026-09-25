@@ -1,5 +1,4 @@
-import { getArticles } from "@/lib/dal";
-import { COMPANY } from "@/lib/constants";
+import { getArticles, getCompany } from "@/lib/dal";
 
 function escapeXml(str: string): string {
   return str
@@ -11,16 +10,17 @@ function escapeXml(str: string): string {
 }
 
 export async function GET() {
-  const articles = await getArticles();
+  const [company, articles] = await Promise.all([getCompany(), getArticles()]);
+  const baseUrl = company.website.replace(/\/+$/, "");
 
   const items = articles
     .map(
       (article) => `    <item>
       <title>${escapeXml(article.title)}</title>
-      <link>${COMPANY.website}/ratgeber/${article.slug}</link>
+      <link>${baseUrl}/ratgeber/${article.slug}</link>
       <description>${escapeXml(article.excerpt)}</description>
       <pubDate>${new Date(article.publishedDate).toUTCString()}</pubDate>
-      <guid>${COMPANY.website}/ratgeber/${article.slug}</guid>${
+      <guid>${baseUrl}/ratgeber/${article.slug}</guid>${
         article.category
           ? `\n      <category>${escapeXml(article.category)}</category>`
           : ""
@@ -36,11 +36,11 @@ export async function GET() {
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>${escapeXml(COMPANY.fullName)} – Ratgeber</title>
-    <link>${COMPANY.website}/ratgeber</link>
-    <description>${escapeXml(COMPANY.tagline)}</description>
+    <title>${escapeXml(company.fullName)} – Ratgeber</title>
+    <link>${baseUrl}/ratgeber</link>
+    <description>${escapeXml(company.tagline)}</description>
     <language>de</language>
-    <atom:link href="${COMPANY.website}/feed.xml" rel="self" type="application/rss+xml"/>
+    <atom:link href="${baseUrl}/feed.xml" rel="self" type="application/rss+xml"/>
 ${items}
   </channel>
 </rss>`;

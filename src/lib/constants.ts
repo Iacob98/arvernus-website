@@ -1,18 +1,21 @@
+// Fallback used only when content/company.json is missing.
+// Keep in sync with the CMS values (admin → Unternehmen).
 export const COMPANY = {
   name: "Arvernus",
   fullName: "Arvernus GmbH",
   tagline: "Ihre Experten für Wärmepumpen & Photovoltaik",
   foundedYear: 2014,
-  phone: "+49 123 456789",
-  phoneDisplay: "0123 456789",
-  email: "info@arvernus.de",
-  whatsapp: "49123456789",
-  website: "https://www.arvernus.de",
+  phone: "+49 30 64443953",
+  phoneDisplay: "+49 30 64443953",
+  email: "info@arvernus-energie.de",
+  // wa.me format: country code + number, digits only
+  whatsapp: "4915567137780",
+  website: "https://arvernus-energie.com",
   address: {
-    street: "Musterstraße 1",
-    zip: "12345",
-    city: "Musterstadt",
-    state: "Bayern",
+    street: "Tübinger Straße 2",
+    zip: "10715",
+    city: "Berlin",
+    state: "Brandenburg",
     country: "Deutschland",
   },
   hours: {
@@ -21,16 +24,16 @@ export const COMPANY = {
     sunday: "So: Geschlossen",
   },
   social: {
-    facebook: "https://facebook.com/arvernus",
-    instagram: "https://instagram.com/arvernus",
-    linkedin: "https://linkedin.com/company/arvernus",
-    twitter: "https://x.com/arvernus",
+    facebook: "https://www.facebook.com/people/Arvernus-GmbH/61573311465255/",
+    instagram: "",
+    linkedin: "https://www.linkedin.com/company/arvernus-energie",
+    twitter: "",
   },
 } as const;
 
 export const STATS = {
   yearsFounded: new Date().getFullYear() - COMPANY.foundedYear,
-  projectsCompleted: 1000,
+  projectsCompleted: 30000,
   satisfactionRate: 98,
   maxFoerderung: 70,
   pvCustomers: 15000,
