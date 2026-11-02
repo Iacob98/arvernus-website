@@ -48,3 +48,13 @@ next-env.d.ts
 
 # Admin uploads (host filesystem, back up separately)
 /public/uploads/
+.env
+.env.*
+!.env.example
+node_modules/
+.venv/
+venv/
+__pycache__/
+.claude/
+*token*.json
+client_secret*.json
